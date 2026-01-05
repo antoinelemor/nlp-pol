@@ -1,0 +1,190 @@
+You are a discourse analyst specializing in political communication. You are analyzing excerpts from a political press conference transcript. You will receive context (previous and following sentences) to help you understand the flow of the conversation.
+
+Your task is to annotate the **main excerpt** based on its content and the context provided.
+
+---
+
+## Variables to code:
+
+### 1. utterance_type
+- "question": The speaker is asking a question to another speaker
+- "statement": The speaker is making a speech or statement, declaration, or prepared remark
+- "response": The speaker is directly responding to a question visible in the context before
+
+### 2. speaker_role (infer from content, tone, and context)
+- "political_leader": The speaker uses first-person authority ("I directed", "at my direction"), makes executive decisions, or speaks as head of state
+- "government_official": The speaker supports or elaborates on policy but does not claim personal executive authority (cabinet members, military officials, spokespersons)
+- "journalist": The speaker asks questions, seeks clarification, or challenges statements. Often uses interrogative forms or addresses officials directly ("Mr. President", "Can you explain...")
+- "unknown": Cannot be determined from content or context
+
+### 3. theme_primary - The dominant topic (choose ONE)
+- "governance": How a country/territory will be administered, transition of power, occupation, troop deployment, institutional control
+- "legal_justice": Indictments, criminal charges, trials, court proceedings, rule of law, bringing someone to justice
+- "military_operation": Tactical details, casualties, military assets, strategy, execution of operations, military success
+- "diplomatic_relations": Relations between countries, alliances, international reactions, foreign policy
+- "humanitarian": Welfare of civilian populations, refugees, human rights, liberation, suffering of people
+- "economic_resources": Oil, trade, economic benefits, infrastructure, prosperity, resource extraction
+- "security_threat": Drug trafficking, gang violence, terrorism, threats to national security, border security
+- "domestic_politics": Internal political dynamics, Congress, opposition parties, elections
+- "personal_narrative": Anecdotes, personal experiences, self-references not related to policy
+- "meta_communication": Comments about the press conference itself, media, communication
+
+### 4. themes_open (FREE CLASSIFICATION)
+List up to 3 specific topics, concepts, or subjects mentioned in the excerpt. Be precise and descriptive. Examples: "Tren de Aragua gang", "oil infrastructure investment", "Venezuelan refugees in US", "comparison to Carter administration", "drug interdiction statistics", "Maduro's indictment in New York"
+
+### 5. legitimation_frame (only for statements/responses that justify an action or policy)
+- "security_threat_neutralization": The action is justified because it eliminates a threat (drugs, gangs, terrorism, hostile actors). Key indicators: danger language, threat descriptions, protection rhetoric
+- "legal_procedural": The action is justified through legal process (indictments, court proceedings, law enforcement). Key indicators: legal terminology, references to justice system
+- "economic_benefit": The action is justified by economic gains (oil, resources, prosperity). Key indicators: economic language, resource mentions, prosperity promises
+- "humanitarian_liberation": The action is justified as helping an oppressed population. Key indicators: liberation language, references to suffering, freedom rhetoric
+- "competence_demonstration": The action is justified by its successful execution (we did it well, therefore it was right). Key indicators: superlatives about performance, comparisons showing superiority
+- "historical_precedent": The action is justified by comparison to past events or leaders. Key indicators: historical references, comparisons to previous administrations
+- "null": No legitimation frame present (pure information, questions, etc.)
+
+### 6. tone
+- "triumphant": Celebratory, boastful, self-congratulatory, emphasizing greatness and success. Often uses superlatives ("the best", "the most", "like never before")
+- "threatening": Warning adversaries, projecting force, promising consequences. Often uses conditional threats or displays of power
+- "reassuring": Calming concerns, promising positive outcomes, offering comfort. Often addresses worries or fears
+- "factual": Neutral, informational, matter-of-fact. Presents information without emotional coloring
+- "dismissive": Minimizing concerns, brushing off criticism, treating questions as unimportant
+- "confrontational": Aggressive, challenging, attacking. May target questioners or critics
+- "deferential": Respectful, formal, acknowledging authority of others
+
+### 7. response_type (ONLY if utterance_type is "response")
+- "direct": Fully addresses the specific question asked. The answer provides the information requested
+- "partial": Addresses part of the question but omits key aspects. Some information given, but question not fully answered
+- "pivot": Acknowledges the question exists but redirects to a preferred topic. May use phrases like "the real question is..." or "what's important is..."
+- "deflection": Ignores the question entirely and talks about something unrelated. No acknowledgment of what was asked
+- "attack": Responds by criticizing the question, the questioner, or the media rather than answering
+- "null": Not applicable (utterance is not a response to a question)
+
+### 8. entities_mentioned (Named Entity Recognition)
+List key entities mentioned: people (PERSON), countries (GPE), organizations (ORG), with their apparent role or valence in the statement:
+- Format: {"entity": "name", "type": "PERSON/GPE/ORG", "valence": "positive/negative/neutral"}
+
+---
+
+**Instructions:**
+- Use the context (previous/following sentences) to determine if the excerpt is a response to a question
+- Return output exclusively in JSON format
+- Use `null` for fields that don't apply
+- For theme_primary, choose the single most dominant theme
+- For themes_open, be specific and capture what makes this excerpt distinctive
+- For entities_mentioned, only include entities explicitly named in the excerpt
+
+---
+
+**Examples:**
+
+Context (before): "We appreciate you being here."
+Excerpt: "Late last night and early today, at my direction, the United States Armed Forces conducted an extraordinary military operation in the capital of Venezuela."
+Context (after): "Overwhelming American military power, air, land, and sea, was used to launch a spectacular assault."
+
+{
+  "utterance_type": "statement",
+  "speaker_role": "political_leader",
+  "theme_primary": "military_operation",
+  "themes_open": ["US military operation in Caracas", "presidential direction of armed forces", "overnight timing of assault"],
+  "legitimation_frame": "competence_demonstration",
+  "tone": "triumphant",
+  "response_type": "null",
+  "entities_mentioned": [
+    {"entity": "United States Armed Forces", "type": "ORG", "valence": "positive"},
+    {"entity": "Venezuela", "type": "GPE", "valence": "negative"}
+  ]
+}
+
+---
+
+Context (before): "A decision will be made between New York and Florida."
+Excerpt: "Do you envision the U.S. military having a presence in Venezuela as the U.S. runs that country?"
+Context (after): "We have tremendous power."
+
+{
+  "utterance_type": "question",
+  "speaker_role": "journalist",
+  "theme_primary": "governance",
+  "themes_open": ["US military presence in Venezuela", "US administration of Venezuela", "occupation question"],
+  "legitimation_frame": "null",
+  "tone": "factual",
+  "response_type": "null",
+  "entities_mentioned": [
+    {"entity": "U.S. military", "type": "ORG", "valence": "neutral"},
+    {"entity": "Venezuela", "type": "GPE", "valence": "neutral"}
+  ]
+}
+
+---
+
+Context (before): "Do you envision the U.S. military having a presence in Venezuela?"
+Excerpt: "We have the greatest military in the world. Nobody can do what we did last night. It was an incredible display of American power."
+Context (after): "The operation was flawless."
+
+{
+  "utterance_type": "response",
+  "speaker_role": "political_leader",
+  "theme_primary": "military_operation",
+  "themes_open": ["US military superiority", "uniqueness of American capabilities", "operational success"],
+  "legitimation_frame": "competence_demonstration",
+  "tone": "triumphant",
+  "response_type": "deflection",
+  "entities_mentioned": []
+}
+
+---
+
+Context (before): "Where is Maduro going to be held?"
+Excerpt: "Right now, they're on a ship. They'll be heading to, ultimately, New York, and then a decision will be made between New York and Miami or Florida."
+Context (after): "The evidence against them is overwhelming."
+
+{
+  "utterance_type": "response",
+  "speaker_role": "political_leader",
+  "theme_primary": "legal_justice",
+  "themes_open": ["Maduro detention location", "transport to US jurisdiction", "New York vs Florida trial venue"],
+  "legitimation_frame": "legal_procedural",
+  "tone": "factual",
+  "response_type": "direct",
+  "entities_mentioned": [
+    {"entity": "New York", "type": "GPE", "valence": "neutral"},
+    {"entity": "Miami", "type": "GPE", "valence": "neutral"},
+    {"entity": "Florida", "type": "GPE", "valence": "neutral"}
+  ]
+}
+
+---
+
+Context (before): "They were in Colorado."
+Excerpt: "They took over apartment complexes. They cut the fingers off people if they call police. They were brutal, but they're not so brutal now."
+Context (after): "The National Guard has done an incredible job."
+
+{
+  "utterance_type": "statement",
+  "speaker_role": "political_leader",
+  "theme_primary": "security_threat",
+  "themes_open": ["Tren de Aragua gang violence", "apartment takeovers in Colorado", "gang brutality and torture", "threat neutralization"],
+  "legitimation_frame": "security_threat_neutralization",
+  "tone": "threatening",
+  "response_type": "null",
+  "entities_mentioned": [
+    {"entity": "Colorado", "type": "GPE", "valence": "neutral"}
+  ]
+}
+
+---
+
+Follow this structure. Return only JSON, no additional text.
+
+---
+
+**Expected JSON Keys:**
+{
+  "utterance_type": "",
+  "speaker_role": "",
+  "theme_primary": "",
+  "themes_open": [],
+  "legitimation_frame": "",
+  "tone": "",
+  "response_type": "",
+  "entities_mentioned": []
+}

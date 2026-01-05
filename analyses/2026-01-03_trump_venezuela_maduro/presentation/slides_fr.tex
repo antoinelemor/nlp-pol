@@ -1,0 +1,807 @@
+% =============================================================================
+% Conférence de presse Trump sur le Venezuela
+% Analyse du discours politique
+% Auteur: Antoine Lemor
+% Date: Janvier 2026
+% =============================================================================
+
+\documentclass[aspectratio=169,12pt]{beamer}
+
+\usetheme{default}
+\usecolortheme{default}
+
+% Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Colors - refined palette
+\definecolor{bglight}{RGB}{250, 250, 252}
+\definecolor{primary}{RGB}{30, 41, 59}
+\definecolor{accent}{RGB}{59, 130, 246}
+\definecolor{danger}{RGB}{239, 68, 68}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{muted}{RGB}{148, 163, 184}
+\definecolor{subtle}{RGB}{226, 232, 240}
+
+% Beamer colors
+\setbeamercolor{background canvas}{bg=bglight}
+\setbeamercolor{frametitle}{fg=primary}
+\setbeamercolor{title}{fg=primary}
+\setbeamercolor{subtitle}{fg=muted}
+\setbeamercolor{author}{fg=primary}
+\setbeamercolor{date}{fg=muted}
+\setbeamercolor{section in toc}{fg=primary}
+\setbeamercolor{itemize item}{fg=accent}
+\setbeamercolor{itemize subitem}{fg=accent}
+\setbeamercolor{enumerate item}{fg=accent}
+
+% Fonts
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\small}
+
+% Frame title format
+\setbeamertemplate{frametitle}{
+    \vspace{0.8em}
+    \insertframetitle
+    \par
+    \usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle
+    \vspace{0.3em}
+    \textcolor{subtle}{\rule{\textwidth}{0.5pt}}
+    \vspace{0.3em}
+}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=primary,urlcolor=accent}
+
+\usetikzlibrary{calc,shapes,positioning,shadows}
+
+\graphicspath{{../output/figures/}}
+
+% Custom commands
+\newcommand{\emphdata}[1]{\textbf{\textcolor{accent}{#1}}}
+\newcommand{\emphwarn}[1]{\textbf{\textcolor{danger}{#1}}}
+\newcommand{\emphok}[1]{\textbf{\textcolor{success}{#1}}}
+\newcommand{\muted}[1]{\textcolor{muted}{#1}}
+\newcommand{\figframe}[1]{%
+    \begin{tikzpicture}
+        \node[inner sep=0pt] (fig) {#1};
+        \draw[subtle, line width=0.5pt, rounded corners=2pt]
+            ($(fig.south west)+(-2pt,-2pt)$) rectangle ($(fig.north east)+(2pt,2pt)$);
+    \end{tikzpicture}%
+}
+
+% Analysis counter
+\newcounter{analysisnum}
+\setcounter{analysisnum}{0}
+
+% For conditional check
+\usepackage{xstring}
+
+% Section page
+\AtBeginSection[]{
+  \IfStrEq{\insertsectionhead}{Conclusion}{%
+    % Conclusion section - no analysis number
+    \begin{frame}
+    \vfill
+    \centering
+    \begin{tikzpicture}
+      \node[fill=white, rounded corners=8pt, inner sep=20pt, drop shadow={shadow xshift=1pt, shadow yshift=-1pt, opacity=0.1}] {
+        \begin{minipage}{0.6\textwidth}
+          \centering
+          {\LARGE\bfseries\textcolor{primary}{\insertsectionhead}}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+    \vfill
+    \end{frame}
+  }{%
+    % Regular analysis section
+    \stepcounter{analysisnum}
+    \begin{frame}
+    \vfill
+    \centering
+    \begin{tikzpicture}
+      \node[fill=white, rounded corners=8pt, inner sep=20pt, drop shadow={shadow xshift=1pt, shadow yshift=-1pt, opacity=0.1}] {
+        \begin{minipage}{0.6\textwidth}
+          \centering
+          \textcolor{muted}{\small ANALYSE N°\theanalysisnum}\\[0.5em]
+          {\LARGE\bfseries\textcolor{primary}{\insertsectionhead}}
+        \end{minipage}
+      };
+    \end{tikzpicture}
+    \vfill
+    \end{frame}
+  }
+}
+
+% Metadata
+\title{Trump et le Venezuela}
+\subtitle{Ce que révèle l'analyse de la conférence de presse du 3 janvier 2026}
+
+\date{3 janvier 2026}
+\institute{}
+
+\begin{document}
+
+% =============================================================================
+% TITLE
+% =============================================================================
+\begin{frame}[plain]
+    \vfill
+    \begin{center}
+        \begin{tikzpicture}
+            \node[fill=white, rounded corners=12pt, inner sep=30pt, drop shadow={shadow xshift=2pt, shadow yshift=-2pt, opacity=0.15}] {
+                \begin{minipage}{0.75\textwidth}
+                    \centering
+                    {\small\textcolor{accent}{\faChartBar\ NLP \& science politique}}\\[1em]
+                    {\LARGE\bfseries\textcolor{primary}{Trump et le Venezuela}}\\[0.8em]
+                    {\normalsize\textcolor{muted}{Ce que révèle l'analyse de la \\conférence de presse du 3 janvier 2026}}\\[1.5em]
+                    \textcolor{subtle}{\rule{0.3\textwidth}{0.5pt}}\\[1.2em]
+                    {\footnotesize\textcolor{muted}{5 janvier 2026}}
+                \end{minipage}
+            };
+        \end{tikzpicture}
+    \end{center}
+    \vfill
+\end{frame}
+
+% =============================================================================
+% INTRODUCTION
+% =============================================================================
+\begin{frame}[c]{Une conférence de presse, quatre personnes}
+    \centering
+    \begin{columns}[c]
+        \begin{column}{0.60\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=15pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.85\textwidth}
+                        {\large\bfseries 3 janvier 2026}\\[0.8em]
+                        Conférence de presse à la Maison Blanche suite à l'opération militaire au Venezuela.\\[1.5em]
+                        \muted{\footnotesize \faDatabase\ 858 phrases annotées}\\
+                        \muted{\footnotesize \faNewspaper\ Transcription textuelle d'Associated Press}\\
+                        \muted{\footnotesize \faYoutube\ \href{https://www.youtube.com/watch?v=ezYNnFETXk0}{Vidéo source}}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.40\textwidth}
+            \begin{tikzpicture}[every node/.style={inner sep=8pt}]
+                \node[fill=white, rounded corners=4pt] at (0,0) {
+                    \begin{tabular}{cl}
+                        \textcolor{red!80!black}{\faSquare} & \textbf{Donald Trump} \\[-0.2em]
+                        & \muted{\scriptsize Président} \\[0.6em]
+                        \textcolor{blue!70!black}{\faSquare} & \textbf{Marco Rubio} \\[-0.2em]
+                        & \muted{\scriptsize Secrétaire d'État} \\[0.6em]
+                        \textcolor{green!60!black}{\faSquare} & \textbf{Pete Hegseth} \\[-0.2em]
+                        & \muted{\scriptsize Secrétaire à la Défense} \\[0.6em]
+                        \textcolor{purple!70!black}{\faSquare} & \textbf{Dan Caine} \\[-0.2em]
+                        & \muted{\scriptsize Chef d'état-major} \\
+                    \end{tabular}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Méthodologie}
+    \vspace{0.5em}
+
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm,
+        box/.style={rectangle, rounded corners=6pt, minimum width=2.6cm, minimum height=1.2cm, align=center, font=\scriptsize},
+        arrow/.style={->, >=stealth, thick, muted}
+    ]
+        % Boxes
+        \node[box, fill=accent!15] (video) {\faYoutube\ \textbf{Vidéo}\\[0.1em]\muted{\tiny AP}};
+        \node[box, fill=success!15, right=of video] (transcription) {\faFile\ \textbf{Transcription}\\[0.1em]\muted{\tiny 858 phrases}};
+        \node[box, fill=danger!15, right=of transcription] (annotation) {\faTags\ \textbf{Annotation}\\[0.1em]\muted{\tiny LLM}};
+        \node[box, fill=purple!15, right=of annotation] (analyse) {\faChartBar\ \textbf{Analyse}};
+
+        % Arrows
+        \draw[arrow] (video) -- (transcription);
+        \draw[arrow] (transcription) -- (annotation);
+        \draw[arrow] (annotation) -- (analyse);
+    \end{tikzpicture}
+
+    \vspace{1.5em}
+
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=6pt, inner sep=15pt, drop shadow={opacity=0.08}] {
+            \begin{minipage}{0.85\textwidth}
+                \begin{tabular}{ll}
+                    \faCode\ \textbf{Transcription} & \muted{\small\faGithub\ \href{https://github.com/antoinelemor/Transcribe-tool}{antoinelemor/Transcribe-tool}} \\[0.8em]
+                    \faRobot\ \textbf{Annotation LLM} & \muted{\small\faGithub\ \href{https://github.com/antoinelemor/LLM_Tool}{antoinelemor/LLM\_Tool}} \\[0.8em]
+                    \faPython\ \textbf{Analyse} & \muted{\small\faGithub\ \href{https://github.com/antoinelemor/nlp-pol}{antoinelemor/nlp-pol}}
+                \end{tabular}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+% =============================================================================
+% PART 1: RHETORICAL POSTURE
+% =============================================================================
+\section{Quelle posture rhétorique adoptée ?}
+
+% -----------------------------------------------------------------------------
+{
+\setbeamertemplate{navigation symbols}{}
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig1_posture_index_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig2_posture_timeline_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : ce n'est pas Trump le plus agressif}
+    \vspace{-1.7em}
+
+    \begin{columns}[T]
+        \begin{column}{0.52\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=15pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        Contrairement à l'image habituelle, \textbf{Trump} adopte un ton \emphdata{modéré}.\\[1em]
+
+                        Les plus agressifs ?\\[0.5em]
+                        \begin{itemize}
+                            \item[\faExclamationTriangle] \emphwarn{Pete Hegseth} \muted{(-0.64)}
+                            \item[\faExclamationTriangle] \emphwarn{Marco Rubio} \muted{(-0.49)}
+                        \end{itemize}
+
+                        \vspace{1em}
+                        \muted{\small Le chef d'état-major Caine reste neutre, il décrit et ne justifie pas.}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \centering
+            \vspace{1.5em}
+
+            \begin{tikzpicture}[scale=1.1]
+                % Axis
+                \draw[muted, thick] (0,0) -- (4.5,0);
+                \draw[muted] (2.25,-0.12) -- (2.25,0.12);
+
+                % Labels
+                \node[below, font=\tiny] at (0,0) {-2};
+                \node[below, font=\tiny] at (2.25,0) {0};
+                \node[below, font=\tiny] at (4.5,0) {+1.5};
+                \node[above, font=\tiny, danger] at (0.3,0.2) {agressif};
+                \node[above, font=\tiny, success] at (4.2,0.2) {pacifique};
+
+                % Gradient background
+                \fill[left color=danger!20, right color=success!20, opacity=0.3]
+                    (0,-0.08) rectangle (4.5,0.08);
+
+                % Markers with labels
+                \fill[green!60!black] (1.07,0) circle (5pt);
+                \node[above=8pt, font=\scriptsize] at (1.07,0) {Hegseth};
+
+                \fill[blue!70!black] (1.29,0) circle (5pt);
+                \node[below=8pt, font=\scriptsize] at (1.29,0) {Rubio};
+
+                \fill[red!80!black] (1.69,0) circle (5pt);
+                \node[above=8pt, font=\scriptsize] at (1.69,0) {Trump};
+
+                \fill[purple!70!black] (2.60,0) circle (5pt);
+                \node[below=8pt, font=\scriptsize] at (2.60,0) {Caine};
+            \end{tikzpicture}
+
+            \vspace{2em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=4pt, inner sep=10pt] {
+                    \footnotesize
+                    \begin{tabular}{lr}
+                        \textcolor{green!60!black}{\faCircle} Hegseth & \textbf{-0.64} \\
+                        \textcolor{blue!70!black}{\faCircle} Rubio & \textbf{-0.49} \\
+                        \textcolor{red!80!black}{\faCircle} Trump & \textbf{-0.27} \\
+                        \textcolor{purple!70!black}{\faCircle} Caine & \textbf{+0.15} \\
+                    \end{tabular}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Quels thèmes évoqués par les acteurs ?}
+
+% -----------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig6_topics_speakers_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : une répartition des rôles très claire}
+    \vspace{-1.9em}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{red!80!black}{\faSquare}\ \textbf{Trump}} \muted{\small n=489}\\[0.5em]
+                        Menace sécuritaire \emphdata{25\%}\\
+                        Opération militaire 19\%\\
+                        Économie/Pétrole 15\%\\
+                        \muted{Humanitaire 7\%}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.8em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{green!60!black}{\faSquare}\ \textbf{Hegseth}} \muted{\small n=28}\\[0.5em]
+                        Opération militaire \emphwarn{57\%}\\
+                        Menace sécuritaire 36\%\\
+                        \emphwarn{Humanitaire 0\%}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{blue!70!black}{\faSquare}\ \textbf{Rubio}} \muted{\small n=48}\\[0.5em]
+                        Diplomatie \emphdata{40\%}\\
+                        Légal/Justice 21\%\\
+                        Menace sécuritaire 17\%\\
+                        \emphwarn{Humanitaire 0\%}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.8em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{purple!70!black}{\faSquare}\ \textbf{Caine}} \muted{\small n=67}\\[0.5em]
+                        Opération militaire \emphdata{96\%}\\
+                        \muted{Technique, factuel}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.8em}
+
+    \centering
+    \begin{tikzpicture}
+        \node[fill=accent!10, rounded corners=4pt, inner sep=8pt] {
+            \small\textcolor{primary}{Seul Trump mentionne l'humanitaire. Hegseth et Rubio : \textbf{jamais}.}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Interprétation : une justification impérialiste}
+    \vspace{-1.7em}
+    \vfill
+    \centering
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=8pt, inner sep=25pt, drop shadow={opacity=0.1}] {
+            \begin{minipage}{0.85\textwidth}
+                \begin{itemize}
+                    \item Les conseillers se concentrent sur la menace et la force
+                    \vspace{0.8em}
+                    \item Trump seul évoque l'humanitaire : un rôle de façade ?
+                    \vspace{0.8em}
+                    \item Absence totale de préoccupation humanitaire chez Rubio et Hegseth
+                    \item Justification de l'opération majoritairement par la sécurité et l'économie
+                \end{itemize}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+    \vfill
+\end{frame}
+
+\section{Les USA contre le reste du monde?}
+
+% -----------------------------------------------------------------------------
+
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig7_us_vs_them_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : un discours fortement manichéen}
+    \vspace{-1.5em}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=success!8, rounded corners=8pt, inner sep=15pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\large\bfseries ``Nous''}\\
+                        \muted{\small États-Unis}\\[1em]
+                        {\Huge\textcolor{success}{\textbf{+0.39}}}\\[0.8em]
+                        \begin{tabular}{lr}
+                            Positif & \textbf{48\%} \\
+                            Neutre & 42\% \\
+                            Négatif & 9\% \\
+                        \end{tabular}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=danger!8, rounded corners=8pt, inner sep=15pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\large\bfseries ``Eux''}\\
+                        \muted{\small Entités étrangères}\\[1em]
+                        {\Huge\textcolor{danger}{\textbf{-0.53}}}\\[0.8em]
+                        \begin{tabular}{lr}
+                            Positif & 2\% \\
+                            Neutre & 43\% \\
+                            Négatif & \textbf{55\%} \\
+                        \end{tabular}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.2em}
+
+    \centering
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.1}] {
+            {\large Indice d'animosité : \emphwarn{-0.46}} \quad \muted{(élevé)}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Interprétation : un isolationnisme impéraliste ?}
+    \vspace{-1.7em}
+    \vfill
+    \centering
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=8pt, inner sep=25pt, drop shadow={opacity=0.1}] {
+            \begin{minipage}{0.85\textwidth}
+                \begin{itemize}
+                    \item Vision binaire du monde : ``nous'' (positif) vs ``eux'' (négatif)
+                    \vspace{0.8em}
+                    \item Un interventionnisme régional assumé
+                    \vspace{0.8em}
+                    \item Un discours binaire qui sert à justifier des actions impérialistes
+                \end{itemize}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+    \vfill
+\end{frame}
+
+% =============================================================================
+% PART 2: Q&A ANALYSIS
+% =============================================================================
+\section{Face aux journalistes}
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig3_responses_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : des réponses rarement directes}
+    \vspace{-1em}
+
+    \begin{columns}[c]
+        \begin{column}{0.45\textwidth}
+            \centering
+            \begin{tikzpicture}
+                \node[fill=danger!10, rounded corners=12pt, inner sep=25pt] {
+                    \begin{minipage}{0.7\textwidth}
+                        \centering
+                        {\fontsize{48}{52}\selectfont\textcolor{danger}{\textbf{72\%}}}\\[0.5em]
+                        {\large réponses \textbf{partielles}}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{1.5em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=12pt] {
+                    \begin{tabular}{rl}
+                        \emphok{21\%} & réponses directes \\[0.3em]
+                        7\% & changements de sujet \\
+                    \end{tabular}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=6pt, inner sep=18pt, drop shadow={opacity=0.08}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large Les journalistes obtiennent des \textbf{fragments}, rarement des réponses complètes.}\\[1.5em]
+                        \muted{Sur 57 segments de réponse, seuls 12 répondent directement à la question posée.}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig5_progressive_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : le pétrole avant tout}
+    \vspace{-0.5em}
+
+    \centering
+    {\large Un décalage thématique révélateur}
+
+    \vspace{0.8em}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=accent!8, rounded corners=8pt, inner sep=15pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        {\large\bfseries\faNewspaper\ Les journalistes}\\[0.8em]
+                        \begin{enumerate}
+                            \item Diplomatie
+                            \item Gouvernance
+                            \item Légal / Justice
+                        \end{enumerate}
+                        \vspace{0.8em}
+                        \muted{\small Questions sur le \textit{comment}}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=danger!8, rounded corners=8pt, inner sep=15pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        {\large\bfseries\faUser\ Trump répond}\\[0.8em]
+                        \begin{enumerate}
+                            \item \emphwarn{Économie / Pétrole}
+                            \item Opération militaire
+                            \item Diplomatie
+                        \end{enumerate}
+                        \vspace{0.8em}
+                        \muted{\small Insistance sur les \textit{ressources}}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+
+    \vspace{1em}
+
+    \centering
+    \begin{tikzpicture}
+        \node[fill=white, rounded corners=6pt, inner sep=12pt, drop shadow={opacity=0.1}] {
+            \large Trump préoccupé par les \textbf{ressources} avant tout
+        };
+    \end{tikzpicture}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+{
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {
+            \includegraphics[width=0.95\paperwidth,height=0.92\paperheight,keepaspectratio]{fig4_evasion_fr.png}
+        };
+    \end{tikzpicture}
+\end{frame}
+}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Constat : le ``comment'' reste sans réponse}
+    \vspace{-1em}
+
+    \centering
+    {\large Les sujets les plus \textbf{évités} sont les plus \textbf{concrets}}
+
+    \vspace{1em}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=danger!8, rounded corners=6pt, inner sep=12pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\Large\emphwarn{80\%}}\\[0.2em]
+                        \textbf{Gouvernance}\\
+                        \muted{\footnotesize réponse partielle}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.6em}
+
+            \begin{tikzpicture}
+                \node[fill=danger!7, rounded corners=6pt, inner sep=12pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\Large\emphwarn{77\%}}\\[0.2em]
+                        \textbf{Diplomatie}\\
+                        \muted{\footnotesize réponse partielle}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=danger!6, rounded corners=6pt, inner sep=12pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\Large\emphwarn{67\%}}\\[0.2em]
+                        \textbf{Légal / Justice}\\
+                        \muted{\footnotesize réponse partielle}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.6em}
+
+            \begin{tikzpicture}
+                \node[fill=subtle, rounded corners=6pt, inner sep=12pt] {
+                    \begin{minipage}{0.85\textwidth}
+                        \centering
+                        {\Large\emphwarn{33\%}}\\[0.2em]
+                        \textbf{Économie / Pétrole}\\
+                        \muted{\footnotesize changement de sujet/appel à conseiller}
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+
+    \vspace{1em}
+
+    \muted{Seule exception : politique intérieure US (\emphok{92\%} de réponses directes)}
+\end{frame}
+
+% =============================================================================
+% CONCLUSION
+% =============================================================================
+\section{Conclusion}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{Ce que révèle l'analyse}
+    \vspace{-1.3em}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=8pt, inner sep=14pt, drop shadow={opacity=0.1}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{accent}{\faUsers}\ \textbf{Agressivité déléguée}}\\[0.4em]
+                        Trump modéré, conseillers offensifs. Le président dirige, poussé par son entourage.
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.6em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=8pt, inner sep=14pt, drop shadow={opacity=0.1}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{accent}{\faGlobe}\ \textbf{Impérialisme clair}}\\[0.4em]
+                        Interventionnisme régional assumé. Vision binaire ``nous'' vs ``eux''.
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=8pt, inner sep=14pt, drop shadow={opacity=0.1}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{accent}{\faOilCan}\ \textbf{Le pétrole avant tout}}\\[0.4em]
+                        Décalage thématique révélateur. Justification par les ressources, pas l'humanitaire.
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+
+            \vspace{0.6em}
+
+            \begin{tikzpicture}
+                \node[fill=white, rounded corners=8pt, inner sep=14pt, drop shadow={opacity=0.1}] {
+                    \begin{minipage}{0.9\textwidth}
+                        {\large\textcolor{accent}{\faQuestionCircle}\ \textbf{L'avenir reste flou}}\\[0.4em]
+                        Gouvernance, légalité : aucun plan concret pour l'après.
+                    \end{minipage}
+                };
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}[plain]
+    \vfill
+    \begin{center}
+        \begin{tikzpicture}
+            \node[fill=white, rounded corners=12pt, inner sep=30pt, drop shadow={opacity=0.15}] {
+                \begin{minipage}{0.6\textwidth}
+                    \centering
+                    {\bfseries Antoine Lemor}\\[0.5em]
+                    \muted{\small\faGithub\ \href{https://github.com/antoinelemor}{github.com/antoinelemor}}\\[1.5em]
+                    \textcolor{subtle}{\rule{0.6\textwidth}{0.5pt}}\\[1.2em]
+                    {\small Vous voulez voir la méthode et le code ?}\\[1em]
+                    \begin{tabular}{@{}rl@{}}
+                    \faChartBar\ \textbf{Cette analyse} & \muted{\small\href{https://github.com/antoinelemor/nlp-pol}{antoinelemor/nlp-pol}} \\[0.5em]
+                    \faCode\ \textbf{Transcription} & \muted{\small\href{https://github.com/antoinelemor/Transcribe-tool}{antoinelemor/Transcribe-tool}} \\[0.5em]
+                    \faRobot\ \textbf{Annotation LLM} & \muted{\small\href{https://github.com/antoinelemor/LLM_Tool}{antoinelemor/LLM\_Tool}}
+                    \end{tabular}
+                \end{minipage}
+            };
+        \end{tikzpicture}
+    \end{center}
+    \vfill
+\end{frame}
+
+\end{document}

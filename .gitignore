@@ -1,0 +1,43 @@
+# Claude memory file (local only)
+CLAUDE.md
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.synctex(busy)
+*.fdb_latexmk
+*.fls
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
