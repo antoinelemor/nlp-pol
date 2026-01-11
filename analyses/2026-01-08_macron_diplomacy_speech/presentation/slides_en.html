@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Macron and Diplomacy - NLP Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --positive: #059669;
+            --negative: #dc2626;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            background: #333;
+            line-height: 1.4;
+        }
+
+        /* Fixed 16:9 slide container */
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            padding: 48px 64px;
+            display: flex;
+            flex-direction: column;
+            background:
+                radial-gradient(ellipse at 10% 0%, rgba(15, 118, 110, 0.08), transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(180, 83, 9, 0.08), transparent 50%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            overflow: hidden;
+            page-break-after: always;
+            page-break-inside: avoid;
+            margin: 0 auto 20px auto;
+        }
+
+        @media print {
+            body { background: white; }
+            .slide { margin: 0; }
+            .nav-info { display: none; }
+        }
+
+        /* Title slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-title .overline {
+            font-size: 16px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .slide-title h1 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 72px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 28px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 28px;
+            color: var(--muted);
+            max-width: 800px;
+        }
+
+        .slide-title .meta {
+            margin-top: 56px;
+            font-size: 18px;
+            color: var(--muted);
+        }
+
+        /* Section header */
+        .slide-section {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-box {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 56px 80px;
+            text-align: center;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.1);
+        }
+
+        .section-box .num {
+            font-size: 16px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .section-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 600;
+        }
+
+        /* Figure slide */
+        .slide-figure {
+            padding: 24px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-figure img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+        }
+
+        /* Content slide */
+        .slide-content {
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .slide-content .header {
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--ink);
+            flex-shrink: 0;
+        }
+
+        .slide-content .header h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 42px;
+            font-weight: 600;
+        }
+
+        .slide-content .header .badge {
+            font-size: 14px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* Cards grid - compact */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .cards-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h3 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .card p {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .card .stat {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--line);
+        }
+
+        .card .stat .val {
+            font-family: 'STIX Two Text', serif;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .card .stat .lbl {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .positive { color: var(--positive); }
+        .negative { color: var(--negative); }
+        .warning { color: var(--accent-2); }
+        .accent { color: var(--accent); }
+
+        /* Key insight box - compact */
+        .insight-box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .insight-box .label {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .insight-box .text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 26px;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        /* Two columns */
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .col-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .col-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--ink);
+        }
+
+        .col-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .col-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+        }
+
+        .col-card li:last-child {
+            border-bottom: none;
+        }
+
+        /* Metrics row - compact */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .metrics-row-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+
+        .metric .value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 44px;
+            font-weight: 600;
+        }
+
+        .metric .label {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+        }
+
+        /* Table - compact */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .data-table th {
+            background: var(--bg-deep);
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+        }
+
+        .data-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--line);
+            font-size: 16px;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Conclusion */
+        .slide-conclusion {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .conclusion-box {
+            max-width: 1000px;
+        }
+
+        .conclusion-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .conclusion-box p {
+            font-size: 22px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .key-stats {
+            display: flex;
+            justify-content: center;
+            gap: 64px;
+            margin-top: 48px;
+            padding-top: 36px;
+            border-top: 1px solid var(--line);
+        }
+
+        .key-stat {
+            text-align: center;
+        }
+
+        .key-stat .val {
+            font-family: 'STIX Two Text', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .key-stat .lbl {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 6px;
+        }
+
+        /* Pipeline - compact */
+        .pipeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .pipeline-step {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 18px 24px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+
+        .pipeline-step.highlight {
+            border-color: var(--accent);
+            border-width: 2px;
+        }
+
+        .pipeline-step h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 2px;
+        }
+
+        .pipeline-step p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .pipeline-arrow {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        /* Navigation (browser only, hidden in PDF) */
+        .nav-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        @media print {
+            .nav-info { display: none !important; }
+        }
+
+        /* Hide nav-info when capturing screenshots (Playwright) */
+        .hide-for-capture .nav-info { display: none !important; }
+
+        /* Methodology slide */
+        .slide-methodology {
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-title">
+    <div class="overline" style="font-size: 20px;">NLP Analysis of Political Discourse</div>
+    <h1 style="font-size: 84px;">Macron and French Diplomacy</h1>
+    <p class="subtitle" style="font-size: 36px;">What the analysis of the ambassadors' speech reveals</p>
+    <p style="font-size: 28px; color: var(--accent); margin-top: 20px; font-weight: 600;">January 8, 2026</p>
+    <div style="margin-top: 48px; display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <span style="font-size: 22px; color: var(--muted);">Antoine Lemor</span>
+        <span style="font-size: 22px; color: var(--muted);">|</span>
+        <span style="font-size: 26px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 8px 20px; border-radius: 8px; letter-spacing: 0.05em;">NLP-POL PROJECT</span>
+    </div>
+</div>
+
+<!-- SLIDE 2: Methodology -->
+<div class="slide slide-methodology">
+    <h2 style="font-family: 'STIX Two Text', serif; font-size: 52px; font-weight: 600; text-align: center; margin-bottom: 8px;">Methodology</h2>
+    <p style="text-align: center; color: var(--muted); font-size: 20px; margin-bottom: 36px;">Annual Conference of Ambassadors at the Elysee Palace — January 8, 2026</p>
+
+    <!-- Pipeline with integrated tools -->
+    <div class="pipeline" style="margin-bottom: 36px; gap: 20px;">
+        <div class="pipeline-step" style="padding: 24px 28px; min-width: 220px; border: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(15,118,110,0.12);">
+            <div style="font-size: 36px; margin-bottom: 8px;">📝</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Transcription</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">WITH</p>
+            <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: none; font-size: 18px; font-weight: 700;">Transcribe-tool</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step" style="padding: 24px 28px; min-width: 220px; border: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(15,118,110,0.12);">
+            <div style="font-size: 36px; margin-bottom: 8px;">✂️</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Tokenization</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">WITH</p>
+            <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: none; font-size: 18px; font-weight: 700;">Transcribe-tool</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step" style="padding: 24px 28px; min-width: 220px; border: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(15,118,110,0.12);">
+            <div style="font-size: 36px; margin-bottom: 8px;">🤖</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">LLM Annotation</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">WITH</p>
+            <a href="https://github.com/antoinelemor/LLM_Tool" style="color: var(--accent); text-decoration: none; font-size: 18px; font-weight: 700;">LLM_Tool</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step" style="padding: 24px 28px; min-width: 220px; border: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(15,118,110,0.12);">
+            <div style="font-size: 36px; margin-bottom: 8px;">📊</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Analysis</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">WITH</p>
+            <a href="https://github.com/antoinelemor/nlp-pol" style="color: var(--accent); text-decoration: none; font-size: 18px; font-weight: 700;">nlp-pol</a>
+        </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-row" style="max-width: 1200px; margin: 0 auto; gap: 20px;">
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">359</div>
+            <div class="label" style="font-size: 13px;">Sentences analyzed</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">119</div>
+            <div class="label" style="font-size: 13px;">Policy-related sentences</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">560</div>
+            <div class="label" style="font-size: 13px;">Actor mentions</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">264</div>
+            <div class="label" style="font-size: 13px;">Geopolitical frames</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: Dashboard Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig1_dashboard_en.png" alt="Dashboard">
+</div>
+
+<!-- SLIDE 4: Dashboard Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: A doctrine of pragmatic assertion</h2>
+        <div class="badge">Overview</div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3>Balanced vision</h3>
+            <p>The GAI of +0.08 reveals a vision that is neither alarmist nor euphoric. Macron frames challenges without catastrophism.</p>
+            <div class="stat">
+                <span class="val warning">+0.08</span>
+                <span class="lbl">Geopolitical index</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>France as actor</h3>
+            <p>With 85% agency, France is presented as proactive, not reactive to events.</p>
+            <div class="stat">
+                <span class="val positive">85%</span>
+                <span class="lbl">Agency</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Programmatic policies</h3>
+            <p>45% concreteness: proposals remain at the strategic level rather than operational.</p>
+            <div class="stat">
+                <span class="val warning">45%</span>
+                <span class="lbl">Concreteness</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Neutral tone</h3>
+            <p>A tone close to zero (-0.01) indicates a pragmatic register, neither alarmist nor triumphalist.</p>
+            <div class="stat">
+                <span class="val warning">-0.01</span>
+                <span class="lbl">Tone</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: Section - Timeline -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #1</div>
+        <h2>The speech at a glance</h2>
+    </div>
+</div>
+
+<!-- SLIDE 6: Timeline Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig4_emotional_timeline_en.png" alt="Emotional timeline">
+</div>
+
+<!-- SLIDE 7: Timeline Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: dominant pragmatism, targeted combative peaks</h2>
+        <div class="badge">Emotional register evolution</div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3>Dominant register</h3>
+            <p>The pragmatic (30%) and confident (21%) tone dominates the entire speech.</p>
+            <div class="stat">
+                <span class="val accent">51%</span>
+                <span class="lbl">Pragmatic + Confident</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Combative peaks</h3>
+            <p>12% of the speech adopts a combative tone, focused on specific topics (defense, sovereignty).</p>
+            <div class="stat">
+                <span class="val negative">12%</span>
+                <span class="lbl">Combative</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Alarmist passages</h3>
+            <p>Only 7% of the speech is alarmist — reserved for the most serious threats.</p>
+            <div class="stat">
+                <span class="val negative">7%</span>
+                <span class="lbl">Alarmist</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Overall tone</h3>
+            <p>The score of -0.01 indicates a balance between positive and negative registers.</p>
+            <div class="stat">
+                <span class="val warning">-0.01</span>
+                <span class="lbl">Tone index</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: Section - Geopolitical -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #2</div>
+        <h2>What worldview?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 6: Geopolitical Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig2_geopolitical_anxiety_en.png" alt="Geopolitical vision">
+</div>
+
+<!-- SLIDE 7: Geopolitical Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Opportunities over threats</h2>
+        <div class="badge">Geopolitical framing</div>
+    </div>
+
+    <div class="two-cols">
+        <div class="col-card">
+            <h3 class="negative">Threat frames (39%)</h3>
+            <ul>
+                <li><strong>Power politics</strong> — 41 occurrences (16%)</li>
+                <li><strong>Global disorder</strong> — 17 occurrences (7%)</li>
+                <li><strong>Multilateral decline</strong> — 12 occurrences (5%)</li>
+                <li><strong>Fragmentation</strong> — 11 occurrences (4%)</li>
+                <li><strong>Vassalization</strong> — 7 occurrences (3%)</li>
+            </ul>
+        </div>
+        <div class="col-card">
+            <h3 class="positive">Opportunity frames (61%)</h3>
+            <ul>
+                <li><strong>Cooperation</strong> — 58 occurrences (22%)</li>
+                <li><strong>Resilience</strong> — 30 occurrences (12%)</li>
+                <li><strong>Progress</strong> — 15 occurrences (6%)</li>
+                <li><strong>Leadership opportunity</strong> — 14 occurrences (5%)</li>
+                <li><strong>Multilateral renewal</strong> — 10 occurrences (4%)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="label">Interpretation</div>
+        <div class="text">The "cooperation" frame dominates: Macron presents challenges as partnership opportunities rather than existential threats.</div>
+    </div>
+</div>
+
+<!-- SLIDE 11: Section - Actors -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #3</div>
+        <h2>How are actors portrayed?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 9: Actor Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig3_actor_sentiment_en.png" alt="Actor sentiment">
+</div>
+
+<!-- SLIDE 10: Actor Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Allies valued, major powers nuanced</h2>
+        <div class="badge">560 mentions analyzed</div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Actor</th>
+                <th>Mentions</th>
+                <th>Positive</th>
+                <th>Negative</th>
+                <th>Net sentiment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>France</strong></td>
+                <td>166</td>
+                <td>115</td>
+                <td>4</td>
+                <td class="positive"><strong>+0.67</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Europe/EU</strong></td>
+                <td>61</td>
+                <td>34</td>
+                <td>3</td>
+                <td class="positive"><strong>+0.51</strong></td>
+            </tr>
+            <tr>
+                <td><strong>United States</strong></td>
+                <td>17</td>
+                <td>4</td>
+                <td>5</td>
+                <td><strong>-0.06</strong></td>
+            </tr>
+            <tr>
+                <td><strong>China</strong></td>
+                <td>12</td>
+                <td>0</td>
+                <td>5</td>
+                <td class="negative"><strong>-0.42</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Ukraine</strong></td>
+                <td>8</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="positive"><strong>+0.75</strong></td>
+            </tr>
+            <tr>
+                <td><strong>India</strong></td>
+                <td>8</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="positive"><strong>+0.75</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="insight-box">
+        <div class="label">Interpretation</div>
+        <div class="text">Neutral treatment of the USA (-0.06), negative of China (-0.42). Ukraine and India emerge as privileged strategic partners.</div>
+    </div>
+</div>
+
+<!-- SLIDE 14: Section - Policy -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #4</div>
+        <h2>What policies proposed?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 15: Policy Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig5_policy_matrix_en.png" alt="Policy matrix">
+</div>
+
+<!-- SLIDE 16: Policy Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Diplomatic method first</h2>
+        <div class="badge">119 sentences classified as policy-related</div>
+    </div>
+
+    <div class="two-cols">
+        <div class="col-card">
+            <h3>Specificity level</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">% of policy-related sentences</p>
+            <ul>
+                <li><strong>Programmatic</strong> — 67 sentences (56%)</li>
+                <li><strong>Aspirational</strong> — 48 sentences (40%)</li>
+                <li><strong>Concrete</strong> — 4 sentences (3%)</li>
+            </ul>
+            <p style="margin-top: 14px; font-size: 14px; color: var(--muted);">
+                Very few concrete and operational measures.
+            </p>
+        </div>
+        <div class="col-card">
+            <h3>Priority domains</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">% of policy-related sentences</p>
+            <ul>
+                <li><strong>Diplomatic method</strong> — 29 sentences (24%)</li>
+                <li><strong>European economy</strong> — 9 sentences (8%)</li>
+                <li><strong>Global governance</strong> — 8 sentences (7%)</li>
+                <li><strong>Africa relations</strong> — 7 sentences (6%)</li>
+                <li><strong>Trade policy</strong> — 7 sentences (6%)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="label">Interpretation</div>
+        <div class="text">The emphasis on "diplomatic method" (24% of policy sentences) reveals a priority on the how rather than the what: negotiation approach takes precedence over content.</div>
+    </div>
+</div>
+
+<!-- SLIDE 17: Section - Rhetorical -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #5</div>
+        <h2>What rhetorical strategy?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 18: Rhetorical Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig6_rhetorical_strategy_en.png" alt="Rhetorical strategy">
+</div>
+
+<!-- SLIDE 19: Rhetorical Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Balance between diagnosis and action</h2>
+        <div class="badge">537 speech acts</div>
+    </div>
+
+    <div class="two-cols">
+        <div class="col-card">
+            <h3>Speech acts</h3>
+            <ul>
+                <li><strong>Stating</strong> — 109 (20%)</li>
+                <li><strong>Proposing</strong> — 76 (14%)</li>
+                <li><strong>Exhorting</strong> — 71 (13%)</li>
+                <li><strong>Framing</strong> — 69 (13%)</li>
+                <li><strong>Reassuring</strong> — 67 (12%)</li>
+            </ul>
+        </div>
+        <div class="col-card">
+            <h3>Action orientation</h3>
+            <p style="margin-bottom: 12px;">Action / (action + diagnostic) ratio:</p>
+            <div style="text-align: center;">
+                <span style="font-family: 'STIX Two Text', serif; font-size: 64px; font-weight: 600; color: var(--accent-2);">43%</span>
+            </div>
+            <p style="margin-top: 12px; text-align: center; color: var(--muted); font-size: 14px;">
+                Balance between situation analysis and calls to action
+            </p>
+        </div>
+    </div>
+
+    <div class="insight-box">
+        <div class="label">Interpretation</div>
+        <div class="text">The speech combines diagnosis (statements, framing) and voluntarism (proposals, exhortations) in a near 50/50 balance.</div>
+    </div>
+</div>
+
+<!-- SLIDE 20: Section - Agency -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #6</div>
+        <h2>How is France positioned?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 21: Agency Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig7_agency_profile_en.png" alt="Agency profile">
+</div>
+
+<!-- SLIDE 22: Agency Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Active agent, not victim</h2>
+        <div class="badge">304 positionings</div>
+    </div>
+
+    <div class="metrics-row metrics-row-3">
+        <div class="metric">
+            <div class="value positive">193</div>
+            <div class="label">Active</div>
+        </div>
+        <div class="metric">
+            <div class="value accent">78</div>
+            <div class="label">Cooperative</div>
+        </div>
+        <div class="metric">
+            <div class="value warning">33</div>
+            <div class="label">Reactive</div>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3>Active agent (46%)</h3>
+            <p>France is presented as initiating actions, not reacting to events.</p>
+        </div>
+        <div class="card">
+            <h3>Partner (23%)</h3>
+            <p>Emphasis on cooperation and alliances rather than unilateralism.</p>
+        </div>
+        <div class="card">
+            <h3>Leader (8%)</h3>
+            <p>Leadership positioning on key issues (Europe, climate, defense).</p>
+        </div>
+        <div class="card">
+            <h3>Victim (only 3%)</h3>
+            <p>Near-absence of victim positioning — no complaints or fatalism.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 23: Section - Diplomatic -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analysis #7</div>
+        <h2>What diplomatic positioning?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 24: Diplomatic Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig8_diplomatic_positioning_en.png" alt="Diplomatic positioning">
+</div>
+
+<!-- SLIDE 25: Diplomatic Findings -->
+<div class="slide slide-content">
+    <div class="header">
+        <h2>Finding: Europe first, major powers nuanced</h2>
+        <div class="badge">Actor groups</div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3 class="positive">Allies (France, Europe)</h3>
+            <p>Systematically positive treatment. European anchoring affirmed.</p>
+            <div class="stat">
+                <span class="val positive">+0.59</span>
+                <span class="lbl">Mean sentiment</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Major powers</h3>
+            <p>USA neutral (-0.06), China negative (-0.42). No automatic alignment.</p>
+            <div class="stat">
+                <span class="val negative">-0.24</span>
+                <span class="lbl">Mean sentiment</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3 class="positive">Emerging partners</h3>
+            <p>Ukraine and India as new privileged strategic partners.</p>
+            <div class="stat">
+                <span class="val positive">+0.75</span>
+                <span class="lbl">Mean sentiment</span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Notable absence</h3>
+            <p>Russia is rarely mentioned directly — framing through consequences rather than confrontation.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 26: Conclusion -->
+<div class="slide slide-conclusion">
+    <div class="conclusion-box">
+        <div class="overline" style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px;">Conclusion</div>
+        <h2>A doctrine of pragmatic assertion</h2>
+        <p>Quantitative analysis reveals a diplomacy that combines realism about threats with voluntarism in action. Macron positions France as a proactive actor in a changing world, favoring partnerships and multilateral cooperation.</p>
+
+        <div class="key-stats">
+            <div class="key-stat">
+                <div class="val">+0.08</div>
+                <div class="lbl">Cautious vision</div>
+            </div>
+            <div class="key-stat">
+                <div class="val">85%</div>
+                <div class="lbl">Agency</div>
+            </div>
+            <div class="key-stat">
+                <div class="val">61%</div>
+                <div class="lbl">Opportunity frames</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 27: Final -->
+<div class="slide slide-title">
+    <div style="max-width: 1400px;">
+        <p style="font-size: 48px; font-weight: 700; margin-bottom: 12px;">Antoine Lemor</p>
+        <p style="font-size: 36px; margin-bottom: 56px;"><a href="https://github.com/antoinelemor" style="color: var(--accent); text-decoration: none; font-weight: 600;">github.com/antoinelemor</a></p>
+
+        <div style="border-top: 3px solid var(--accent); padding-top: 48px;">
+            <p style="font-size: 28px; color: var(--accent); margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700;">Open Source Tools</p>
+
+            <div style="display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;">
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">📊</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">NLP Analysis</p>
+                    <a href="https://github.com/antoinelemor/nlp-pol" style="color: var(--accent); text-decoration: none; font-size: 20px; font-weight: 600;">nlp-pol</a>
+                </div>
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">Transcription</p>
+                    <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: none; font-size: 20px; font-weight: 600;">Transcribe-tool</a>
+                </div>
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">🤖</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">LLM Annotation</p>
+                    <a href="https://github.com/antoinelemor/LLM_Tool" style="color: var(--accent); text-decoration: none; font-size: 20px; font-weight: 600;">LLM_Tool</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-info">
+    Scroll to navigate | 27 slides
+</div>
+
+</body>
+</html>

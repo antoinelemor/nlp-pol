@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>L'agenda diplomatique de Macron</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Editorial Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .header-stat {
+            text-align: right;
+        }
+
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 30px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Left column - Domains */
+        .domains-column {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .section-header {
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.35;
+        }
+
+        .domain-item {
+            margin-bottom: 6px;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .domain-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+
+        .domain-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .domain-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ink);
+            flex: 1;
+        }
+
+        .domain-stat {
+            font-family: 'STIX Two Text', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .domain-pct {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .domain-bar-track {
+            height: 12px;
+            background: var(--bg-deep);
+            border-radius: 6px;
+            margin-bottom: 3px;
+        }
+
+        .domain-bar {
+            height: 100%;
+            border-radius: 6px;
+        }
+
+        .domain-quote {
+            font-family: 'STIX Two Text', serif;
+            font-size: 14px;
+            color: var(--ink);
+            line-height: 1.4;
+            padding: 6px 10px 6px 12px;
+            border-left: 4px solid var(--line);
+            border-radius: 6px;
+            background: var(--card);
+            margin-top: 4px;
+            margin-bottom: 4px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .domain-quote .quote-text {
+            font-size: 14px;
+            color: var(--ink);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        /* Right column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Actions section */
+        .actions-section {
+        }
+
+        .action-stacked-bar {
+            display: flex;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 14px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .action-segment {
+            height: 100%;
+            transition: opacity 0.2s;
+        }
+
+        .action-segment:hover {
+            opacity: 0.85;
+        }
+
+        .action-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+        }
+
+        .action-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .action-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+
+        .action-label {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--ink);
+            flex: 1;
+        }
+
+        .action-pct {
+            font-family: 'STIX Two Text', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        /* Precision section */
+        .precision-section {
+        }
+
+        .precision-bars {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 8px;
+        }
+
+        .precision-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .precision-bar-container {
+            height: 85px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .precision-bar {
+            width: 75px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 45px;
+            gap: 2px;
+        }
+
+        .precision-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .precision-pct {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .precision-label {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        /* Index cards */
+        .index-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .index-card {
+            padding: 18px 16px;
+            border-radius: 12px;
+        }
+
+        .index-card.ambition {
+            background: #eff6ff;
+            border: 2px solid #1D4ED840;
+        }
+
+        .index-card.orientation {
+            background: #f5f5f4;
+            border: 2px solid #d6d3d1;
+        }
+
+        .index-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .index-value.ambition {
+            color: #1D4ED8;
+        }
+
+        .index-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .index-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 8px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* Orientation gauge */
+        .orientation-gauge {
+            margin-top: 12px;
+        }
+
+        .gauge-track {
+            height: 14px;
+            background: linear-gradient(90deg, #dc2626 0%, #e5e5e5 50%, #059669 100%);
+            border-radius: 7px;
+            position: relative;
+        }
+
+        .gauge-marker {
+            position: absolute;
+            top: -5px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid #1c1917;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .gauge-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .gauge-label {
+            font-size: 15px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Footer methodology */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">L'agenda diplomatique de Macron</h1>
+                <p class="subtitle">Analyse stratégique des propositions politiques</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">119</div>
+                <div class="stat-label">propositions identifiées</div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <div class="domains-column">
+                <div class="section-header">
+                    <h2 class="section-title">Répartition par domaine thématique</h2>
+                    <p class="section-desc">Chaque proposition est classée dans un domaine stratégique selon son objet principal.</p>
+                </div>
+                
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #1D4ED8;"></span>
+                <span class="domain-name">Diplomatie</span>
+                <span class="domain-stat">31 <span class="domain-pct">(26%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 100.0%; background: #1D4ED8;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Et il y a un chemin d'action dans le monde tel qu'il est en train de se jouer. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #B91C1C;"></span>
+                <span class="domain-name">Sécurité & Défense</span>
+                <span class="domain-stat">20 <span class="domain-pct">(17%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 64.51612903225806%; background: #B91C1C;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Nous avons défendu il y a quelques mois la FINUL qui joue un rôle clé au Liban, mais on voit bien une fatigue et une crise d'être à l'œuvre des grandes opérations de maintien de la paix. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #6D28D9;"></span>
+                <span class="domain-name">Multilatéralisme</span>
+                <span class="domain-stat">19 <span class="domain-pct">(16%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 61.29032258064516%; background: #6D28D9;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Le seul qui me semble tenable, possible, c'est d'assumer que nous sommes dans un moment très difficile de l'ordre du monde, qui se dérégule, la loi du plus fort cherche à s'imposer, où les règles d'hier sont de plus en plus fragilisées, mais au fond de se dire que nous sommes bien plus forts que beaucoup ne le croient, si nous savons nous unir davantage, et que le cœur de notre action, c'est de continuer à nous renforcer, c'est d'avoir plus de logique de puissance pour la France et pour l'Europe, c'est d'assumer de défendre complètement nos intérêts, et c'est de continuer à défendre notre influence partout où le multilatéralisme efficace peut être défendu, et d'assumer cette ligne totalement. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #D97706;"></span>
+                <span class="domain-name">Europe</span>
+                <span class="domain-stat">17 <span class="domain-pct">(14%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 54.83870967741935%; background: #D97706;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Elle s'est traduite par des livres blancs, un travail de la Commission européenne, une remobilisation, un réveil de l'Agence européenne de défense, et puis aussi des instruments de financement qui ont été conçus par les Européens, avec une préférence européenne que nous avons défendue, assumée. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #0E7490;"></span>
+                <span class="domain-name">Relations régionales</span>
+                <span class="domain-stat">13 <span class="domain-pct">(11%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 41.935483870967744%; background: #0E7490;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Nous avons posé ces dernières années tous les jalons : 2021, le sommet sur le financement des économies africaines ; »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #047857;"></span>
+                <span class="domain-name">Économie & Commerce</span>
+                <span class="domain-stat">11 <span class="domain-pct">(9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 35.483870967741936%; background: #047857;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« La deuxième chose, pour avoir plus de gains commerciaux pour nos entreprises. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #BE185D;"></span>
+                <span class="domain-name">Valeurs & Influence</span>
+                <span class="domain-stat">7 <span class="domain-pct">(6%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 22.58064516129032%; background: #BE185D;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« Le troisième pilier, c'est un pilier d'investissement dans l'innovation. »</span></blockquote>
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #059669;"></span>
+                <span class="domain-name">Développement & Climat</span>
+                <span class="domain-stat">1 <span class="domain-pct">(1%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 3.225806451612903%; background: #059669;"></div>
+            </div>
+            <blockquote class="domain-quote"><span class="quote-text">« On va continuer de le faire sur les questions climatiques, et de biodiversité, en parachevant le travail qui a été fait sur la biodiversité en franco-britannique avec beaucoup de partenaires, en avançant sur l'agenda de la lutte contre le plastique, qui est pour moi une des priorités de l'année 2026, il ne faut pas lâcher cela, et en continuant de consolider, comme on l'a constamment fait ces dernières années, l'agenda climat-biodiversité, y compris avec ces initiatives concrètes que sont les One Planet Summit, qui sont ce multilatéralisme efficace, multi-acteurs. »</span></blockquote>
+        </div>
+        
+            </div>
+
+            <div class="right-column">
+                <div class="actions-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Comment Macron entend-il agir ?</h2>
+                        <p class="section-desc">Type d'action proposée pour chaque mesure : renforcer l'existant, bâtir des coalitions, se repositionner...</p>
+                    </div>
+                    <div class="action-stacked-bar">
+                        <div class="action-segment" style="width: 32.773109243697476%; background: #1D4ED8;" title="REINFORCEMENT: 33%"></div><div class="action-segment" style="width: 15.966386554621847%; background: #059669;" title="COALITION_BUILDING: 16%"></div><div class="action-segment" style="width: 11.76470588235294%; background: #7C3AED;" title="STRATEGIC_REPOSITIONING: 12%"></div><div class="action-segment" style="width: 10.084033613445378%; background: #0891B2;" title="ENGAGEMENT: 10%"></div><div class="action-segment" style="width: 9.243697478991598%; background: #D97706;" title="DEFENSE_OF_EXISTING: 9%"></div><div class="action-segment" style="width: 7.563025210084033%; background: #7C3AED;" title="INSTITUTIONAL_REFORM: 8%"></div><div class="action-segment" style="width: 5.88235294117647%; background: #DC2626;" title="RESISTANCE: 6%"></div><div class="action-segment" style="width: 5.88235294117647%; background: #047857;" title="NEW_INITIATIVE: 6%"></div>
+                    </div>
+                    <div class="action-legend">
+                        
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #1D4ED8;"></div>
+                <span class="action-label">Renforcement</span>
+                <span class="action-pct">33%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #059669;"></div>
+                <span class="action-label">Coalitions</span>
+                <span class="action-pct">16%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #7C3AED;"></div>
+                <span class="action-label">Repositionnement</span>
+                <span class="action-pct">12%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #0891B2;"></div>
+                <span class="action-label">Engagement</span>
+                <span class="action-pct">10%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #D97706;"></div>
+                <span class="action-label">Défense acquis</span>
+                <span class="action-pct">9%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #7C3AED;"></div>
+                <span class="action-label">Réforme</span>
+                <span class="action-pct">8%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #DC2626;"></div>
+                <span class="action-label">Résistance</span>
+                <span class="action-pct">6%</span>
+            </div>
+            
+            <div class="action-legend-item">
+                <div class="action-color" style="background: #047857;"></div>
+                <span class="action-label">Nouvelle initiative</span>
+                <span class="action-pct">6%</span>
+            </div>
+            
+                    </div>
+                </div>
+
+                <div class="precision-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Degré de précision des propositions</h2>
+                        <p class="section-desc">Concret = mesure opérationnelle. Programmatique = orientation générale. Aspirationnel = vision abstraite.</p>
+                    </div>
+                    <div class="precision-bars">
+                        <div class="precision-item">
+                            <div class="precision-bar-container">
+                                <div class="precision-bar" style="height: 56.470588235294116px; background: #D97706;">
+                                    <span class="precision-value">48</span>
+                                    <span class="precision-pct">(40%)</span>
+                                </div>
+                            </div>
+                            <div class="precision-label">Aspirationnel</div>
+                        </div>
+                        <div class="precision-item">
+                            <div class="precision-bar-container">
+                                <div class="precision-bar" style="height: 78.82352941176471px; background: #1D4ED8;">
+                                    <span class="precision-value">67</span>
+                                    <span class="precision-pct">(56%)</span>
+                                </div>
+                            </div>
+                            <div class="precision-label">Programmatique</div>
+                        </div>
+                        <div class="precision-item">
+                            <div class="precision-bar-container">
+                                <div class="precision-bar" style="height: 40px; background: #059669;">
+                                    <span class="precision-value">4</span>
+                                    <span class="precision-pct">(3%)</span>
+                                </div>
+                            </div>
+                            <div class="precision-label">Concret</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="index-cards">
+                    <div class="index-card ambition">
+                        <div class="index-value ambition">45%</div>
+                        <div class="index-label">Indice d'ambition</div>
+                        <div class="index-desc">Mesure la concrétude moyenne des propositions. Plus c'est haut, plus les propositions sont précises et opérationnelles.</div>
+                    </div>
+                    <div class="index-card orientation">
+                        <div class="index-value" style="color: #1c1917;">+0.70</div>
+                        <div class="index-label">Orientation stratégique</div>
+                        <div class="index-desc">Posture proactive (renforcer, innover) vs défensive (résister, préserver).</div>
+                        <div class="orientation-gauge">
+                            <div class="gauge-track">
+                                <div class="gauge-marker" style="left: 84.87394957983193%;"></div>
+                            </div>
+                            <div class="gauge-labels">
+                                <span class="gauge-label">Défensif</span>
+                                <span class="gauge-label">Proactif</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Méthodologie : Chaque proposition est annotée selon son domaine, type d'action et niveau de précision. L'indice d'ambition pondère la précision (Concret=100%, Programmatique=60%, Aspirationnel=20%).</p>
+        </footer>
+    </div>
+</body>
+</html>

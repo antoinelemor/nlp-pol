@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paysage de sentiment des acteurs</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 18px;
+        }
+        .title-block {
+            max-width: 1100px;
+        }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 24px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            min-height: 0;
+            height: 100%;
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 22px 26px;
+            flex: 0 0 auto;
+        }
+
+        /* Header row */
+        .header-row {
+            display: flex;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 12px;
+        }
+        .header-row .actor-name { width: 150px; }
+        .header-row .sentiment-bars {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .header-neg { color: #DC2626; font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .header-pos { color: #059669; font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .header-net { width: 72px; text-align: center; font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; margin-left: 16px; }
+        .header-row .count { width: 60px; margin-left: 10px; }
+
+        .actor-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .actor-name {
+            width: 150px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .sentiment-bars {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            height: 20px;
+        }
+        .neg-bar-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            height: 100%;
+        }
+        .neg-bar {
+            background: #DC2626;
+            height: 100%;
+            border-radius: 4px 0 0 4px;
+        }
+        .center-line {
+            width: 3px;
+            height: 100%;
+            background: var(--ink);
+        }
+        .pos-bar-container {
+            flex: 1;
+            height: 100%;
+        }
+        .pos-bar {
+            background: #059669;
+            height: 100%;
+            border-radius: 0 4px 4px 0;
+        }
+        .net-indicator {
+            width: 72px;
+            height: 26px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            margin-left: 16px;
+        }
+        .count {
+            width: 60px;
+            text-align: right;
+            font-size: 15px;
+            color: var(--muted);
+            margin-left: 10px;
+        }
+
+        /* Category panel */
+        .panel-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .cat-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .cat-label {
+            width: 160px;
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .cat-bar-container {
+            flex: 1;
+            height: 35px;
+            background: var(--bg-deep);
+            border-radius: 8px;
+            position: relative;
+        }
+        .cat-center {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--ink);
+        }
+        .cat-bar {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            border-radius: 6px;
+        }
+        .cat-bar-right { left: 50%; }
+        .cat-bar-left { right: 50%; }
+        .cat-value {
+            width: 80px;
+            text-align: right;
+            font-family: 'STIX Two Text', serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Quote panel */
+        .quote-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            min-height: 0;
+        }
+        .quote-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .quote-area.entity-quotes .quote-stack {
+            width: 100%;
+        }
+        .quote-area-label {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+        }
+        .quote-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .quote-area.entity-quotes .quote-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+        .quote-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px 18px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: fit-content;
+            max-width: 520px;
+            position: relative;
+        }
+        .quote-area.entity-quotes .quote-card {
+            width: 100%;
+            max-width: 100%;
+        }
+        .quote-card.quote-pos {
+            border-left: 8px solid #059669;
+        }
+        .quote-card.quote-neg {
+            border-left: 8px solid #DC2626;
+        }
+        .quote-card.quote-empty {
+            border-left: 8px solid var(--line);
+        }
+        .quote-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quote-tag {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: 999px;
+        }
+        .quote-tag.quote-pos {
+            color: #059669;
+            background: rgba(22, 163, 74, 0.12);
+        }
+        .quote-tag.quote-neg {
+            color: #DC2626;
+            background: rgba(220, 38, 38, 0.12);
+        }
+        .quote-tag.quote-empty {
+            color: var(--muted);
+            background: rgba(120, 113, 108, 0.12);
+        }
+        .quote-actor {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            font-family: 'STIX Two Text', serif;
+            font-size: 26px;
+            color: var(--line);
+        }
+        .quote-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title-block">
+                <h1 class="main-title">Paysage de sentiment des acteurs</h1>
+                <p class="subtitle">Qui reçoit quel traitement dans le discours de Macron ?</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="column">
+                <div class="panel actor-panel">
+                    <div class="header-row">
+                        <div class="actor-name"></div>
+                        <div class="sentiment-bars">
+                            <span class="header-neg">NÉGATIF</span>
+                            <span class="header-pos">POSITIF</span>
+                        </div>
+                        <div class="header-net">Score net</div>
+                        <div class="count"></div>
+                    </div>
+                    
+        <div class="actor-row">
+            <div class="actor-name">France</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 2.4096385542168677%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 69.27710843373494%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.67</div>
+            <div class="count">n=166</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Europe/UE</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 4.918032786885246%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 55.73770491803278%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.51</div>
+            <div class="count">n=61</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Ambassadeurs</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 66.66666666666666%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.67</div>
+            <div class="count">n=24</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">États-Unis</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 29.411764705882355%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 23.52941176470588%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #b45309;">-0.06</div>
+            <div class="count">n=17</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Chine</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 41.66666666666667%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 0.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #DC2626;">-0.42</div>
+            <div class="count">n=12</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">G7,</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 10.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #b45309;">+0.10</div>
+            <div class="count">n=10</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Afrique</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 33.33333333333333%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.33</div>
+            <div class="count">n=9</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Ukraine</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 75.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.75</div>
+            <div class="count">n=8</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Inde</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 75.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.75</div>
+            <div class="count">n=8</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">BRICS</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 0.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #b45309;">+0.00</div>
+            <div class="count">n=6</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Paris</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 20.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.20</div>
+            <div class="count">n=5</div>
+        </div>
+        <div class="actor-row">
+            <div class="actor-name">Coalition des volontaires</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 100.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+1.00</div>
+            <div class="count">n=5</div>
+        </div>
+                </div>
+
+                <div class="quote-area entity-quotes">
+                    <div class="quote-stack">
+                        <div class="quote-area-label">Extraits labellisés — entités</div>
+                        <div class="quote-cards">
+                            
+                    <div class="quote-card quote-pos">
+                        <div class="quote-meta">
+                            <span class="quote-tag quote-pos">Positif</span>
+                        </div>
+                        <div class="quote-actor">Partenaires possibles</div>
+                        <div class="quote-text">« Que partout dans les ambassades, vous alliez essayer de trouver les partenaires possibles et qu'on développe vraiment les prospects dans l'industrie de défense. »</div>
+                    </div>
+                    <div class="quote-card quote-neg">
+                        <div class="quote-meta">
+                            <span class="quote-tag quote-neg">Négatif</span>
+                        </div>
+                        <div class="quote-actor">Aggressive powers</div>
+                        <div class="quote-text">« Au fond, dans ce monde en désordre que j'évoquais, face à des puissances très agressives, nous, nous croyons dans la consolidation de partenariats, on l'a plusieurs fois dit. »</div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="panel category-panel">
+                    <div class="panel-title">Synthèse par catégorie</div>
+                    
+        <div class="cat-row">
+            <div class="cat-label">France & Alliés</div>
+            <div class="cat-bar-container">
+                <div class="cat-center"></div>
+                <div class="cat-bar cat-bar-right" style="width: 62.94820717131474%; background: #059669;"></div>
+            </div>
+            <div class="cat-value" style="color: #059669;">+0.63</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-label">Grandes puissances</div>
+            <div class="cat-bar-container">
+                <div class="cat-center"></div>
+                <div class="cat-bar cat-bar-left" style="width: 20.689655172413794%; background: #DC2626;"></div>
+            </div>
+            <div class="cat-value" style="color: #DC2626;">-0.21</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-label">Partenaires</div>
+            <div class="cat-bar-container">
+                <div class="cat-center"></div>
+                <div class="cat-bar cat-bar-right" style="width: 60.0%; background: #059669;"></div>
+            </div>
+            <div class="cat-value" style="color: #059669;">+0.60</div>
+        </div>
+                </div>
+
+                <div class="quote-area summary-quotes">
+                    <div class="quote-stack">
+                        <div class="quote-area-label">Extraits labellisés — synthèse</div>
+                        <div class="quote-cards">
+                            
+                    <div class="quote-card quote-pos">
+                        <div class="quote-meta">
+                            <span class="quote-tag quote-pos">Positif</span>
+                        </div>
+                        <div class="quote-actor">Europe/UE</div>
+                        <div class="quote-text">« En tout cas, nos intérêts technologiques, économiques, stratégiques sont une priorité de notre diplomatie, en Européens, dans le contexte que je viens d'évoquer. Troisième élément, c'est évidemment notre agenda démocratique, intellectuel. »</div>
+                    </div>
+                    <div class="quote-card quote-neg">
+                        <div class="quote-meta">
+                            <span class="quote-tag quote-neg">Négatif</span>
+                        </div>
+                        <div class="quote-actor">Duopoly (two major powers)</div>
+                        <div class="quote-text">« Et au fond, il faut respecter tout le monde et se dire que ceux qui sont un peu écrasés par ce duopole ont envie de retrouver des voies respectueuses qui leur donnent une place. »</div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Méthodologie : Chaque mention d'acteur est annotée avec une valence. Score net = (% positif − % négatif). +1 = toujours positif, −1 = toujours négatif.</p>
+        </footer>
+    </div>
+</body>
+</html>

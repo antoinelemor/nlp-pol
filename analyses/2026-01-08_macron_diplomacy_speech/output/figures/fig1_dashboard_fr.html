@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>La doctrine diplomatique de Macron</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 56px 90px 48px;
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr auto auto;
+            gap: 26px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 18px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .title-block {
+            max-width: 1200px;
+        }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 60px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            margin-top: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Central thesis */
+        .thesis-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .thesis-card {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 10px solid var(--accent);
+            border-radius: 20px;
+            padding: 32px 44px;
+            box-shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+        }
+        .thesis-label {
+            display: inline-block;
+            font-size: 16px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .thesis {
+            font-family: 'STIX Two Text', serif;
+            font-size: 46px;
+            font-weight: 500;
+            color: var(--ink);
+            text-align: left;
+            line-height: 1.25;
+            margin-top: 18px;
+        }
+
+        /* Metrics row */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 20px 22px 18px;
+            box-shadow: 0 10px 24px rgba(31, 27, 22, 0.06);
+            display: flex;
+            flex-direction: column;
+            min-height: 210px;
+        }
+
+        .metric-header {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .metric-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 76px;
+            font-weight: 600;
+            line-height: 1;
+            margin-top: 8px;
+        }
+
+        .metric-label {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .metric-interp {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .metric-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: auto;
+            line-height: 1.3;
+        }
+
+        /* Footer */
+        .methodology {
+            padding-top: 8px;
+        }
+        .methodology-text {
+            font-size: 14px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title-block">
+                <h1 class="main-title">La doctrine diplomatique de Macron</h1>
+                <p class="subtitle">Analyse quantitative de 359 énoncés</p>
+            </div>
+        </header>
+
+        <section class="thesis-section">
+            <div class="thesis-card">
+                <div class="thesis-label">Constat de l'analyse</div>
+                <div class="thesis">Une diplomatie active dans un contexte de tensions : agir malgré l'incertitude</div>
+            </div>
+        </section>
+
+        <section class="metrics-row">
+            
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Vision du monde</div>
+                <div class="metric-interp">très prudente</div>
+            </div>
+            <div class="metric-value" style="color: #b45309;">+0.08</div>
+            <div class="metric-desc">Cadrage menace vs opportunité</div>
+        </div>
+        
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Agentivité</div>
+                <div class="metric-interp">très active</div>
+            </div>
+            <div class="metric-value" style="color: #059669;">85%</div>
+            <div class="metric-desc">Positionnement comme acteur</div>
+        </div>
+        
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Concrétude</div>
+                <div class="metric-interp">moyenne</div>
+            </div>
+            <div class="metric-value" style="color: #b45309;">45%</div>
+            <div class="metric-desc">Précision des propositions</div>
+        </div>
+        
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Tonalité</div>
+                <div class="metric-interp">neutre</div>
+            </div>
+            <div class="metric-value" style="color: #b45309;">-0.01</div>
+            <div class="metric-desc">Registre émotionnel</div>
+        </div>
+        
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Orientation</div>
+                <div class="metric-interp">mixte</div>
+            </div>
+            <div class="metric-value" style="color: #b45309;">43%</div>
+            <div class="metric-desc">Appels à l'action</div>
+        </div>
+        
+        </section>
+
+        <footer class="methodology">
+            <p class="methodology-text">Analyse fondée sur 119 propositions politiques, 560 mentions d'acteurs et 264 cadres géopolitiques.</p>
+        </footer>
+    </div>
+</body>
+</html>

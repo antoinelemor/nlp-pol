@@ -1,0 +1,439 @@
+# Annotation Prompt — Diplomatic Discourse Analysis (Presidential Speeches to Ambassadors)
+
+## Context
+You are annotating sentences from French presidential speeches addressed to ambassadors. These speeches articulate France's diplomatic doctrine, assess the international situation, and position France vis-à-vis other actors and global challenges. Your annotations will be used for computational analysis of diplomatic framing, policy content, and geopolitical positioning.
+
+Annotate each sentence according to the dimensions below. Be precise and consistent. When multiple values apply within a dimension, include all relevant values.
+
+---
+
+## 1. SPEECH ACT (speech_act)
+What is the primary communicative function of this sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `STATING` | Factual description of a situation or state of affairs | "Les États-Unis sont une puissance établie." |
+| `DIAGNOSING` | Causal analysis, interpretation of why something is happening | "Ce qui met à mal aujourd'hui l'économie européenne." |
+| `DENOUNCING` | Explicit or implicit criticism of an actor, behavior, or situation | "Nous subissons une agressivité néocoloniale de certains." |
+| `PROPOSING` | Announcing an action, initiative, policy, or solution | "Nous devons proposer des instruments nouveaux de maintien de la paix." |
+| `EXHORTING` | Call to action, mobilization, rallying | "Ne cédez pas au défaitisme." |
+| `REASSURING` | Valorizing achievements, encouraging, expressing confidence | "Nous avons énormément d'atouts." |
+| `FRAMING` | Meta-commentary on the speech itself or how to interpret the situation | "Ce que je disais l'année dernière reste vrai." |
+| `THANKING` | Expressions of gratitude | "Merci à vous, à vos équipes." |
+| `WARNING` | Alerting to risks, dangers, negative consequences | "C'est le grand risque de l'ordre international." |
+| `REJECTING` | Explicitly refusing a position, option, or course of action | "Ce n'est pas notre intérêt, ce n'est pas le nôtre." |
+| `COMMITTING` | Pledging, promising, expressing determination to act | "Nous voulons être des partenaires forts." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 2. GEOPOLITICAL FRAME (geopolitical_frame)
+What interpretive frame structures the representation of the international situation?
+
+### THREAT FRAMES (negative/pessimistic worldview)
+| Value | Definition | Example |
+|-------|------------|---------|
+| `DISORDER` | World in disarray, loss of bearings, chaos, dysregulation | "Nous sommes dans un monde qui se dérègle." |
+| `POWER_POLITICS` | Law of the strongest, competition between powers, brute force | "Face à ceux qui voudraient voir revenir la loi du plus fort." |
+| `MULTILATERAL_DECLINE` | Crisis of international institutions, weakening cooperation | "Les instances du multilatéralisme fonctionnent de moins en moins bien." |
+| `EXISTENTIAL_THREAT` | Risk for Europe/France, danger of marginalization or effacement | "Ce risque d'effacement que certains voient venir." |
+| `RECOLONIZATION` | New imperialism, neo-colonial dynamics, predatory behavior | "Il y a aujourd'hui un processus, pour certains assumé, de recolonisation." |
+| `FRAGMENTATION` | Division of the world, blocs, spheres of influence | "Une vraie tentation de se partager le monde." |
+| `BRUTALIZATION` | Increasing violence, aggression, loss of civility in international relations | "L'accélération de la brutalisation du monde." |
+| `VASSALIZATION` | Subordination, loss of autonomy, dependency on great powers | "Le choix de la vassalisation heureuse." |
+| `REACTIONARY_INTERNATIONAL` | Coordination of illiberal/reactionary forces across borders | "L'internationale réactionnaire." |
+
+### OPPORTUNITY FRAMES (positive/optimistic worldview)
+| Value | Definition | Example |
+|-------|------------|---------|
+| `OPPORTUNITY` | Propitious moment for action, window of opportunity | "Ce moment doit être une opportunité pour nous." |
+| `RESILIENCE` | Strengths and assets to mobilize, capacity to resist | "Nous sommes bien plus forts que beaucoup ne le croient." |
+| `COOPERATION` | Cooperative dynamics, partnership, joint action, working together | "Nous pouvons travailler ensemble sur ces défis." |
+| `MULTILATERAL_RENEWAL` | Strengthening of international institutions, renewed cooperation | "Nous pouvons refonder le multilatéralisme." |
+| `PROGRESS` | Advancement, improvement, positive evolution, gains achieved | "Nous avons fait des progrès considérables." |
+| `SOLIDARITY` | Collective support, shared burden, alliance strength, unity | "La solidarité européenne a été au rendez-vous." |
+| `LEADERSHIP_OPPORTUNITY` | Chance for France/Europe to lead, fill vacuum, set agenda | "C'est le moment pour l'Europe de prendre l'initiative." |
+| `STRATEGIC_ADVANTAGE` | Favorable positioning, competitive strengths, assets to leverage | "Nous avons des atouts que d'autres n'ont pas." |
+| `REFORM_MOMENTUM` | Window for positive institutional change, reform opportunity | "Ce contexte crée une opportunité de réforme." |
+
+### OTHER
+| Value | Definition | Example |
+|-------|------------|---------|
+| `NONE` | Sentence without explicit geopolitical framing | "Je voulais vous livrer ce matin quelques convictions." |
+
+**Multiple values allowed:** Yes (max 3)
+
+---
+
+## 3. ACTORS MENTIONED (actors)
+List all actors mentioned (explicitly or implicitly) with their mention type and valence.
+
+### Mention types
+- `EXPLICIT`: Actor named directly ("Les États-Unis", "La Chine", "La Russie")
+- `IMPLICIT`: Actor referenced indirectly without naming ("certains", "le premier actionnaire", "ceux qui")
+- `METONYMIC`: Actor referenced through associated entity ("Washington", "Pékin", "le Kremlin", "l'Élysée")
+
+### Valence
+- `POSITIVE`: Presented favorably, as ally, partner, or model
+- `NEGATIVE`: Presented unfavorably, criticized, as threat or adversary
+- `NEUTRAL`: Mentioned without evaluative stance
+- `AMBIGUOUS`: Mixed or unclear evaluation
+
+### Common actors to identify
+**States:** France, États-Unis, Chine, Russie, Iran, Allemagne, Ukraine, Canada, Taïwan, Liban, Palestine, Israel
+**Regions:** Europe/UE, Afrique, Indo-Pacifique, Moyen-Orient
+**Groupings:** G7, BRICS, pays émergents, Occident/Occidentaux, Sud global
+**Institutions:** ONU, FINUL, AFD, NATO/OTAN
+**Domestic:** Ambassadeurs, gouvernement français, opinion publique française
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "La Chine est une puissance toujours montante, qui témoigne d'une agressivité commerciale de plus en plus désinhibée." | `{"actor": "Chine", "mention_type": "EXPLICIT", "valence": "NEGATIVE"}` |
+| "Le premier actionnaire n'y croit plus." | `{"actor": "États-Unis", "mention_type": "IMPLICIT", "valence": "NEGATIVE"}` |
+| "Nous avons défendu la FINUL qui joue un rôle clé au Liban." | `[{"actor": "France", "mention_type": "EXPLICIT", "valence": "POSITIVE"}, {"actor": "FINUL", "mention_type": "EXPLICIT", "valence": "POSITIVE"}, {"actor": "Liban", "mention_type": "EXPLICIT", "valence": "NEUTRAL"}]` |
+| "Face à ceux qui voudraient voir revenir la loi du plus fort." | `{"actor": "Revisionist powers", "mention_type": "IMPLICIT", "valence": "NEGATIVE"}` |
+| "Avec tous les grands pays qui voudront le faire avec nous." | `{"actor": "Reform-minded countries", "mention_type": "IMPLICIT", "valence": "POSITIVE"}` |
+
+**Return empty list if no actors mentioned.**
+
+---
+
+## 4. FRANCE POSITIONING (france_positioning)
+How is France positioned in this sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `ACTIVE_AGENT` | France acts, proposes, builds, leads, takes initiative | "La France peut prendre l'initiative de la réforme." |
+| `REACTIVE_AGENT` | France responds, resists, defends against external forces | "Nous refusons la vassalisation." |
+| `VICTIM` | France suffers, is threatened, targeted, subjected to something | "Nous subissons des discours anticoloniaux." |
+| `MODEL` | France as example, reference, standard-bearer, exceptional | "La France fait partie des rares États qui peuvent le dire." |
+| `PARTNER` | France in collective/cooperative logic with others | "Avec les pays du G7 qui voudront y participer." |
+| `LEADER` | France explicitly leading, at the forefront, showing the way | "Être les acteurs et prendre l'initiative." |
+| `RELIABLE_ALLY` | France as trustworthy, keeping commitments, dependable | "La France tient sa parole." |
+| `POWER` | France as significant force, capable, strong | "Nous avons une indépendance stratégique militaire bien supérieure." |
+| `NOT_APPLICABLE` | Sentence does not position France | "Le monde se dérègle." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 5. EMOTIONAL REGISTER (emotional_register)
+What emotional tonality dominates?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `ALARMIST` | Urgency, danger, gravity, warning | "C'est le grand risque de l'ordre international." |
+| `COMBATIVE` | Determination, resistance, fighting spirit, resolve | "On doit être dans l'accélération de notre agenda." |
+| `CONFIDENT` | Optimism, assurance, certainty, pride | "Nous avons énormément d'atouts dans celui-ci." |
+| `INDIGNANT` | Anger, moral condemnation, outrage | "Cette politique est l'objet d'attaques indignes." |
+| `PRAGMATIC` | Factual, operational, matter-of-fact, realistic | "Il faut peut-être bousculer quelques-unes de nos habitudes." |
+| `SOLEMN` | Institutional gravity, ceremonial weight, formality | "Vive la République et vive la France." |
+| `DEFIANT` | Challenging, refusing to submit, assertive resistance | "Je ne peux pas m'habituer à ce qu'on est en train de vivre." |
+| `GRATEFUL` | Thankfulness, appreciation, recognition | "Merci tout particulièrement aux ambassadrices et ambassadeurs." |
+| `EXASPERATED` | Frustration, impatience with situation or critics | "On n'est pas là pour commenter, on est là pour agir." |
+| `NEUTRAL` | No salient emotional marker | "J'ai eu trois tables rondes." |
+
+**Single value only.**
+
+---
+
+## 6. TEMPORALITY (temporality)
+What temporal orientation characterizes the sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `PAST_ACHIEVEMENT` | Reference to what has been accomplished | "Nous avons posé ces dernières années tous les jalons." |
+| `PAST_DIAGNOSIS` | Reference to past analysis that remains valid | "Ce que j'ai dit l'année dernière reste totalement valide." |
+| `PRESENT_CRISIS` | Diagnosis of current situation, ongoing problems | "Nous sommes dans un moment très difficile." |
+| `PRESENT_OBSERVATION` | Description of current state without crisis framing | "Les États-Unis sont une puissance établie." |
+| `FUTURE_ACTION` | Projection, program, what must be done | "Nous devons nous réinvestir." |
+| `FUTURE_RISK` | Warning about future dangers if action not taken | "Ce serait la fragmentation du monde." |
+| `CONTINUITY` | Link between periods, constancy, persistence over time | "Ce que j'ai dit l'année dernière reste totalement valide." |
+| `RUPTURE` | Change, discontinuity, break, acceleration | "L'accélération de la brutalisation du monde." |
+| `ATEMPORAL` | General statement without temporal anchoring, principle | "La France tient sa parole." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 7. IMPLICIT REFERENCES (implicit_references)
+Does the sentence contain implicit references to events, actors, or situations not explicitly named?
+
+### When present = true, identify:
+- **reference_target**: What/who is being implicitly referenced
+- **reference_type**: `EVENT` | `ACTOR` | `POLICY` | `STATEMENT` | `CONCEPT`
+- **confidence**: `HIGH` | `MEDIUM` | `LOW`
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "Chaque jour, les gens se demandent si le Groenland va être envahi." | `{"present": true, "targets": [{"reference_target": "Trump threats on Greenland/Denmark", "reference_type": "STATEMENT", "confidence": "HIGH"}]}` |
+| "Si le Canada sera soumis à la menace de devenir le 51e État." | `{"present": true, "targets": [{"reference_target": "Trump statements on Canada annexation", "reference_type": "STATEMENT", "confidence": "HIGH"}]}` |
+| "Le premier actionnaire n'y croit plus." | `{"present": true, "targets": [{"reference_target": "United States as top UN contributor", "reference_type": "ACTOR", "confidence": "HIGH"}]}` |
+| "L'internationale réactionnaire." | `{"present": true, "targets": [{"reference_target": "Global coordination of right-wing populist movements", "reference_type": "CONCEPT", "confidence": "HIGH"}]}` |
+| "Ce qu'on a fait avec la coalition des volontaires." | `{"present": true, "targets": [{"reference_target": "Ukraine military support coalition", "reference_type": "POLICY", "confidence": "HIGH"}]}` |
+| "Nous avons réussi à faire beaucoup." | `{"present": false, "targets": []}` |
+
+---
+
+## 8. POLICY CONTENT (policy_content)
+Does the sentence contain a proposal, action, initiative, or solution?
+
+### 8a. present (boolean)
+`true` if the sentence contains identifiable policy content, `false` otherwise.
+
+### 8b. domain (if present = true)
+Thematic domain of the policy. Use the most specific applicable domain.
+
+**Defense & Security**
+| Value | Definition |
+|-------|------------|
+| `DEFENSE_MILITARY` | Military capabilities, defense industry, armed forces, rearmament |
+| `STRATEGIC_AUTONOMY` | Independence from great powers, non-dependence, sovereign capacity |
+| `PEACEKEEPING_OPERATIONS` | UN peacekeeping, FINUL, stabilization missions, blue helmets |
+| `NUCLEAR_DETERRENCE` | Nuclear weapons, deterrence policy, arms control |
+| `DEFENSE_INDUSTRY` | Arms production, defense industrial base, exports |
+
+**Economic & Development**
+| Value | Definition |
+|-------|------------|
+| `DEVELOPMENT_AID` | ODA, AFD, development financing, solidarity investments |
+| `TRADE_POLICY` | Commercial policy, tariffs, trade agreements, WTO |
+| `ECONOMIC_PARTNERSHIPS` | Economic cooperation, investment, private sector engagement |
+| `DEVELOPMENT_FINANCE_REFORM` | Reform of development finance institutions, innovative financing |
+| `SANCTIONS_POLICY` | Economic sanctions, restrictive measures |
+
+**International Governance**
+| Value | Definition |
+|-------|------------|
+| `UN_REFORM` | Reform of UN system, Security Council, General Assembly |
+| `SECURITY_COUNCIL` | UNSC specifically, veto, permanent membership |
+| `MULTILATERAL_INSTITUTIONS` | G7, G20, other multilateral forums |
+| `GLOBAL_GOVERNANCE_ARCHITECTURE` | Overall international order, rules-based system |
+| `INTERNATIONAL_LAW` | International legal norms, sovereignty, territorial integrity |
+
+**European Affairs**
+| Value | Definition |
+|-------|------------|
+| `EUROPEAN_INTEGRATION` | EU policies, institutions, deepening integration |
+| `EUROPEAN_SOVEREIGNTY` | European strategic autonomy, independence from US/China |
+| `EUROPEAN_DEFENSE` | EU defense policy, European army, PESCO |
+| `EUROPEAN_ECONOMY` | EU economic policy, competitiveness, industrial policy |
+
+**Regional & Bilateral**
+| Value | Definition |
+|-------|------------|
+| `AFRICA_RELATIONS` | France-Africa policy, summits, partnerships |
+| `EMERGING_POWERS_RELATIONS` | Relations with BRICS, Global South, rising powers |
+| `TRANSATLANTIC_RELATIONS` | US-France, US-Europe relations, NATO |
+| `INDO_PACIFIC_POLICY` | Indo-Pacific strategy, China policy, Taiwan |
+| `MIDDLE_EAST_POLICY` | Lebanon, Palestine, Israel, Iran, Gulf |
+| `UKRAINE_SUPPORT` | Military/economic/diplomatic support to Ukraine |
+| `RUSSIA_POLICY` | Approach to Russia, containment, dialogue |
+
+**Cross-cutting**
+| Value | Definition |
+|-------|------------|
+| `INFORMATION_WARFARE` | Disinformation, cyber, foreign interference, hybrid threats |
+| `SCIENCE_TECHNOLOGY` | Tech policy, AI, digital sovereignty, research |
+| `CULTURAL_INFLUENCE` | Soft power, francophonie, cultural diplomacy |
+| `COUNTER_NEOCOLONIALISM` | Countering neo-colonial narratives/practices |
+| `DIPLOMATIC_METHOD` | Diplomatic approach, style, principles of engagement |
+| `ALLIANCE_MANAGEMENT` | Managing relations with allies, burden-sharing |
+| `CLIMATE_ENVIRONMENT` | Climate diplomacy, environmental policy |
+
+### 8c. action_type (if present = true)
+What type of action is proposed?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `INSTITUTIONAL_REFORM` | Changing existing rules, structures, governance | "Réformer la gouvernance des grands acteurs" |
+| `NEW_INITIATIVE` | Creating something new, launching initiative | "Proposer des instruments nouveaux" |
+| `REINFORCEMENT` | Intensifying, accelerating existing efforts | "Redoubler d'efforts" |
+| `COALITION_BUILDING` | Building alliances, partnerships, coalitions | "Avec tous les grands pays qui voudront le faire" |
+| `RESISTANCE` | Opposing, blocking, refusing, rejecting | "Refuser la vassalisation" |
+| `STRATEGIC_REPOSITIONING` | Changing posture, reorienting approach | "Assumer un discours de puissance" |
+| `ENGAGEMENT` | Investing in, committing to, participating | "Réinvestir l'ONU" |
+| `DEFENSE_OF_EXISTING` | Protecting, maintaining current policies/institutions | "Défendre nos intérêts" |
+| `INNOVATION` | New methods, approaches, creative solutions | "Solutions plus innovantes" |
+
+### 8d. specificity
+How concrete is the proposal?
+
+| Value | Definition |
+|-------|------------|
+| `CONCRETE` | Specific, actionable, identifiable measure |
+| `PROGRAMMATIC` | General direction with some specificity |
+| `ASPIRATIONAL` | Broad goal or principle without concrete measures |
+
+### 8e. summary (if present = true)
+Short extraction (< 25 words) summarizing the proposal/action in English.
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "Proposer de retravailler avec les organisations régionales des nouvelles structures de maintien de la paix." | `{"present": true, "domain": "PEACEKEEPING_OPERATIONS", "action_type": "NEW_INITIATIVE", "specificity": "PROGRAMMATIC", "summary": "Develop new peacekeeping structures in partnership with regional organizations"}` |
+| "On doit repenser les mécanismes, de faire davantage avec le secteur privé." | `{"present": true, "domain": "DEVELOPMENT_FINANCE_REFORM", "action_type": "INSTITUTIONAL_REFORM", "specificity": "PROGRAMMATIC", "summary": "Reform development aid mechanisms to increase private sector involvement"}` |
+| "Réinvestir pleinement l'Organisation des Nations unies." | `{"present": true, "domain": "UN_REFORM", "action_type": "ENGAGEMENT", "specificity": "ASPIRATIONAL", "summary": "Fully re-engage with the United Nations system"}` |
+| "Le monde se dérègle." | `{"present": false, "domain": null, "action_type": null, "specificity": null, "summary": null}` |
+
+---
+
+## 9. ISSUE STANCES (issue_stances)
+What substantive position does the sentence express on specific issues or actors?
+
+### stance_type
+| Value | Definition |
+|-------|------------|
+| `CRITICISM` | Negative evaluation, opposition, denunciation |
+| `SUPPORT` | Positive evaluation, endorsement, defense |
+| `AMBIVALENT` | Mixed or nuanced position |
+| `DISTANCING` | Rejection, refusal to align, differentiation |
+| `CALL_FOR_ACTION` | Urging action on the issue |
+| `DEFENSE` | Defending against criticism, justifying |
+| `CONDITIONAL_SUPPORT` | Support with conditions or caveats |
+| `REFRAMING` | Challenging how an issue is typically framed |
+
+### explicit (boolean)
+`true` if the stance is stated directly, `false` if inferred from context.
+
+### Key issues to monitor
+
+**Actors/Countries:**
+- United States (general, Trump administration, as ally)
+- China (economic, military, systemic rival)
+- Russia (Ukraine, interference, threat)
+- Iran
+- European Union / Europe
+- Africa (relations, summit, development)
+- BRICS / Emerging powers
+- United Nations
+
+**Policy Issues:**
+- Multilateralism / International order
+- Strategic autonomy
+- Development aid (French policy, international)
+- Ukraine conflict / support
+- Colonialism / Neo-colonialism discourse
+- Vassalization (to US)
+- French diplomatic identity
+- European sovereignty
+- Global governance reform
+- Trade policy / Commercial aggression
+
+**Concepts/Frames:**
+- Law of the strongest / Might makes right
+- Moral impotence
+- Reactionary international
+- World fragmentation
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "La Chine témoigne d'une agressivité commerciale de plus en plus désinhibée, et qui met à mal aujourd'hui l'économie européenne." | `[{"issue": "China economic policy", "stance_type": "CRITICISM", "stance_content": "Denounces increasingly aggressive trade practices harming European economy", "explicit": true}]` |
+| "Je défends cette politique qui est l'objet d'attaques indignes et contraires aux intérêts mêmes de la France." | `[{"issue": "French development aid policy", "stance_type": "DEFENSE", "stance_content": "Defends ODA against domestic critics deemed harmful to French interests", "explicit": true}]` |
+| "Le choix de la vassalisation heureuse, ce n'est pas le nôtre." | `[{"issue": "Alignment with United States", "stance_type": "DISTANCING", "stance_content": "Rejects subordination to US leadership as contrary to French values", "explicit": true}]` |
+| "Nous refusons le nouveau colonialisme et le nouvel impérialisme." | `[{"issue": "Neo-colonialism", "stance_type": "CRITICISM", "stance_content": "Rejects new forms of colonialism and imperialism by other powers", "explicit": true}, {"issue": "French diplomatic identity", "stance_type": "REFRAMING", "stance_content": "Positions France as opponent rather than perpetrator of colonialism", "explicit": true}]` |
+| "Le premier actionnaire n'y croit plus." | `[{"issue": "US commitment to UN", "stance_type": "CRITICISM", "stance_content": "Criticizes American disengagement from multilateral system", "explicit": false}]` |
+| "Il y a un choix qui pourrait être tentant, qui est le choix moral, de dire on n'y peut plus rien, mais on va continuer de dire ce qui est bon. C'est le choix de l'impuissance." | `[{"issue": "Moral impotence option", "stance_type": "CRITICISM", "stance_content": "Rejects stance of moral commentary without action as impotent", "explicit": true}]` |
+
+**Return empty list if no stance expressed.**
+
+---
+
+## 10. RHETORICAL DEVICES (rhetorical_devices)
+What notable rhetorical strategies are employed?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `BINARY_OPPOSITION` | Presenting two contrasting options/paths | "Ni vassalisation, ni impuissance morale" |
+| `HISTORICAL_CONTINUITY` | Linking to past French diplomatic tradition | "Nous avons une culture stratégique qui est là" |
+| `EXCEPTIONALISM` | France as unique, special, different from others | "La France fait partie des rares États" |
+| `COLLECTIVE_IDENTITY` | Invoking shared French/European identity | "Nous, Français et Européens" |
+| `REVERSAL` | Turning criticism back, reframing accusation | "Nous subissons des discours anticoloniaux... nous subissons une agressivité néocoloniale" |
+| `ENUMERATION` | Listing multiple items for emphasis | "Puissance militaire, technologique, économique, scientifique" |
+| `DIRECT_ADDRESS` | Speaking directly to ambassadors | "Soyez fiers de ce que vous avez fait" |
+| `RHETORICAL_QUESTION` | Question used for effect, not answer | (if applicable) |
+| `METAPHOR` | Figurative language, imagery | "Un pays de vestales d'un ordre, d'un temple qu'on est en train de laisser disparaître" |
+| `IRONY_SARCASM` | Mocking, sardonic tone | "On serait drôle de ne pas le faire" |
+| `MINIMIZATION` | Downplaying, understating | "Ceci n'est pas un discours" |
+| `AMPLIFICATION` | Emphasizing, intensifying | "Accélération de la brutalisation" |
+| `APPEAL_TO_VALUES` | Invoking principles, values | "Les valeurs de la France et de l'Europe" |
+| `SELF_CORRECTION` | Adjusting or qualifying previous statement | "En tout cas beaucoup plus court que les années précédentes" |
+| `TEMPORAL_CONTRAST` | Contrasting past and present/future | "Les règles d'hier sont de plus en plus fragilisées" |
+| `NONE` | No notable rhetorical device | Simple declarative statements |
+
+**Multiple values allowed:** Yes (max 3)
+
+---
+
+## Annotation Guidelines
+
+1. **Be exhaustive for actors and stances**: Capture all actors mentioned and all positions expressed, even secondary ones.
+
+2. **Distinguish explicit from implicit**: Use the `explicit` field carefully. "Les États-Unis se détournent de leurs alliés" is explicit. "Le premier actionnaire n'y croit plus" referring to the US is implicit.
+
+3. **Policy content requires actionable substance**: Mere statements of principle ("nous croyons au multilatéralisme") are not policy content unless they specify an action or proposal.
+
+4. **Valence vs. stance**: `actors.valence` is a simple +/- evaluation. `issue_stances.stance_content` captures the substance of the position.
+
+5. **Specificity matters for policy**: Distinguish between concrete proposals ("create new peacekeeping structures with regional organizations") and aspirational goals ("defend multilateralism").
+
+6. **Domain precision**: Use the most specific domain applicable. "Reform UN Security Council" is `SECURITY_COUNCIL`, not just `UN_REFORM`.
+
+7. **When uncertain**: Prefer the more conservative annotation. If a frame is weakly present, do not include it.
+
+8. **Empty values**: Use empty lists `[]` for actors, issue_stances, and rhetorical_devices when none apply. Use `null` for optional string/object fields when not applicable.
+
+9. **Implicit references**: Be attentive to contemporary events being referenced without naming (Trump policies, specific crises, recent summits).
+
+10. **Stance content brevity**: Keep stance_content under 15 words. Capture the essence, not the full nuance.
+
+---
+
+**Expected JSON Keys:**
+
+```json
+{
+  "speech_act": ["<STATING|DIAGNOSING|DENOUNCING|PROPOSING|EXHORTING|REASSURING|FRAMING|THANKING|WARNING|REJECTING|COMMITTING>"],
+  "geopolitical_frame": ["<DISORDER|POWER_POLITICS|MULTILATERAL_DECLINE|EXISTENTIAL_THREAT|RECOLONIZATION|FRAGMENTATION|BRUTALIZATION|VASSALIZATION|REACTIONARY_INTERNATIONAL|OPPORTUNITY|RESILIENCE|COOPERATION|MULTILATERAL_RENEWAL|PROGRESS|SOLIDARITY|LEADERSHIP_OPPORTUNITY|STRATEGIC_ADVANTAGE|REFORM_MOMENTUM|NONE>"],
+  "actors": [
+    {
+      "actor": "<string>",
+      "mention_type": "<EXPLICIT|IMPLICIT|METONYMIC>",
+      "valence": "<POSITIVE|NEGATIVE|NEUTRAL|AMBIGUOUS>"
+    }
+  ],
+  "france_positioning": ["<ACTIVE_AGENT|REACTIVE_AGENT|VICTIM|MODEL|PARTNER|LEADER|RELIABLE_ALLY|POWER|NOT_APPLICABLE>"],
+  "emotional_register": "<ALARMIST|COMBATIVE|CONFIDENT|INDIGNANT|PRAGMATIC|SOLEMN|DEFIANT|GRATEFUL|EXASPERATED|NEUTRAL>",
+  "temporality": ["<PAST_ACHIEVEMENT|PAST_DIAGNOSIS|PRESENT_CRISIS|PRESENT_OBSERVATION|FUTURE_ACTION|FUTURE_RISK|CONTINUITY|RUPTURE|ATEMPORAL>"],
+  "implicit_references": {
+    "present": "<boolean>",
+    "targets": [
+      {
+        "reference_target": "<string>",
+        "reference_type": "<EVENT|ACTOR|POLICY|STATEMENT|CONCEPT>",
+        "confidence": "<HIGH|MEDIUM|LOW>"
+      }
+    ]
+  },
+  "policy_content": {
+    "present": "<boolean>",
+    "domain": "<DEFENSE_MILITARY|STRATEGIC_AUTONOMY|PEACEKEEPING_OPERATIONS|NUCLEAR_DETERRENCE|DEFENSE_INDUSTRY|DEVELOPMENT_AID|TRADE_POLICY|ECONOMIC_PARTNERSHIPS|DEVELOPMENT_FINANCE_REFORM|SANCTIONS_POLICY|UN_REFORM|SECURITY_COUNCIL|MULTILATERAL_INSTITUTIONS|GLOBAL_GOVERNANCE_ARCHITECTURE|INTERNATIONAL_LAW|EUROPEAN_INTEGRATION|EUROPEAN_SOVEREIGNTY|EUROPEAN_DEFENSE|EUROPEAN_ECONOMY|AFRICA_RELATIONS|EMERGING_POWERS_RELATIONS|TRANSATLANTIC_RELATIONS|INDO_PACIFIC_POLICY|MIDDLE_EAST_POLICY|UKRAINE_SUPPORT|RUSSIA_POLICY|INFORMATION_WARFARE|SCIENCE_TECHNOLOGY|CULTURAL_INFLUENCE|COUNTER_NEOCOLONIALISM|DIPLOMATIC_METHOD|ALLIANCE_MANAGEMENT|CLIMATE_ENVIRONMENT|null>",
+    "action_type": "<INSTITUTIONAL_REFORM|NEW_INITIATIVE|REINFORCEMENT|COALITION_BUILDING|RESISTANCE|STRATEGIC_REPOSITIONING|ENGAGEMENT|DEFENSE_OF_EXISTING|INNOVATION|null>",
+    "specificity": "<CONCRETE|PROGRAMMATIC|ASPIRATIONAL|null>",
+    "summary": "<string|null>"
+  },
+  "issue_stances": [
+    {
+      "issue": "<string>",
+      "stance_type": "<CRITICISM|SUPPORT|AMBIVALENT|DISTANCING|CALL_FOR_ACTION|DEFENSE|CONDITIONAL_SUPPORT|REFRAMING>",
+      "stance_content": "<string, max 15 words>",
+      "explicit": "<boolean>"
+    }
+  ],
+  "rhetorical_devices": ["<BINARY_OPPOSITION|HISTORICAL_CONTINUITY|EXCEPTIONALISM|COLLECTIVE_IDENTITY|REVERSAL|ENUMERATION|DIRECT_ADDRESS|RHETORICAL_QUESTION|METAPHOR|IRONY_SARCASM|MINIMIZATION|AMPLIFICATION|APPEAL_TO_VALUES|SELF_CORRECTION|TEMPORAL_CONTRAST|NONE>"]
+}
+```

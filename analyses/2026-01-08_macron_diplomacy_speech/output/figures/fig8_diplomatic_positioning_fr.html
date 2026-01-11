@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Positionnement diplomatique : nous vs eux</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Index display */
+        .index-box {
+            text-align: center;
+            padding: 18px 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 10px solid #059669;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+        .index-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 60px;
+            font-weight: 700;
+            color: #059669;
+            line-height: 1;
+        }
+        .index-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .index-interp {
+            font-size: 15px;
+            color: #059669;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .key-insight {
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: rgba(124, 58, 237, 0.15);
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #7C3AED;
+            letter-spacing: 0.06em;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Group cards */
+        .group-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-color-bar {
+            height: 6px;
+        }
+        .group-content {
+            padding: 18px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .group-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .group-total {
+            font-size: 14px;
+            color: var(--muted);
+        }
+        .group-score {
+            font-family: 'STIX Two Text', serif;
+            font-size: 44px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* Valence bar */
+        .valence-bar {
+            display: flex;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .valence-segment.pos { background: #059669; }
+        .valence-segment.neu { background: #d6d3d1; }
+        .valence-segment.neg { background: #DC2626; }
+        .valence-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+        .v-pos { color: #059669; font-weight: 600; }
+        .v-neg { color: #DC2626; font-weight: 600; }
+
+        /* Entities list */
+        .entities-list {
+            border-top: 1px solid var(--line);
+            padding-top: 12px;
+            margin-top: auto;
+        }
+        .entity-row {
+            display: flex;
+            align-items: center;
+            padding: 6px 0;
+        }
+        .entity-name {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .entity-count {
+            font-size: 13px;
+            color: var(--muted);
+            margin-right: 12px;
+        }
+        .entity-score {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .excerpt-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .excerpt-label {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .quote-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quote-card.quote-pos { border-left: 8px solid #059669; }
+        .quote-card.quote-neg { border-left: 8px solid #DC2626; }
+        .quote-card.quote-neu { border-left: 8px solid var(--line); }
+        .quote-card.quote-empty { border-left: 8px solid var(--line); }
+        .quote-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .quote-kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-actor {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+
+        /* Description */
+        .description {
+            margin-top: 10px;
+            padding: 16px 24px;
+            background: var(--card);
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            border-left: 8px solid #0055A4;
+            box-shadow: var(--shadow-soft);
+        }
+        .description-text {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Positionnement diplomatique : nous vs eux</h1>
+                <p class="subtitle">Comment Macron cadre-t-il la France par rapport aux autres acteurs internationaux ?</p>
+            </div>
+            <div class="index-box">
+                <div class="index-value">+0.55</div>
+                <div class="index-label">Indice de cadrage</div>
+                <div class="index-interp">Très favorable au 'nous'</div>
+                <div class="key-insight">Grandes puissances particulièrement ciblées</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            
+        <div class="group-card">
+            <div class="group-color-bar" style="background: #0055A4;"></div>
+            <div class="group-content">
+                <div class="group-header">
+                    <span class="group-label">Nous (France & Europe)</span>
+                    <span class="group-total">226 mentions</span>
+                </div>
+                <div class="group-score" style="color: #059669;">+0.71</div>
+                <div class="valence-bar">
+                    <div class="valence-segment pos" style="width: 71.68141592920354%;"></div>
+                    <div class="valence-segment neu" style="width: 27.43362831858407%;"></div>
+                    <div class="valence-segment neg" style="width: 0.8849557522123894%;"></div>
+                </div>
+                <div class="valence-legend">
+                    <span class="v-pos">Positif: 162</span>
+                    <span class="v-neg">Négatif: 2</span>
+                </div>
+                <div class="entities-list">
+            <div class="entity-row">
+                <span class="entity-name">France</span>
+                <span class="entity-count">146</span>
+                <span class="entity-score" style="color: #059669;">+0.73</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Europe/UE</span>
+                <span class="entity-count">47</span>
+                <span class="entity-score" style="color: #059669;">+0.57</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Ambassadeurs</span>
+                <span class="entity-count">24</span>
+                <span class="entity-score" style="color: #059669;">+0.67</span>
+            </div></div>
+            </div>
+        </div>
+        <div class="group-card">
+            <div class="group-color-bar" style="background: #059669;"></div>
+            <div class="group-content">
+                <div class="group-header">
+                    <span class="group-label">Alliés proches</span>
+                    <span class="group-total">24 mentions</span>
+                </div>
+                <div class="group-score" style="color: #059669;">+0.71</div>
+                <div class="valence-bar">
+                    <div class="valence-segment pos" style="width: 70.83333333333334%;"></div>
+                    <div class="valence-segment neu" style="width: 29.166666666666668%;"></div>
+                    <div class="valence-segment neg" style="width: 0.0%;"></div>
+                </div>
+                <div class="valence-legend">
+                    <span class="v-pos">Positif: 17</span>
+                    <span class="v-neg">Négatif: 0</span>
+                </div>
+                <div class="entities-list">
+            <div class="entity-row">
+                <span class="entity-name">Inde</span>
+                <span class="entity-count">8</span>
+                <span class="entity-score" style="color: #059669;">+0.75</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Ukraine</span>
+                <span class="entity-count">8</span>
+                <span class="entity-score" style="color: #059669;">+0.75</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Canada</span>
+                <span class="entity-count">4</span>
+                <span class="entity-score" style="color: #059669;">+0.75</span>
+            </div></div>
+            </div>
+        </div>
+        <div class="group-card">
+            <div class="group-color-bar" style="background: #7C3AED;"></div>
+            <div class="group-content">
+                <div class="group-header">
+                    <span class="group-label">Grandes puissances</span>
+                    <span class="group-total">23 mentions</span>
+                </div>
+                <div class="group-score" style="color: #DC2626;">-0.39</div>
+                <div class="valence-bar">
+                    <div class="valence-segment pos" style="width: 13.043478260869565%;"></div>
+                    <div class="valence-segment neu" style="width: 34.78260869565217%;"></div>
+                    <div class="valence-segment neg" style="width: 52.17391304347826%;"></div>
+                </div>
+                <div class="valence-legend">
+                    <span class="v-pos">Positif: 3</span>
+                    <span class="v-neg">Négatif: 12</span>
+                </div>
+                <div class="entities-list">
+            <div class="entity-row">
+                <span class="entity-name">États-Unis</span>
+                <span class="entity-count">15</span>
+                <span class="entity-score" style="color: #78716c;">-0.13</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Chine</span>
+                <span class="entity-count">12</span>
+                <span class="entity-score" style="color: #DC2626;">-0.42</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">Russie</span>
+                <span class="entity-count">2</span>
+                <span class="entity-score" style="color: #DC2626;">-1.00</span>
+            </div></div>
+            </div>
+        </div>
+        <div class="group-card">
+            <div class="group-color-bar" style="background: #D97706;"></div>
+            <div class="group-content">
+                <div class="group-header">
+                    <span class="group-label">Sud global</span>
+                    <span class="group-total">15 mentions</span>
+                </div>
+                <div class="group-score" style="color: #059669;">+0.20</div>
+                <div class="valence-bar">
+                    <div class="valence-segment pos" style="width: 20.0%;"></div>
+                    <div class="valence-segment neu" style="width: 80.0%;"></div>
+                    <div class="valence-segment neg" style="width: 0.0%;"></div>
+                </div>
+                <div class="valence-legend">
+                    <span class="v-pos">Positif: 3</span>
+                    <span class="v-neg">Négatif: 0</span>
+                </div>
+                <div class="entities-list">
+            <div class="entity-row">
+                <span class="entity-name">Afrique</span>
+                <span class="entity-count">9</span>
+                <span class="entity-score" style="color: #059669;">+0.33</span>
+            </div>
+            <div class="entity-row">
+                <span class="entity-name">BRICS</span>
+                <span class="entity-count">6</span>
+                <span class="entity-score" style="color: #78716c;">+0.00</span>
+            </div></div>
+            </div>
+        </div>
+        </div>
+
+        <div class="excerpt-section">
+            <div class="excerpt-label">Extraits labellisés</div>
+            <div class="quote-cards">
+                
+            <div class="quote-card quote-neg">
+                <div class="quote-meta">
+                    <span class="quote-label">Grandes puissances</span>
+                </div>
+                <div class="quote-actor">Chine</div>
+                <div class="quote-text">« Et là, on a un double problème : l'agressivité chinoise et les tarifs américains »</div>
+            </div>
+            <div class="quote-card quote-neu">
+                <div class="quote-meta">
+                    <span class="quote-label">Sud global</span>
+                </div>
+                <div class="quote-actor">Afrique</div>
+                <div class="quote-text">« Je vous demande de le relayer dans toutes les ambassades en Afrique et ailleurs. »</div>
+            </div>
+            <div class="quote-card quote-pos">
+                <div class="quote-meta">
+                    <span class="quote-label">Nous (France & Europe)</span>
+                </div>
+                <div class="quote-actor">France</div>
+                <div class="quote-text">« Il ne correspond pas ni aux intérêts, ni aux valeurs de la France et de l'Europe. »</div>
+            </div>
+            <div class="quote-card quote-neu">
+                <div class="quote-meta">
+                    <span class="quote-label">Alliés proches</span>
+                </div>
+                <div class="quote-actor">Inde</div>
+                <div class="quote-text">« - et c'est pour ça aussi que vous êtes là, Monsieur le ministre, et je vous en remercie, l'Inde assumant la présidence des BRICS »</div>
+            </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <p class="description-text">Mesure le contraste entre le cadrage positif du 'nous' (France, Europe, alliés) et celui des puissances extérieures.</p>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Méthodologie : Chaque mention d'acteur est annotée avec une valence (positif/neutre/négatif). Score = (positif − négatif) / total mentions.</p>
+        </footer>
+    </div>
+</body>
+</html>

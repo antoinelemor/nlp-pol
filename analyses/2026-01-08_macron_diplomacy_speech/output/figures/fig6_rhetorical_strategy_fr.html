@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>La stratégie rhétorique de Macron</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .title-block {
+            max-width: 1200px;
+        }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Index box */
+        .index-box {
+            text-align: center;
+            padding: 18px 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 10px solid #1D4ED8;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+        .index-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 700;
+            color: #1D4ED8;
+            line-height: 1;
+        }
+        .index-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .index-interp {
+            font-size: 14px;
+            color: #1D4ED8;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            flex: 0 0 auto;
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 22px 26px;
+            display: flex;
+            flex-direction: column;
+        }
+        .section-header { margin-bottom: 12px; }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .radar-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .radar-svg {
+            width: 380px;
+            height: 380px;
+        }
+
+        .emo-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .emo-label {
+            width: 140px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .emo-track {
+            flex: 1;
+            height: 28px;
+            background: var(--bg-deep);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .emo-fill {
+            height: 100%;
+            border-radius: 8px;
+        }
+        .emo-value {
+            width: 100px;
+            text-align: right;
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-left: 12px;
+        }
+        .emo-pct {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .quotes-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .quote-area-label {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+        }
+        .quote-card {
+            background: var(--card);
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            padding: 14px 16px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quote-card.quote-empty {
+            border-left: 8px solid var(--line);
+        }
+        .quote-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .quote-kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title-block">
+                <h1 class="main-title">La stratégie rhétorique de Macron</h1>
+                <p class="subtitle">Actes de langage et registre émotionnel : que fait Macron avec ses mots ?</p>
+            </div>
+            <div class="index-box">
+                <div class="index-value">43%</div>
+                <div class="index-label">Orientation action</div>
+                <div class="index-interp">Mixte</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="panel">
+                <div class="section-header">
+                    <div class="section-title">Profil des actes de langage</div>
+                    <div class="section-desc">Ce que Macron fait avec ses énoncés : décrire, proposer, dénoncer, exhorter...</div>
+                </div>
+                <div class="radar-container">
+                    <svg viewBox="0 0 440 440" class="radar-svg">
+                        <circle cx="220" cy="220" r="35.0" fill="none" stroke="#e7e5e4" stroke-width="1"/><circle cx="220" cy="220" r="70.0" fill="none" stroke="#e7e5e4" stroke-width="1"/><circle cx="220" cy="220" r="105.0" fill="none" stroke="#e7e5e4" stroke-width="1"/><circle cx="220" cy="220" r="140.0" fill="none" stroke="#e7e5e4" stroke-width="1"/>
+                        <line x1="220" y1="220" x2="220.0" y2="80.0" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="309.9902653561155" y2="112.75377796334308" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="357.8730854217091" y2="195.68925512662975" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="341.24355652982143" y2="290.0" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="267.88282006559365" y2="351.5569669100272" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="172.11717993440638" y2="351.5569669100272" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="98.75644347017861" y2="290.00000000000006" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="82.12691457829087" y2="195.6892551266298" stroke="#e7e5e4" stroke-width="1"/><line x1="220" y1="220" x2="130.00973464388449" y2="112.7537779633431" stroke="#e7e5e4" stroke-width="1"/>
+                        <polygon points="220.0,122.38532110091742 278.61751229618534,150.14236913208586 288.30409736488343,207.9561447416331 341.24355652982143,290.0 249.43255912288782,300.86529158689746 209.45699374702525,248.966671613217 179.95625655895807,243.1192660550459 180.78838854978915,213.08593494427086 163.03368523328467,152.11018971991444" fill="#1D4ED8" fill-opacity="0.2" stroke="#1D4ED8" stroke-width="2.5"/>
+                        <text x="220.0" y="30.0" text-anchor="middle" font-size="13" font-weight="500" fill="#44403c">Proposition</text><text x="220.0" y="45.0" text-anchor="middle" font-size="12" font-weight="700" fill="#1D4ED8">76</text><text x="342.1296458404425" y="74.45155580739419" text-anchor="start" font-size="13" font-weight="500" fill="#44403c">Exhortation</text><text x="342.1296458404425" y="89.45155580739419" text-anchor="start" font-size="12" font-weight="700" fill="#1D4ED8">71</text><text x="407.1134730723195" y="187.00684624328323" text-anchor="start" font-size="13" font-weight="500" fill="#44403c">Diagnostic</text><text x="407.1134730723195" y="202.00684624328323" text-anchor="start" font-size="12" font-weight="700" fill="#1D4ED8">54</text><text x="384.5448267190434" y="315.0" text-anchor="start" font-size="13" font-weight="500" fill="#44403c">Constat</text><text x="384.5448267190434" y="330.0" text-anchor="start" font-size="12" font-weight="700" fill="#1D4ED8">109</text><text x="284.98382723187706" y="398.5415979493226" text-anchor="start" font-size="13" font-weight="500" fill="#44403c">Rassurer</text><text x="284.98382723187706" y="413.5415979493226" text-anchor="start" font-size="12" font-weight="700" fill="#1D4ED8">67</text><text x="155.01617276812294" y="398.54159794932264" text-anchor="end" font-size="13" font-weight="500" fill="#44403c">Dénonciation</text><text x="155.01617276812294" y="413.54159794932264" text-anchor="end" font-size="12" font-weight="700" fill="#1D4ED8">24</text><text x="55.4551732809567" y="315.00000000000006" text-anchor="end" font-size="13" font-weight="500" fill="#44403c">Mise en garde</text><text x="55.4551732809567" y="330.00000000000006" text-anchor="end" font-size="12" font-weight="700" fill="#1D4ED8">36</text><text x="32.88652692768045" y="187.0068462432833" text-anchor="end" font-size="13" font-weight="500" fill="#44403c">Engagement</text><text x="32.88652692768045" y="202.0068462432833" text-anchor="end" font-size="12" font-weight="700" fill="#1D4ED8">31</text><text x="97.8703541595575" y="74.45155580739419" text-anchor="end" font-size="13" font-weight="500" fill="#44403c">Cadrage</text><text x="97.8703541595575" y="89.45155580739419" text-anchor="end" font-size="12" font-weight="700" fill="#1D4ED8">69</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-header">
+                    <div class="section-title">Registre émotionnel</div>
+                    <div class="section-desc">Le ton général du discours : pragmatique, solennel, combatif...</div>
+                </div>
+                
+        <div class="emo-row">
+            <div class="emo-label">Pragmatique</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 100.0%; background: #6B7280;"></div>
+            </div>
+            <div class="emo-value">107 <span class="emo-pct">(30%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Confiant</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 70.09345794392523%; background: #059669;"></div>
+            </div>
+            <div class="emo-value">75 <span class="emo-pct">(21%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Neutre</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 62.616822429906534%; background: #9CA3AF;"></div>
+            </div>
+            <div class="emo-value">67 <span class="emo-pct">(19%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Combatif</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 38.31775700934579%; background: #EA580C;"></div>
+            </div>
+            <div class="emo-value">41 <span class="emo-pct">(11%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Alarmiste</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 24.299065420560748%; background: #DC2626;"></div>
+            </div>
+            <div class="emo-value">26 <span class="emo-pct">(7%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Reconnaissant</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 11.214953271028037%; background: #10B981;"></div>
+            </div>
+            <div class="emo-value">12 <span class="emo-pct">(3%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Exaspéré</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 11.214953271028037%; background: #F97316;"></div>
+            </div>
+            <div class="emo-value">12 <span class="emo-pct">(3%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Défiant</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 8.411214953271028%; background: #9333EA;"></div>
+            </div>
+            <div class="emo-value">9 <span class="emo-pct">(3%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Solennel</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 3.7383177570093453%; background: #1F2937;"></div>
+            </div>
+            <div class="emo-value">4 <span class="emo-pct">(1%)</span></div>
+        </div>
+        <div class="emo-row">
+            <div class="emo-label">Indigné</div>
+            <div class="emo-track">
+                <div class="emo-fill" style="width: 4.672897196261682%; background: #BE185D;"></div>
+            </div>
+            <div class="emo-value">5 <span class="emo-pct">(1%)</span></div>
+        </div>
+            </div>
+        </div>
+
+        <div class="quotes-section">
+            <div class="quote-area-label">Extraits labellisés</div>
+            <div class="quote-cards">
+                
+                <div class="quote-card">
+                    <div class="quote-meta">
+                        <span class="quote-kicker">Extraits labellisés</span>
+                        <span class="quote-label">Acte: Exhortation</span>
+                    </div>
+                    <div class="quote-text">« Que partout dans les ambassades, vous alliez essayer de trouver les partenaires possibles et qu'on développe vraiment les prospects dans l'industrie de défense. »</div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-meta">
+                        <span class="quote-kicker">Extraits labellisés</span>
+                        <span class="quote-label">Acte: Constat</span>
+                    </div>
+                    <div class="quote-text">« En tout cas, nos intérêts technologiques, économiques, stratégiques sont une priorité de notre diplomatie, en Européens, dans le contexte que je viens d'évoquer. »</div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-meta">
+                        <span class="quote-kicker">Extraits labellisés</span>
+                        <span class="quote-label">Acte: Constat</span>
+                    </div>
+                    <div class="quote-text">« La réalité, c'est que même notre partenaire allemand qui a formidablement réussi ces dernières années, depuis cette année, est en déficit commercial avec la Chine. »</div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-meta">
+                        <span class="quote-kicker">Extraits labellisés</span>
+                        <span class="quote-label">Acte: Constat</span>
+                    </div>
+                    <div class="quote-text">« Surtout, on a construit, là aussi, des alliances pour les aires marines protégées, pour protéger les fonds marins et donc pour consolider ce fameux traité dit BBNJ. »</div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Méthodologie : Les actes de langage révèlent l'intention communicative. Le registre émotionnel caractérise le ton dominant de chaque segment.</p>
+        </footer>
+    </div>
+</body>
+</html>

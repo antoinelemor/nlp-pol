@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>France's Self-Image: Agency Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Gauge box */
+        .gauge-box {
+            text-align: center;
+            padding: 18px 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 10px solid #1D4ED8;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+        .gauge-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 60px;
+            font-weight: 700;
+            color: #1D4ED8;
+            line-height: 1;
+        }
+        .gauge-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .gauge-interp {
+            font-size: 15px;
+            color: #1D4ED8;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Panel */
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 22px 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .section-header { margin-bottom: 14px; }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .pos-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .pos-label {
+            width: 170px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .pos-track {
+            flex: 1;
+            height: 26px;
+            background: var(--bg-deep);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .pos-fill {
+            height: 100%;
+            border-radius: 8px;
+        }
+        .pos-value {
+            width: 100px;
+            text-align: right;
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-left: 12px;
+        }
+        .pos-pct {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        /* Category bars */
+        .cat-grid {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+        }
+        .cat-col {
+            flex: 1;
+            text-align: center;
+        }
+        .cat-bar-wrapper {
+            height: 140px;
+            background: var(--bg-deep);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .cat-bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+        }
+        .cat-info {
+            margin-top: 10px;
+        }
+        .cat-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .cat-pct {
+            font-size: 16px;
+            color: var(--muted);
+            margin-left: 4px;
+        }
+        .cat-label {
+            margin-top: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+        .cat-summary {
+            margin-top: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .quote-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .quote-area-label {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .quote-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quote-card.quote-active { border-left: 8px solid #1D4ED8; }
+        .quote-card.quote-cooperative { border-left: 8px solid #059669; }
+        .quote-card.quote-reactive { border-left: 8px solid #D97706; }
+        .quote-card.quote-empty { border-left: 8px solid var(--line); }
+        .quote-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .quote-kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">France's Self-Image: Agency Profile</h1>
+                <p class="subtitle">How does Macron position France on the international stage?</p>
+            </div>
+            <div class="gauge-box">
+                <div class="gauge-value">85%</div>
+                <div class="gauge-label">Agency Index</div>
+                <div class="gauge-interp">Highly Active</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="panel">
+                <div class="section-header">
+                    <div class="section-title">Positioning Types</div>
+                    <div class="section-desc">How France presents itself: active agent, leader, partner, model...</div>
+                </div>
+                
+        <div class="pos-row">
+            <div class="pos-label">Active Agent</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 100.0%; background: #2563EB;"></div>
+            </div>
+            <div class="pos-value">139 <span class="pos-pct">(46%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Partner</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 51.07913669064749%; background: #10B981;"></div>
+            </div>
+            <div class="pos-value">71 <span class="pos-pct">(23%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Reactive Agent</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 17.985611510791365%; background: #F59E0B;"></div>
+            </div>
+            <div class="pos-value">25 <span class="pos-pct">(8%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Leader</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 17.985611510791365%; background: #0055A4;"></div>
+            </div>
+            <div class="pos-value">25 <span class="pos-pct">(8%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Power</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 10.79136690647482%; background: #1E3A8A;"></div>
+            </div>
+            <div class="pos-value">15 <span class="pos-pct">(5%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Model/Exemplar</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 10.071942446043165%; background: #8B5CF6;"></div>
+            </div>
+            <div class="pos-value">14 <span class="pos-pct">(5%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Reliable Ally</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 5.0359712230215825%; background: #059669;"></div>
+            </div>
+            <div class="pos-value">7 <span class="pos-pct">(2%)</span></div>
+        </div>
+        <div class="pos-row">
+            <div class="pos-label">Victim</div>
+            <div class="pos-track">
+                <div class="pos-fill" style="width: 5.755395683453238%; background: #DC2626;"></div>
+            </div>
+            <div class="pos-value">8 <span class="pos-pct">(3%)</span></div>
+        </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-header">
+                    <div class="section-title">By agency level</div>
+                    <div class="section-desc">Distribution of stances across leadership, cooperation, and reactivity.</div>
+                </div>
+                <div class="cat-grid">
+                    
+        <div class="cat-col">
+            <div class="cat-bar-wrapper">
+                <div class="cat-bar" style="height: 100.0%; background: #1D4ED8;"></div>
+            </div>
+            <div class="cat-info">
+                <span class="cat-value">193</span>
+                <span class="cat-pct">(63%)</span>
+            </div>
+            <div class="cat-label">Active / Leading</div>
+        </div>
+        <div class="cat-col">
+            <div class="cat-bar-wrapper">
+                <div class="cat-bar" style="height: 40.41450777202073%; background: #059669;"></div>
+            </div>
+            <div class="cat-info">
+                <span class="cat-value">78</span>
+                <span class="cat-pct">(26%)</span>
+            </div>
+            <div class="cat-label">Cooperative</div>
+        </div>
+        <div class="cat-col">
+            <div class="cat-bar-wrapper">
+                <div class="cat-bar" style="height: 17.098445595854923%; background: #D97706;"></div>
+            </div>
+            <div class="cat-info">
+                <span class="cat-value">33</span>
+                <span class="cat-pct">(11%)</span>
+            </div>
+            <div class="cat-label">Reactive / Defensive</div>
+        </div>
+                </div>
+                <div class="cat-summary">Dominant: Active / Leading (63%)</div>
+            </div>
+        </div>
+
+        <div class="quote-area">
+            <div class="quote-area-label">Labeled excerpts</div>
+            <div class="quote-cards">
+                
+            <div class="quote-card quote-active">
+                <div class="quote-meta">
+                    <span class="quote-label">Active / Leading</span>
+                </div>
+                <div class="quote-text">« Que partout dans les ambassades, vous alliez essayer de trouver les partenaires possibles et qu'on développe vraiment les prospects dans l'industrie de défense. »</div>
+            </div>
+            <div class="quote-card quote-cooperative">
+                <div class="quote-meta">
+                    <span class="quote-label">Cooperative</span>
+                </div>
+                <div class="quote-text">« La réalité, c'est que même notre partenaire allemand qui a formidablement réussi ces dernières années, depuis cette année, est en déficit commercial avec la Chine. »</div>
+            </div>
+            <div class="quote-card quote-active">
+                <div class="quote-meta">
+                    <span class="quote-label">Active / Leading</span>
+                </div>
+                <div class="quote-text">« En tout cas, nos intérêts technologiques, économiques, stratégiques sont une priorité de notre diplomatie, en Européens, dans le contexte que je viens d'évoquer. »</div>
+            </div>
+            <div class="quote-card quote-active">
+                <div class="quote-meta">
+                    <span class="quote-label">Active / Leading</span>
+                </div>
+                <div class="quote-text">« Surtout, on a construit, là aussi, des alliances pour les aires marines protégées, pour protéger les fonds marins et donc pour consolider ce fameux traité dit BBNJ. »</div>
+            </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Index = Active×100% + Cooperative×70% + Reactive×30%. France is positioned as an active agent in most statements.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Macron's Worldview</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(15, 118, 110, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 18px;
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 0.7fr;
+            gap: 24px;
+            flex: 1;
+            min-height: 0;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            min-height: 0;
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 22px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .value-card {
+            padding: 18px 22px;
+        }
+        .panel-threat { border-left: 8px solid #DC2626; }
+        .panel-opp { border-left: 8px solid #059669; }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .panel-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .panel-title.threat { color: #DC2626; }
+        .panel-title.opp { color: #059669; }
+        .panel-count {
+            font-size: 17px;
+            color: var(--muted);
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .bar-row:last-child {
+            margin-bottom: 0;
+        }
+        .bar-label {
+            width: 180px;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .bar-track {
+            flex: 1;
+            height: 24px;
+            background: var(--bg-deep);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 8px;
+        }
+        .bar-pct {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .bar-count {
+            width: 70px;
+            text-align: right;
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-left: 12px;
+        }
+
+        .quote-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            flex: 1;
+            min-height: 0;
+            align-items: center;
+            justify-content: center;
+        }
+        .quote-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .quote-area-label {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+        }
+        .quote-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+        .quote-card {
+            background: var(--card);
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            padding: 16px 18px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+            width: fit-content;
+            max-width: 100%;
+            align-self: center;
+        }
+        .quote-card.quote-threat {
+            border-left: 8px solid #DC2626;
+        }
+        .quote-card.quote-opp {
+            border-left: 8px solid #059669;
+        }
+        .quote-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .quote-theme {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-frame {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .quote-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 19px;
+            line-height: 1.55;
+            color: var(--ink);
+            max-width: 620px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .quote-text.quote-empty {
+            color: var(--muted);
+        }
+
+        /* Balance bar */
+        .insight-column {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .insight-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .insight-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 18px 22px;
+        }
+
+        .index-card {
+            border-left: 10px solid #F59E0B;
+        }
+
+        .index-kicker {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .index-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 60px;
+            font-weight: 700;
+            color: #F59E0B;
+            line-height: 1;
+            margin-top: 10px;
+        }
+
+        .index-label {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .index-interp {
+            font-size: 17px;
+            color: #F59E0B;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .index-meta {
+            font-size: 16px;
+            color: var(--muted);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .balance-card {
+        }
+
+        .balance-bar {
+            display: flex;
+            height: 48px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .balance-threat {
+            background: #DC2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+        }
+        .balance-opp {
+            background: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+        }
+        .balance-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .balance-labels .threat { color: #DC2626; }
+        .balance-labels .opp { color: #059669; }
+
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 32px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Macron's Worldview</h1>
+                <p class="subtitle">Threat vs opportunity framing: how does Macron perceive the international situation?</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="column">
+                <div class="panel value-card panel-threat">
+                    <div class="panel-header">
+                        <span class="panel-title threat">Threat Frames</span>
+                        <span class="panel-count">n = 103</span>
+                    </div>
+                    
+        <div class="bar-row">
+            <div class="bar-label">Power Politics</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 39.80582524271845%; background: #B91C1C;"></div>
+                <span class="bar-pct">40%</span>
+            </div>
+            <div class="bar-count">n=41</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">World Disorder</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 16.50485436893204%; background: #DC2626;"></div>
+                <span class="bar-pct">17%</span>
+            </div>
+            <div class="bar-count">n=17</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Multilateral Decline</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 11.650485436893204%; background: #F97316;"></div>
+                <span class="bar-pct">12%</span>
+            </div>
+            <div class="bar-count">n=12</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Fragmentation</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 10.679611650485436%; background: #E11D48;"></div>
+                <span class="bar-pct">11%</span>
+            </div>
+            <div class="bar-count">n=11</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Vassalization</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 6.796116504854369%; background: #6D28D9;"></div>
+                <span class="bar-pct">7%</span>
+            </div>
+            <div class="bar-count">n=7</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Brutalization</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 5.825242718446602%; background: #991B1B;"></div>
+                <span class="bar-pct">6%</span>
+            </div>
+            <div class="bar-count">n=6</div>
+        </div>
+                </div>
+                <div class="quote-area">
+                    <div class="quote-stack">
+                        <div class="quote-area-label">Labeled excerpts</div>
+                        <div class="quote-cards">
+                            
+                <div class="quote-card quote-threat">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Threat</span>
+                        <span class="quote-frame">Power Politics</span>
+                    </div>
+                    <div class="quote-text">“ La réalité, c'est que même notre partenaire allemand qui a formidablement réussi ces dernières années, depuis cette année, est en déficit commercial avec la Chine. ”</div>
+                </div>
+                <div class="quote-card quote-threat">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Threat</span>
+                        <span class="quote-frame">World Disorder</span>
+                    </div>
+                    <div class="quote-text">“ Au fond, le rapport DRAGHI que nous n'avons pas tout à fait appliqué, il est déjà caduc, pour partie, parce qu'il n'avait pas pris en compte cette accélération du monde. ”</div>
+                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="panel value-card panel-opp">
+                    <div class="panel-header">
+                        <span class="panel-title opp">Opportunity Frames</span>
+                        <span class="panel-count">n = 157</span>
+                    </div>
+                    
+        <div class="bar-row">
+            <div class="bar-label">Cooperation</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 36.94267515923567%; background: #10B981;"></div>
+                <span class="bar-pct">37%</span>
+            </div>
+            <div class="bar-count">n=58</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Resilience</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 19.10828025477707%; background: #0D9488;"></div>
+                <span class="bar-pct">19%</span>
+            </div>
+            <div class="bar-count">n=30</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Progress</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 9.554140127388536%; background: #22C55E;"></div>
+                <span class="bar-pct">10%</span>
+            </div>
+            <div class="bar-count">n=15</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Leadership Opportunity</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 8.9171974522293%; background: #2563EB;"></div>
+                <span class="bar-pct">9%</span>
+            </div>
+            <div class="bar-count">n=14</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Opportunity</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 7.006369426751593%; background: #059669;"></div>
+                <span class="bar-pct">7%</span>
+            </div>
+            <div class="bar-count">n=11</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">Multilateral Renewal</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: 6.369426751592357%; background: #0891B2;"></div>
+                <span class="bar-pct">6%</span>
+            </div>
+            <div class="bar-count">n=10</div>
+        </div>
+                </div>
+                <div class="quote-area">
+                    <div class="quote-stack">
+                        <div class="quote-area-label">Labeled excerpts</div>
+                        <div class="quote-cards">
+                            
+                <div class="quote-card quote-opp">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Opportunity</span>
+                        <span class="quote-frame">Cooperation</span>
+                    </div>
+                    <div class="quote-text">“ Surtout, on a construit, là aussi, des alliances pour les aires marines protégées, pour protéger les fonds marins et donc pour consolider ce fameux traité dit BBNJ. Donc, il y a un chemin pour le multilatéralisme. ”</div>
+                </div>
+                <div class="quote-card quote-opp">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Opportunity</span>
+                        <span class="quote-frame">Cooperation</span>
+                    </div>
+                    <div class="quote-text">“ Le Bouclier démocratique européen que prépare la Commission européenne aussi, et nous continuerons, en France, de prendre des initiatives sur cet agenda qui est clé. Je ne veux pas aller plus loin, mais vous le comprenez donc, le premier axe, c'est vraiment celui de nos intérêts sécuritaires et militaires, économiques, technologiques, et donc démocratiques et intellectuelles. ”</div>
+                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column insight-column">
+                <div class="insight-stack">
+                    <div class="insight-card index-card">
+                        <div class="index-kicker">Index</div>
+                        <div class="index-value">+0.08</div>
+                        <div class="index-label">Worldview Index</div>
+                        <div class="index-interp">Cautious view</div>
+                        <div class="index-meta">Threat Frames: 103 (40%) · Opportunity Frames: 157 (60%)</div>
+                    </div>
+
+                    <div class="insight-card balance-card">
+                        <div class="index-kicker">Threat/opportunity balance</div>
+                        <div class="balance-bar">
+                            <div class="balance-threat" style="width: 39.61538461538461%;">40%</div>
+                            <div class="balance-opp" style="width: 60.38461538461538%;">60%</div>
+                        </div>
+                        <div class="balance-labels">
+                            <span class="threat">THREAT (103)</span>
+                            <span class="opp">OPPORTUNITY (157)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-area">
+                    <div class="quote-stack">
+                        <div class="quote-area-label">Labeled excerpts — key</div>
+                        <div class="quote-cards">
+                            
+                <div class="quote-card quote-threat">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Threat</span>
+                        <span class="quote-frame">Power Politics</span>
+                    </div>
+                    <div class="quote-text">“ La réalité, c'est que même notre partenaire allemand qui a formidablement réussi ces dernières années, depuis cette année, est en déficit commercial avec la Chine. ”</div>
+                </div>
+                <div class="quote-card quote-opp">
+                    <div class="quote-meta">
+                        <span class="quote-theme">Opportunity</span>
+                        <span class="quote-frame">Cooperation</span>
+                    </div>
+                    <div class="quote-text">“ Surtout, on a construit, là aussi, des alliances pour les aires marines protégées, pour protéger les fonds marins et donc pour consolider ce fameux traité dit BBNJ. Donc, il y a un chemin pour le multilatéralisme. ”</div>
+                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Index = w_frame × (Opportunity − Threat) / Total + w_tone × Emotional tone index. Weights follow annotation coverage (w_frame=0.42, w_tone=0.58; N_frame=260, N_tone=358).</p>
+        </footer>
+    </div>
+</body>
+</html>

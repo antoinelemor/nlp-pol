@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Evolution of the Speech: Key Moments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Source Serif 4', Georgia, serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-section {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .main-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 44px;
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+            margin: 0 0 8px 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        .bottom-section .legend {
+            position: static;
+            margin: 0;
+        }
+
+        .infographic-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+        }
+
+        .timeline-container {
+            position: absolute;
+            top: 310px;
+            left: 20px;
+            width: 1880px;
+            height: 340px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 0;
+            overflow: visible;
+        }
+
+        .timeline-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .timeline-container {
+            z-index: 10;
+        }
+
+        .connectors-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        .markers-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .bubble {
+            z-index: 30;
+            position: absolute;
+            width: 450px;
+            max-height: 260px;
+            overflow: hidden;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .bubble.positive {
+            background: #D1FAE5;
+            border-color: #059669;
+        }
+
+        .bubble.negative {
+            background: #FEE2E2;
+            border-color: #DC2626;
+        }
+
+        .bubble-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tone-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .act-badge {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            color: #475569;
+            padding: 3px 10px;
+            background: rgba(0,0,0,0.06);
+            border-radius: 12px;
+        }
+
+        .position {
+            margin-left: auto;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .bubble-text {
+            font-size: 15px;
+            line-height: 1.45;
+            color: #1e293b;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .zone-label {
+            position: absolute;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .zone-label.positive {
+            color: #059669;
+            top: 335px;
+            right: 50px;
+        }
+
+        .zone-label.negative {
+            color: #DC2626;
+            top: 605px;
+            right: 50px;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #64748b;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="infographic-container">
+        <!-- Connectors SVG layer -->
+        <svg class="connectors-layer" viewBox="0 0 1920 1080">
+            
+    <defs>
+        <linearGradient id="grad_neg_0" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 150.25069637883007 596.667248075476 C 150.25069637883007 715.833624037738, 245.0 763.5001744226428, 245.0 835.0"
+          fill="none" stroke="url(#grad_neg_0)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_neg_1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1674.4846796657382 557.0037615153648 C 1674.4846796657382 696.0018807576823, 717.0 751.6011284546095, 717.0 835.0"
+          fill="none" stroke="url(#grad_neg_1)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_neg_2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 741.8941504178273 551.3375491496347 C 741.8941504178273 693.1687745748173, 1189.0 749.9012647448905, 1189.0 835.0"
+          fill="none" stroke="url(#grad_neg_2)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_neg_3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1208.1894150417827 545.6713367839045 C 1208.1894150417827 690.3356683919523, 1661.0 748.2014010351713, 1661.0 835.0"
+          fill="none" stroke="url(#grad_neg_3)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_pos_0" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 466.1281337047354 364.35254108053874 C 466.1281337047354 272.17627054026934, 245.0 235.3057623241616, 245.0 180.0"
+          fill="none" stroke="url(#grad_pos_0)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_pos_1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 987.5766016713092 375.6849658119991 C 987.5766016713092 277.84248290599953, 717.0 238.70548974359974, 717.0 180.0"
+          fill="none" stroke="url(#grad_pos_1)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_pos_2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1358.6072423398327 381.35117817772937 C 1358.6072423398327 280.6755890888647, 1189.0 240.4053534533188, 1189.0 180.0"
+          fill="none" stroke="url(#grad_pos_2)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <defs>
+        <linearGradient id="grad_pos_3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1839.9442896935932 397.720236123172 C 1839.9442896935932 288.86011806158604, 1661.0 245.3160708369516, 1661.0 180.0"
+          fill="none" stroke="url(#grad_pos_3)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Timeline graph -->
+        <div class="timeline-container">
+            <svg viewBox="0 0 1880 340" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background zones -->
+    <rect x="40" y="20" width="1800" height="130.67815129795179"
+          fill="#D1FAE5" opacity="0.5"/>
+    <rect x="40" y="150.67815129795179" width="1800" height="169.32184870204821"
+          fill="#FEE2E2" opacity="0.5"/>
+
+    <!-- Zero line -->
+    <line x1="40" y1="150.67815129795179" x2="1840" y2="150.67815129795179"
+          stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="5,5"/>
+
+    <!-- Positive fill -->
+    <path d="M 40.0 150.7 L 40.0 116.7 L 44.5 122.0 L 49.0 125.3 L 53.5 130.0 L 58.0 123.0 L 62.5 119.9 L 67.0 122.3 L 71.5 124.3 L 76.0 126.8 L 80.5 123.3 L 85.0 144.7 L 89.5 144.2 L 94.0 150.7 L 98.5 150.7 L 103.0 150.7 L 107.5 150.7 L 112.0 150.7 L 116.5 150.7 L 121.0 150.7 L 125.5 150.7 L 130.0 150.7 L 134.5 150.7 L 139.0 150.7 L 143.5 150.7 L 148.0 150.7 L 152.5 150.7 L 157.0 150.7 L 161.5 150.7 L 166.0 150.7 L 170.5 150.7 L 175.0 150.7 L 179.5 150.7 L 184.0 150.7 L 188.5 150.7 L 193.0 150.7 L 197.5 150.7 L 202.0 150.7 L 206.5 150.7 L 211.0 150.7 L 215.4 150.7 L 219.9 150.7 L 224.4 150.7 L 228.9 150.7 L 233.4 150.7 L 237.9 125.0 L 242.4 133.5 L 246.9 150.7 L 251.4 150.7 L 255.9 150.7 L 260.4 139.8 L 264.9 138.9 L 269.4 139.4 L 273.9 141.6 L 278.4 150.7 L 282.9 150.7 L 287.4 150.7 L 291.9 150.7 L 296.4 150.7 L 300.9 150.7 L 305.4 150.7 L 309.9 150.7 L 314.4 150.7 L 318.9 150.7 L 323.4 130.7 L 327.9 131.6 L 332.4 150.7 L 336.9 150.7 L 341.4 150.7 L 345.9 150.7 L 350.4 150.7 L 354.9 150.4 L 359.4 150.7 L 363.9 145.4 L 368.4 150.7 L 372.9 150.7 L 377.4 150.7 L 381.9 142.0 L 386.4 133.2 L 390.9 139.0 L 395.4 150.7 L 399.9 149.2 L 404.4 143.3 L 408.9 146.2 L 413.4 141.3 L 417.9 126.2 L 422.4 116.3 L 426.9 114.6 L 431.4 99.2 L 435.9 99.9 L 440.4 82.0 L 444.9 54.6 L 449.4 76.1 L 453.9 91.7 L 458.4 88.1 L 462.9 86.0 L 467.4 84.6 L 471.9 102.8 L 476.4 116.8 L 480.9 116.2 L 485.4 130.7 L 489.9 143.7 L 494.4 150.7 L 498.9 150.7 L 503.4 150.7 L 507.9 150.7 L 512.4 150.7 L 516.9 150.7 L 521.4 150.7 L 525.9 150.7 L 530.4 150.7 L 534.9 150.7 L 539.4 150.7 L 543.9 150.7 L 548.4 150.7 L 552.9 150.7 L 557.4 150.7 L 561.9 150.7 L 566.3 150.7 L 570.8 150.7 L 575.3 150.7 L 579.8 150.7 L 584.3 150.7 L 588.8 150.7 L 593.3 150.7 L 597.8 150.7 L 602.3 150.7 L 606.8 150.7 L 611.3 150.7 L 615.8 150.7 L 620.3 150.3 L 624.8 148.7 L 629.3 150.7 L 633.8 150.7 L 638.3 150.1 L 642.8 150.7 L 647.3 150.7 L 651.8 150.7 L 656.3 150.7 L 660.8 150.7 L 665.3 150.7 L 669.8 150.7 L 674.3 150.7 L 678.8 150.7 L 683.3 150.7 L 687.8 150.7 L 692.3 150.7 L 696.8 150.7 L 701.3 150.7 L 705.8 150.7 L 710.3 150.7 L 714.8 150.7 L 719.3 150.7 L 723.8 150.7 L 728.3 150.7 L 732.8 150.7 L 737.3 150.7 L 741.8 150.7 L 746.3 150.7 L 750.8 150.7 L 755.3 150.7 L 759.8 150.7 L 764.3 150.7 L 768.8 130.9 L 773.3 124.1 L 777.8 142.5 L 782.3 150.7 L 786.8 150.7 L 791.3 150.7 L 795.8 150.7 L 800.3 150.7 L 804.8 150.7 L 809.3 150.7 L 813.8 150.7 L 818.3 150.7 L 822.8 150.7 L 827.3 150.7 L 831.8 150.7 L 836.3 150.7 L 840.8 150.7 L 845.3 150.7 L 849.8 150.7 L 854.3 150.7 L 858.8 150.7 L 863.3 150.7 L 867.8 148.8 L 872.3 133.7 L 876.8 149.6 L 881.3 139.3 L 885.8 119.9 L 890.3 116.4 L 894.8 114.2 L 899.3 110.8 L 903.8 109.9 L 908.3 113.9 L 912.8 127.8 L 917.2 111.4 L 921.7 112.7 L 926.2 84.8 L 930.7 72.7 L 935.2 87.0 L 939.7 97.0 L 944.2 88.8 L 948.7 85.1 L 953.2 101.4 L 957.7 99.3 L 962.2 84.1 L 966.7 66.8 L 971.2 74.5 L 975.7 106.2 L 980.2 120.1 L 984.7 113.9 L 989.2 123.1 L 993.7 131.9 L 998.2 115.8 L 1002.7 116.6 L 1007.2 101.1 L 1011.7 97.6 L 1016.2 111.8 L 1020.7 120.5 L 1025.2 105.7 L 1029.7 105.7 L 1034.2 114.7 L 1038.7 97.1 L 1043.2 101.0 L 1047.7 116.5 L 1052.2 121.2 L 1056.7 136.2 L 1061.2 140.5 L 1065.7 139.0 L 1070.2 139.2 L 1074.7 140.0 L 1079.2 137.4 L 1083.7 143.7 L 1088.2 150.7 L 1092.7 150.7 L 1097.2 150.7 L 1101.7 150.7 L 1106.2 150.7 L 1110.7 150.7 L 1115.2 150.7 L 1119.7 150.7 L 1124.2 150.7 L 1128.7 150.7 L 1133.2 150.7 L 1137.7 150.7 L 1142.2 150.7 L 1146.7 150.7 L 1151.2 150.7 L 1155.7 150.7 L 1160.2 150.7 L 1164.7 150.7 L 1169.2 150.7 L 1173.7 150.7 L 1178.2 150.7 L 1182.7 150.7 L 1187.2 150.7 L 1191.7 150.7 L 1196.2 150.7 L 1200.7 150.7 L 1205.2 150.7 L 1209.7 150.7 L 1214.2 150.7 L 1218.7 150.7 L 1223.2 139.8 L 1227.7 138.4 L 1232.2 141.4 L 1236.7 126.9 L 1241.2 122.6 L 1245.7 115.3 L 1250.2 102.8 L 1254.7 107.3 L 1259.2 102.0 L 1263.6 82.6 L 1268.1 98.9 L 1272.6 100.1 L 1277.1 101.1 L 1281.6 88.1 L 1286.1 82.6 L 1290.6 77.0 L 1295.1 74.7 L 1299.6 91.3 L 1304.1 85.9 L 1308.6 71.4 L 1313.1 87.4 L 1317.6 87.4 L 1322.1 102.6 L 1326.6 95.6 L 1331.1 88.2 L 1335.6 81.3 L 1340.1 72.7 L 1344.6 83.6 L 1349.1 83.3 L 1353.6 99.6 L 1358.1 116.7 L 1362.6 103.2 L 1367.1 98.2 L 1371.6 100.5 L 1376.1 98.4 L 1380.6 104.2 L 1385.1 123.2 L 1389.6 133.0 L 1394.1 121.9 L 1398.6 122.4 L 1403.1 120.9 L 1407.6 140.4 L 1412.1 146.6 L 1416.6 144.9 L 1421.1 143.6 L 1425.6 150.5 L 1430.1 150.7 L 1434.6 150.7 L 1439.1 150.7 L 1443.6 150.7 L 1448.1 150.7 L 1452.6 150.7 L 1457.1 150.7 L 1461.6 150.7 L 1466.1 150.7 L 1470.6 150.7 L 1475.1 150.7 L 1479.6 150.7 L 1484.1 150.7 L 1488.6 150.7 L 1493.1 150.7 L 1497.6 150.7 L 1502.1 150.7 L 1506.6 146.3 L 1511.1 137.2 L 1515.6 129.2 L 1520.1 114.7 L 1524.6 117.9 L 1529.1 133.5 L 1533.6 135.3 L 1538.1 117.9 L 1542.6 128.1 L 1547.1 133.7 L 1551.6 141.9 L 1556.1 150.7 L 1560.6 150.7 L 1565.1 150.7 L 1569.6 150.7 L 1574.1 150.7 L 1578.6 150.7 L 1583.1 150.7 L 1587.6 150.7 L 1592.1 150.7 L 1596.6 150.7 L 1601.1 150.7 L 1605.6 150.7 L 1610.1 150.7 L 1614.5 150.7 L 1619.0 150.7 L 1623.5 150.7 L 1628.0 150.7 L 1632.5 150.7 L 1637.0 150.7 L 1641.5 150.7 L 1646.0 150.7 L 1650.5 150.7 L 1655.0 150.7 L 1659.5 150.7 L 1664.0 150.7 L 1668.5 150.7 L 1673.0 150.7 L 1677.5 150.7 L 1682.0 150.7 L 1686.5 150.7 L 1691.0 150.7 L 1695.5 150.7 L 1700.0 150.7 L 1704.5 150.7 L 1709.0 150.7 L 1713.5 150.7 L 1718.0 150.7 L 1722.5 150.7 L 1727.0 145.5 L 1731.5 143.4 L 1736.0 150.7 L 1740.5 150.7 L 1745.0 138.8 L 1749.5 139.1 L 1754.0 136.7 L 1758.5 108.1 L 1763.0 90.2 L 1767.5 110.5 L 1772.0 122.5 L 1776.5 116.4 L 1781.0 114.1 L 1785.5 97.7 L 1790.0 100.4 L 1794.5 131.8 L 1799.0 132.8 L 1803.5 101.5 L 1808.0 93.2 L 1812.5 109.5 L 1817.0 101.9 L 1821.5 87.7 L 1826.0 105.7 L 1830.5 119.0 L 1835.0 112.9 L 1835.0 150.7 Z" fill="#059669" opacity="0.15"/>
+
+    <!-- Negative fill -->
+    <path d="M 40.0 150.7 L 40.0 150.7 L 44.5 150.7 L 49.0 150.7 L 53.5 150.7 L 58.0 150.7 L 62.5 150.7 L 67.0 150.7 L 71.5 150.7 L 76.0 150.7 L 80.5 150.7 L 85.0 150.7 L 89.5 150.7 L 94.0 162.7 L 98.5 170.3 L 103.0 163.9 L 107.5 181.7 L 112.0 210.8 L 116.5 231.2 L 121.0 247.1 L 125.5 248.2 L 130.0 285.4 L 134.5 282.1 L 139.0 284.6 L 143.5 252.8 L 148.0 249.4 L 152.5 268.5 L 157.0 259.9 L 161.5 250.9 L 166.0 238.4 L 170.5 218.6 L 175.0 229.3 L 179.5 225.8 L 184.0 223.9 L 188.5 223.9 L 193.0 226.5 L 197.5 215.8 L 202.0 198.6 L 206.5 203.9 L 211.0 206.3 L 215.4 195.9 L 219.9 217.2 L 224.4 207.8 L 228.9 182.7 L 233.4 153.9 L 237.9 150.7 L 242.4 150.7 L 246.9 159.8 L 251.4 156.2 L 255.9 155.6 L 260.4 150.7 L 264.9 150.7 L 269.4 150.7 L 273.9 150.7 L 278.4 153.1 L 282.9 153.5 L 287.4 169.2 L 291.9 187.7 L 296.4 159.3 L 300.9 162.3 L 305.4 162.4 L 309.9 159.5 L 314.4 182.8 L 318.9 162.7 L 323.4 150.7 L 327.9 150.7 L 332.4 156.3 L 336.9 172.6 L 341.4 154.5 L 345.9 150.7 L 350.4 150.7 L 354.9 150.7 L 359.4 151.7 L 363.9 150.7 L 368.4 152.5 L 372.9 165.2 L 377.4 157.7 L 381.9 150.7 L 386.4 150.7 L 390.9 150.7 L 395.4 161.2 L 399.9 150.7 L 404.4 150.7 L 408.9 150.7 L 413.4 150.7 L 417.9 150.7 L 422.4 150.7 L 426.9 150.7 L 431.4 150.7 L 435.9 150.7 L 440.4 150.7 L 444.9 150.7 L 449.4 150.7 L 453.9 150.7 L 458.4 150.7 L 462.9 150.7 L 467.4 150.7 L 471.9 150.7 L 476.4 150.7 L 480.9 150.7 L 485.4 150.7 L 489.9 150.7 L 494.4 175.4 L 498.9 178.7 L 503.4 165.5 L 507.9 166.9 L 512.4 171.4 L 516.9 191.8 L 521.4 190.3 L 525.9 189.1 L 530.4 206.2 L 534.9 195.5 L 539.4 190.8 L 543.9 180.8 L 548.4 178.4 L 552.9 202.8 L 557.4 214.7 L 561.9 211.6 L 566.3 190.7 L 570.8 189.7 L 575.3 191.1 L 579.8 188.4 L 584.3 200.3 L 588.8 208.6 L 593.3 208.2 L 597.8 203.4 L 602.3 180.8 L 606.8 167.5 L 611.3 168.1 L 615.8 152.7 L 620.3 150.7 L 624.8 150.7 L 629.3 161.8 L 633.8 161.8 L 638.3 150.7 L 642.8 157.4 L 647.3 156.1 L 651.8 156.4 L 656.3 156.6 L 660.8 154.5 L 665.3 171.4 L 669.8 161.7 L 674.3 164.6 L 678.8 169.4 L 683.3 153.1 L 687.8 159.0 L 692.3 167.8 L 696.8 167.7 L 701.3 187.6 L 705.8 205.2 L 710.3 209.1 L 714.8 202.9 L 719.3 225.5 L 723.8 238.7 L 728.3 222.0 L 732.8 224.2 L 737.3 211.2 L 741.8 195.8 L 746.3 213.2 L 750.8 184.0 L 755.3 158.0 L 759.8 157.1 L 764.3 150.8 L 768.8 150.7 L 773.3 150.7 L 777.8 150.7 L 782.3 157.0 L 786.8 167.2 L 791.3 169.5 L 795.8 153.3 L 800.3 158.4 L 804.8 179.9 L 809.3 182.4 L 813.8 195.9 L 818.3 228.6 L 822.8 222.6 L 827.3 207.0 L 831.8 190.9 L 836.3 191.7 L 840.8 175.9 L 845.3 183.8 L 849.8 185.7 L 854.3 164.4 L 858.8 155.2 L 863.3 156.6 L 867.8 150.7 L 872.3 150.7 L 876.8 150.7 L 881.3 150.7 L 885.8 150.7 L 890.3 150.7 L 894.8 150.7 L 899.3 150.7 L 903.8 150.7 L 908.3 150.7 L 912.8 150.7 L 917.2 150.7 L 921.7 150.7 L 926.2 150.7 L 930.7 150.7 L 935.2 150.7 L 939.7 150.7 L 944.2 150.7 L 948.7 150.7 L 953.2 150.7 L 957.7 150.7 L 962.2 150.7 L 966.7 150.7 L 971.2 150.7 L 975.7 150.7 L 980.2 150.7 L 984.7 150.7 L 989.2 150.7 L 993.7 150.7 L 998.2 150.7 L 1002.7 150.7 L 1007.2 150.7 L 1011.7 150.7 L 1016.2 150.7 L 1020.7 150.7 L 1025.2 150.7 L 1029.7 150.7 L 1034.2 150.7 L 1038.7 150.7 L 1043.2 150.7 L 1047.7 150.7 L 1052.2 150.7 L 1056.7 150.7 L 1061.2 150.7 L 1065.7 150.7 L 1070.2 150.7 L 1074.7 150.7 L 1079.2 150.7 L 1083.7 150.7 L 1088.2 174.4 L 1092.7 173.4 L 1097.2 178.9 L 1101.7 172.8 L 1106.2 186.5 L 1110.7 181.0 L 1115.2 178.3 L 1119.7 192.9 L 1124.2 189.4 L 1128.7 191.2 L 1133.2 189.8 L 1137.7 163.5 L 1142.2 160.5 L 1146.7 168.8 L 1151.2 187.0 L 1155.7 183.1 L 1160.2 187.8 L 1164.7 200.2 L 1169.2 191.6 L 1173.7 208.7 L 1178.2 207.3 L 1182.7 205.8 L 1187.2 230.8 L 1191.7 238.4 L 1196.2 228.0 L 1200.7 201.7 L 1205.2 177.7 L 1209.7 184.4 L 1214.2 195.3 L 1218.7 170.3 L 1223.2 150.7 L 1227.7 150.7 L 1232.2 150.7 L 1236.7 150.7 L 1241.2 150.7 L 1245.7 150.7 L 1250.2 150.7 L 1254.7 150.7 L 1259.2 150.7 L 1263.6 150.7 L 1268.1 150.7 L 1272.6 150.7 L 1277.1 150.7 L 1281.6 150.7 L 1286.1 150.7 L 1290.6 150.7 L 1295.1 150.7 L 1299.6 150.7 L 1304.1 150.7 L 1308.6 150.7 L 1313.1 150.7 L 1317.6 150.7 L 1322.1 150.7 L 1326.6 150.7 L 1331.1 150.7 L 1335.6 150.7 L 1340.1 150.7 L 1344.6 150.7 L 1349.1 150.7 L 1353.6 150.7 L 1358.1 150.7 L 1362.6 150.7 L 1367.1 150.7 L 1371.6 150.7 L 1376.1 150.7 L 1380.6 150.7 L 1385.1 150.7 L 1389.6 150.7 L 1394.1 150.7 L 1398.6 150.7 L 1403.1 150.7 L 1407.6 150.7 L 1412.1 150.7 L 1416.6 150.7 L 1421.1 150.7 L 1425.6 150.7 L 1430.1 163.8 L 1434.6 161.5 L 1439.1 162.2 L 1443.6 172.3 L 1448.1 191.7 L 1452.6 214.8 L 1457.1 217.6 L 1461.6 206.0 L 1466.1 200.8 L 1470.6 201.9 L 1475.1 201.6 L 1479.6 201.7 L 1484.1 201.7 L 1488.6 201.4 L 1493.1 203.2 L 1497.6 186.8 L 1502.1 164.8 L 1506.6 150.7 L 1511.1 150.7 L 1515.6 150.7 L 1520.1 150.7 L 1524.6 150.7 L 1529.1 150.7 L 1533.6 150.7 L 1538.1 150.7 L 1542.6 150.7 L 1547.1 150.7 L 1551.6 150.7 L 1556.1 165.3 L 1560.6 173.2 L 1565.1 175.8 L 1569.6 190.5 L 1574.1 174.4 L 1578.6 156.7 L 1583.1 167.6 L 1587.6 186.1 L 1592.1 193.5 L 1596.6 200.0 L 1601.1 183.2 L 1605.6 153.0 L 1610.1 164.7 L 1614.5 179.5 L 1619.0 189.5 L 1623.5 204.0 L 1628.0 218.8 L 1632.5 207.1 L 1637.0 204.9 L 1641.5 200.5 L 1646.0 192.1 L 1650.5 222.4 L 1655.0 247.0 L 1659.5 229.9 L 1664.0 230.3 L 1668.5 220.0 L 1673.0 223.3 L 1677.5 217.6 L 1682.0 213.8 L 1686.5 205.3 L 1691.0 186.8 L 1695.5 183.8 L 1700.0 178.9 L 1704.5 184.4 L 1709.0 195.7 L 1713.5 188.1 L 1718.0 177.0 L 1722.5 165.0 L 1727.0 150.7 L 1731.5 150.7 L 1736.0 159.3 L 1740.5 153.8 L 1745.0 150.7 L 1749.5 150.7 L 1754.0 150.7 L 1758.5 150.7 L 1763.0 150.7 L 1767.5 150.7 L 1772.0 150.7 L 1776.5 150.7 L 1781.0 150.7 L 1785.5 150.7 L 1790.0 150.7 L 1794.5 150.7 L 1799.0 150.7 L 1803.5 150.7 L 1808.0 150.7 L 1812.5 150.7 L 1817.0 150.7 L 1821.5 150.7 L 1826.0 150.7 L 1830.5 150.7 L 1835.0 150.7 L 1835.0 150.7 Z" fill="#DC2626" opacity="0.15"/>
+
+    <!-- Main curve -->
+    <path d="M 40.0 116.7 L 44.5 122.0 L 49.0 125.3 L 53.5 130.0 L 58.0 123.0 L 62.5 119.9 L 67.0 122.3 L 71.5 124.3 L 76.0 126.8 L 80.5 123.3 L 85.0 144.7 L 89.5 144.2 L 94.0 162.7 L 98.5 170.3 L 103.0 163.9 L 107.5 181.7 L 112.0 210.8 L 116.5 231.2 L 121.0 247.1 L 125.5 248.2 L 130.0 285.4 L 134.5 282.1 L 139.0 284.6 L 143.5 252.8 L 148.0 249.4 L 152.5 268.5 L 157.0 259.9 L 161.5 250.9 L 166.0 238.4 L 170.5 218.6 L 175.0 229.3 L 179.5 225.8 L 184.0 223.9 L 188.5 223.9 L 193.0 226.5 L 197.5 215.8 L 202.0 198.6 L 206.5 203.9 L 211.0 206.3 L 215.4 195.9 L 219.9 217.2 L 224.4 207.8 L 228.9 182.7 L 233.4 153.9 L 237.9 125.0 L 242.4 133.5 L 246.9 159.8 L 251.4 156.2 L 255.9 155.6 L 260.4 139.8 L 264.9 138.9 L 269.4 139.4 L 273.9 141.6 L 278.4 153.1 L 282.9 153.5 L 287.4 169.2 L 291.9 187.7 L 296.4 159.3 L 300.9 162.3 L 305.4 162.4 L 309.9 159.5 L 314.4 182.8 L 318.9 162.7 L 323.4 130.7 L 327.9 131.6 L 332.4 156.3 L 336.9 172.6 L 341.4 154.5 L 345.9 150.7 L 350.4 150.7 L 354.9 150.4 L 359.4 151.7 L 363.9 145.4 L 368.4 152.5 L 372.9 165.2 L 377.4 157.7 L 381.9 142.0 L 386.4 133.2 L 390.9 139.0 L 395.4 161.2 L 399.9 149.2 L 404.4 143.3 L 408.9 146.2 L 413.4 141.3 L 417.9 126.2 L 422.4 116.3 L 426.9 114.6 L 431.4 99.2 L 435.9 99.9 L 440.4 82.0 L 444.9 54.6 L 449.4 76.1 L 453.9 91.7 L 458.4 88.1 L 462.9 86.0 L 467.4 84.6 L 471.9 102.8 L 476.4 116.8 L 480.9 116.2 L 485.4 130.7 L 489.9 143.7 L 494.4 175.4 L 498.9 178.7 L 503.4 165.5 L 507.9 166.9 L 512.4 171.4 L 516.9 191.8 L 521.4 190.3 L 525.9 189.1 L 530.4 206.2 L 534.9 195.5 L 539.4 190.8 L 543.9 180.8 L 548.4 178.4 L 552.9 202.8 L 557.4 214.7 L 561.9 211.6 L 566.3 190.7 L 570.8 189.7 L 575.3 191.1 L 579.8 188.4 L 584.3 200.3 L 588.8 208.6 L 593.3 208.2 L 597.8 203.4 L 602.3 180.8 L 606.8 167.5 L 611.3 168.1 L 615.8 152.7 L 620.3 150.3 L 624.8 148.7 L 629.3 161.8 L 633.8 161.8 L 638.3 150.1 L 642.8 157.4 L 647.3 156.1 L 651.8 156.4 L 656.3 156.6 L 660.8 154.5 L 665.3 171.4 L 669.8 161.7 L 674.3 164.6 L 678.8 169.4 L 683.3 153.1 L 687.8 159.0 L 692.3 167.8 L 696.8 167.7 L 701.3 187.6 L 705.8 205.2 L 710.3 209.1 L 714.8 202.9 L 719.3 225.5 L 723.8 238.7 L 728.3 222.0 L 732.8 224.2 L 737.3 211.2 L 741.8 195.8 L 746.3 213.2 L 750.8 184.0 L 755.3 158.0 L 759.8 157.1 L 764.3 150.8 L 768.8 130.9 L 773.3 124.1 L 777.8 142.5 L 782.3 157.0 L 786.8 167.2 L 791.3 169.5 L 795.8 153.3 L 800.3 158.4 L 804.8 179.9 L 809.3 182.4 L 813.8 195.9 L 818.3 228.6 L 822.8 222.6 L 827.3 207.0 L 831.8 190.9 L 836.3 191.7 L 840.8 175.9 L 845.3 183.8 L 849.8 185.7 L 854.3 164.4 L 858.8 155.2 L 863.3 156.6 L 867.8 148.8 L 872.3 133.7 L 876.8 149.6 L 881.3 139.3 L 885.8 119.9 L 890.3 116.4 L 894.8 114.2 L 899.3 110.8 L 903.8 109.9 L 908.3 113.9 L 912.8 127.8 L 917.2 111.4 L 921.7 112.7 L 926.2 84.8 L 930.7 72.7 L 935.2 87.0 L 939.7 97.0 L 944.2 88.8 L 948.7 85.1 L 953.2 101.4 L 957.7 99.3 L 962.2 84.1 L 966.7 66.8 L 971.2 74.5 L 975.7 106.2 L 980.2 120.1 L 984.7 113.9 L 989.2 123.1 L 993.7 131.9 L 998.2 115.8 L 1002.7 116.6 L 1007.2 101.1 L 1011.7 97.6 L 1016.2 111.8 L 1020.7 120.5 L 1025.2 105.7 L 1029.7 105.7 L 1034.2 114.7 L 1038.7 97.1 L 1043.2 101.0 L 1047.7 116.5 L 1052.2 121.2 L 1056.7 136.2 L 1061.2 140.5 L 1065.7 139.0 L 1070.2 139.2 L 1074.7 140.0 L 1079.2 137.4 L 1083.7 143.7 L 1088.2 174.4 L 1092.7 173.4 L 1097.2 178.9 L 1101.7 172.8 L 1106.2 186.5 L 1110.7 181.0 L 1115.2 178.3 L 1119.7 192.9 L 1124.2 189.4 L 1128.7 191.2 L 1133.2 189.8 L 1137.7 163.5 L 1142.2 160.5 L 1146.7 168.8 L 1151.2 187.0 L 1155.7 183.1 L 1160.2 187.8 L 1164.7 200.2 L 1169.2 191.6 L 1173.7 208.7 L 1178.2 207.3 L 1182.7 205.8 L 1187.2 230.8 L 1191.7 238.4 L 1196.2 228.0 L 1200.7 201.7 L 1205.2 177.7 L 1209.7 184.4 L 1214.2 195.3 L 1218.7 170.3 L 1223.2 139.8 L 1227.7 138.4 L 1232.2 141.4 L 1236.7 126.9 L 1241.2 122.6 L 1245.7 115.3 L 1250.2 102.8 L 1254.7 107.3 L 1259.2 102.0 L 1263.6 82.6 L 1268.1 98.9 L 1272.6 100.1 L 1277.1 101.1 L 1281.6 88.1 L 1286.1 82.6 L 1290.6 77.0 L 1295.1 74.7 L 1299.6 91.3 L 1304.1 85.9 L 1308.6 71.4 L 1313.1 87.4 L 1317.6 87.4 L 1322.1 102.6 L 1326.6 95.6 L 1331.1 88.2 L 1335.6 81.3 L 1340.1 72.7 L 1344.6 83.6 L 1349.1 83.3 L 1353.6 99.6 L 1358.1 116.7 L 1362.6 103.2 L 1367.1 98.2 L 1371.6 100.5 L 1376.1 98.4 L 1380.6 104.2 L 1385.1 123.2 L 1389.6 133.0 L 1394.1 121.9 L 1398.6 122.4 L 1403.1 120.9 L 1407.6 140.4 L 1412.1 146.6 L 1416.6 144.9 L 1421.1 143.6 L 1425.6 150.5 L 1430.1 163.8 L 1434.6 161.5 L 1439.1 162.2 L 1443.6 172.3 L 1448.1 191.7 L 1452.6 214.8 L 1457.1 217.6 L 1461.6 206.0 L 1466.1 200.8 L 1470.6 201.9 L 1475.1 201.6 L 1479.6 201.7 L 1484.1 201.7 L 1488.6 201.4 L 1493.1 203.2 L 1497.6 186.8 L 1502.1 164.8 L 1506.6 146.3 L 1511.1 137.2 L 1515.6 129.2 L 1520.1 114.7 L 1524.6 117.9 L 1529.1 133.5 L 1533.6 135.3 L 1538.1 117.9 L 1542.6 128.1 L 1547.1 133.7 L 1551.6 141.9 L 1556.1 165.3 L 1560.6 173.2 L 1565.1 175.8 L 1569.6 190.5 L 1574.1 174.4 L 1578.6 156.7 L 1583.1 167.6 L 1587.6 186.1 L 1592.1 193.5 L 1596.6 200.0 L 1601.1 183.2 L 1605.6 153.0 L 1610.1 164.7 L 1614.5 179.5 L 1619.0 189.5 L 1623.5 204.0 L 1628.0 218.8 L 1632.5 207.1 L 1637.0 204.9 L 1641.5 200.5 L 1646.0 192.1 L 1650.5 222.4 L 1655.0 247.0 L 1659.5 229.9 L 1664.0 230.3 L 1668.5 220.0 L 1673.0 223.3 L 1677.5 217.6 L 1682.0 213.8 L 1686.5 205.3 L 1691.0 186.8 L 1695.5 183.8 L 1700.0 178.9 L 1704.5 184.4 L 1709.0 195.7 L 1713.5 188.1 L 1718.0 177.0 L 1722.5 165.0 L 1727.0 145.5 L 1731.5 143.4 L 1736.0 159.3 L 1740.5 153.8 L 1745.0 138.8 L 1749.5 139.1 L 1754.0 136.7 L 1758.5 108.1 L 1763.0 90.2 L 1767.5 110.5 L 1772.0 122.5 L 1776.5 116.4 L 1781.0 114.1 L 1785.5 97.7 L 1790.0 100.4 L 1794.5 131.8 L 1799.0 132.8 L 1803.5 101.5 L 1808.0 93.2 L 1812.5 109.5 L 1817.0 101.9 L 1821.5 87.7 L 1826.0 105.7 L 1830.5 119.0 L 1835.0 112.9" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+</svg>
+        </div>
+
+        <!-- Peak markers layer (on top of connectors) -->
+        <svg class="markers-layer" viewBox="0 0 1880 340" style="position: absolute; top: 310px; left: 20px; width: 1880px; height: 340px;">
+            
+    <!-- Negative peak markers -->
+    
+    <circle cx="130.25069637883007" cy="286.66724807547604" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="130.25069637883007" y="292.66724807547604" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">1</text>
+    
+    <circle cx="1654.4846796657382" cy="247.0037615153648" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="1654.4846796657382" y="253.0037615153648" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">2</text>
+    
+    <circle cx="721.8941504178273" cy="241.33754914963464" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="721.8941504178273" y="247.33754914963464" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">3</text>
+    
+    <circle cx="1188.1894150417827" cy="235.67133678390445" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="1188.1894150417827" y="241.67133678390445" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">4</text>
+    
+
+    <!-- Positive peak markers -->
+    
+    <circle cx="446.1281337047354" cy="54.35254108053874" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="446.1281337047354" y="60.35254108053874" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">1</text>
+    
+    <circle cx="967.5766016713092" cy="65.68496581199912" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="967.5766016713092" y="71.68496581199912" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">2</text>
+    
+    <circle cx="1338.6072423398327" cy="71.35117817772934" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="1338.6072423398327" y="77.35117817772934" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">3</text>
+    
+    <circle cx="1819.9442896935932" cy="87.72023612317201" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="1819.9442896935932" y="93.72023612317201" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">4</text>
+    
+    
+        </svg>
+
+        <!-- Zone labels -->
+        <div class="zone-label positive">CONFIDENT ZONE</div>
+        <div class="zone-label negative">ALARMIST ZONE</div>
+
+        <!-- Positive bubbles (top) -->
+        
+        <div class="bubble positive" style="left: 20px; top: 55px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">1</span>
+                <span class="tone-label" style="color: #059669;">Tone: CONFIDENT</span>
+                <span class="act-badge">Act: Stating</span>
+                <span class="position">Sentence 82</span>
+            </div>
+            <div class="bubble-text">« Depuis 2022, on a réussi une révolution, là aussi stratégique. <strong>L'autonomie stratégique européenne est assumée depuis la présidence française de l'Union européenne.</strong> Elle se décline en actes et l'Europe de la défense est une réalité. »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 492px; top: 55px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">2</span>
+                <span class="tone-label" style="color: #059669;">Tone: CONFIDENT</span>
+                <span class="act-badge">Act: Stating, Reassuring</span>
+                <span class="position">Sentence 185</span>
+            </div>
+            <div class="bubble-text">« Nous avons, en termes de partenariat, à réinvestir cette région dans les mois et l'année qui vient, et c'est pour moi un des axes forts que j'attends de vous. <strong>Il y a des situations qui restent très instables, j'ai promis de ne pas être trop long, mais je crois à la solidité et au potentiel de celles-ci, y compris avec plusieurs partenaires du Golfe, qui sont (...) »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 964px; top: 55px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">3</span>
+                <span class="tone-label" style="color: #059669;">Tone: CONFIDENT</span>
+                <span class="act-badge">Act: Reassuring, Proposing</span>
+                <span class="position">Sentence 262</span>
+            </div>
+            <div class="bubble-text">« Et au fond, il faut respecter tout le monde et se dire que ceux qui sont un peu écrasés par ce duopole ont envie de retrouver des voies respectueuses qui leur donnent une place. <strong>Ce qu'on a fait pour l'intelligence artificielle, comme ce qu'on a fait pour les océans, c'est justement d'être cette puissance d'équilibre qui bâtit un multilatéralisme efficace et qui va (...) »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 1436px; top: 55px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">4</span>
+                <span class="tone-label" style="color: #059669;">Tone: CONFIDENT</span>
+                <span class="act-badge">Act: Committing</span>
+                <span class="position">Sentence 357</span>
+            </div>
+            <div class="bubble-text">« Nous, nous refusons le nouveau colonialisme et le nouvel impérialisme, mais nous, nous refusons aussi la vassalisation et le défaitisme. <strong>Nous voulons être des partenaires forts, faire le maximum de ce qu'on peut, mais quand on s'engage, on est là.</strong> Ça a beaucoup de valeur pour notre diplomatie, pour nos entreprises, pour nos intérêts stratégiques partout à (...) »</div>
+        </div>
+        
+
+        <!-- Negative bubbles (bottom) -->
+        
+        <div class="bubble negative" style="left: 20px; top: 710px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">1</span>
+                <span class="tone-label" style="color: #DC2626;">Tone: ALARMIST</span>
+                <span class="act-badge">Act: Stating, Denouncing</span>
+                <span class="position">Sentence 19</span>
+            </div>
+            <div class="bubble-text">« Et la Chine est une puissance toujours montante, qui doit faire le choix de partenariats diversifiés, mais qui témoigne d'une agressivité commerciale de plus en plus désinhibée, et surtout depuis la période de sortie Covid, et qui met à mal aujourd'hui l'économie européenne. <strong>Et puis nous continuons d'avoir des puissances de déstabilisation, la Russie, avec l'Ukraine (...) »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 492px; top: 710px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">2</span>
+                <span class="tone-label" style="color: #DC2626;">Tone: EXASPERATED</span>
+                <span class="act-badge">Act: Denouncing, Framing</span>
+                <span class="position">Sentence 324</span>
+            </div>
+            <div class="bubble-text">« Chaque jour, il y a des gens qui nous disent : <strong>« vous ne faites pas bien parce que vous n'avez pas assez dénoncé ce qui était mauvais là ».</strong> Donc on voudrait condamner la diplomatie française à être le commentateur chaque jour de ce que font tous les autres. »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 964px; top: 710px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">3</span>
+                <span class="tone-label" style="color: #DC2626;">Tone: ALARMIST</span>
+                <span class="act-badge">Act: Warning</span>
+                <span class="position">Sentence 137</span>
+            </div>
+            <div class="bubble-text">« <strong>Si on ne le fait pas très rapidement, la désindustrialisation européenne sera massive.</strong> Elle est en cours et elle s'est accélérée depuis l'année dernière.
+
+Donc la clé, les constats étant posés, c'est d'accélérer cet agenda. »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 1436px; top: 710px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">4</span>
+                <span class="tone-label" style="color: #DC2626;">Tone: EXASPERATED</span>
+                <span class="act-badge">Act: Denouncing, Stating</span>
+                <span class="position">Sentence 230</span>
+            </div>
+            <div class="bubble-text">« L'honnêteté m'oblige à constater que beaucoup d'acteurs français se sentent interdits, parce qu'ils sont Français, de défendre la France, ses intérêts, ou la bonne action des Français. <strong>Ça me surprend toujours, mais enfin, voilà, je constate que c'est comme ça.
+
+De l'autre côté, on est massivement attaqué par des gens qui nous reprochent d'être des anticoloniaux, au (...) »</div>
+        </div>
+        
+
+        <!-- Bottom section: title + legend -->
+        <div class="bottom-section">
+            <h1 class="main-title">The Evolution of the Speech: Key Moments</h1>
+            <p class="legend">Tone index based on rolling average (10 sentences).</p>
+        </div>
+    </div>
+</body>
+</html>
