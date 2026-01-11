@@ -152,15 +152,22 @@ def prepare_enhanced_policy_data(df):
             })
 
             # Store quotes for each category (prioritize concrete ones)
+            max_quotes = 3
+            if category == 'DIPLOMACY_FOREIGN':
+                max_quotes = 8
             if spec == 'CONCRETE' and len(text) > 30:
                 quotes_by_cat[category].insert(0, text)
-            elif len(text) > 30 and len(quotes_by_cat[category]) < 3:
+            elif len(text) > 30 and len(quotes_by_cat[category]) < max_quotes:
                 quotes_by_cat[category].append(text)
 
     if not policies:
         return None
 
     for category, quotes in quotes_by_cat.items():
+        if category == 'DIPLOMACY_FOREIGN':
+            prioritized = [q for q in quotes if 'diplom' in q.lower()]
+            others = [q for q in quotes if 'diplom' not in q.lower()]
+            quotes = prioritized + others
         quotes_by_cat[category] = reserve_unique_texts(quotes, limit=3)
 
     # Build aggregations
@@ -192,10 +199,20 @@ def prepare_enhanced_policy_data(df):
     def_count = sum(1 for p in policies if p['action'] in defensive)
     orientation_idx = (pro_count - def_count) / n if n > 0 else 0
 
-    # Select best quotes per category
+    # Select best quotes per category (override diplomacy example)
     selected_quotes = {}
     for cat, quotes in quotes_by_cat.items():
-        if quotes:
+        if not quotes:
+            continue
+        if cat == 'DIPLOMACY_FOREIGN':
+            preferred = next((q for q in quotes if 'diplom' in q.lower()), None)
+            if preferred:
+                selected_quotes[cat] = preferred
+            elif len(quotes) > 1:
+                selected_quotes[cat] = quotes[1]
+            else:
+                selected_quotes[cat] = quotes[0]
+        else:
             selected_quotes[cat] = quotes[0]
 
     return {

@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macron et la diplomatie - Analyse NLP</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #0f766e;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --accent-2: #b45309;
+            --positive: #059669;
+            --negative: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            background: var(--bg-deep);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Slide container */
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            background:
+                radial-gradient(ellipse at 10% 0%, rgba(15, 118, 110, 0.06), transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(180, 83, 9, 0.06), transparent 50%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            scroll-snap-align: start;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .slide:nth-child(1) { animation-delay: 0s; }
+        .slide:nth-child(2) { animation-delay: 0.1s; }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-inner {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Title slide */
+        .slide-title { justify-content: center; align-items: center; text-align: center; }
+
+        .slide-title .overline {
+            font-size: clamp(0.75rem, 2vw, 1rem);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.3s forwards;
+        }
+
+        .slide-title h1 {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+        }
+
+        .slide-title .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: var(--muted);
+            max-width: 700px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.5s forwards;
+        }
+
+        .slide-title .date-badge {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--accent);
+            margin-top: 1.5rem;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+
+        .slide-title .author-line {
+            margin-top: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.7s forwards;
+        }
+
+        .slide-title .author-line span { font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--muted); }
+
+        .slide-title .project-badge {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section slide */
+        .slide-section { justify-content: center; align-items: center; }
+
+        .section-box {
+            background: var(--card);
+            border-radius: 1.5rem;
+            padding: 3rem 4rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            transform: scale(0.95);
+            opacity: 0;
+            animation: popIn 0.5s ease 0.2s forwards;
+        }
+
+        @keyframes popIn { to { transform: scale(1); opacity: 1; } }
+
+        .section-box .num {
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .section-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+        }
+
+        /* Figure slide */
+        .slide-figure { justify-content: center; align-items: center; padding: 1rem; }
+
+        .figure-container {
+            position: relative;
+            max-width: 100%;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .figure-container:hover { transform: scale(1.02); }
+
+        .figure-container img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            cursor: zoom-out;
+        }
+
+        .lightbox.active { opacity: 1; visibility: visible; }
+
+        .lightbox img {
+            max-width: 95%; max-height: 95%;
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active img { transform: scale(1); }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            width: 3rem; height: 3rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+        /* Content slide */
+        .slide-content { gap: 1.5rem; }
+
+        .content-header {
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--ink);
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.2s forwards;
+        }
+
+        .content-header h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            font-weight: 600;
+        }
+
+        .content-header .badge {
+            font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+
+        .cards-grid .card:nth-child(1) { animation: fadeUp 0.5s ease 0.3s forwards; }
+        .cards-grid .card:nth-child(2) { animation: fadeUp 0.5s ease 0.4s forwards; }
+        .cards-grid .card:nth-child(3) { animation: fadeUp 0.5s ease 0.5s forwards; }
+        .cards-grid .card:nth-child(4) { animation: fadeUp 0.5s ease 0.6s forwards; }
+
+        .card h3 {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+
+        .card p {
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .card .stat {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .card .stat .val {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+        }
+
+        .card .stat .lbl {
+            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .positive { color: var(--positive); }
+        .negative { color: var(--negative); }
+        .warning { color: var(--accent-2); }
+        .accent { color: var(--accent); }
+
+        /* Insight box */
+        .insight-box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--accent);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.7s forwards;
+        }
+
+        .insight-box .label {
+            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-box .text {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Two columns */
+        .two-cols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .col-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.3s forwards;
+        }
+
+        .col-card:nth-child(2) { animation-delay: 0.4s; }
+
+        .col-card h3 {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--ink);
+        }
+
+        .col-card ul { list-style: none; }
+
+        .col-card li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--line);
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            transition: all 0.2s ease;
+        }
+
+        .col-card li:hover { padding-left: 0.5rem; color: var(--accent); }
+        .col-card li:last-child { border-bottom: none; }
+
+        /* Metrics */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .metric:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+        .metrics-row .metric:nth-child(1) { animation: popIn 0.4s ease 0.2s forwards; }
+        .metrics-row .metric:nth-child(2) { animation: popIn 0.4s ease 0.3s forwards; }
+        .metrics-row .metric:nth-child(3) { animation: popIn 0.4s ease 0.4s forwards; }
+        .metrics-row .metric:nth-child(4) { animation: popIn 0.4s ease 0.5s forwards; }
+
+        .metric .value {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 600;
+        }
+
+        .metric .label {
+            font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.3s forwards;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            min-width: 500px;
+        }
+
+        .data-table th {
+            background: var(--bg-deep);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+        }
+
+        .data-table td {
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid var(--line);
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            transition: background 0.2s;
+        }
+
+        .data-table tr:hover td { background: var(--accent-soft); }
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* Pipeline */
+        .pipeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .pipeline-step {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+            min-width: 140px;
+            box-shadow: 0 6px 20px rgba(15,118,110,0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .pipeline-step:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 32px rgba(15,118,110,0.15); }
+
+        .pipeline-step:nth-child(1) { animation: fadeUp 0.4s ease 0.2s forwards; }
+        .pipeline-step:nth-child(3) { animation: fadeUp 0.4s ease 0.3s forwards; }
+        .pipeline-step:nth-child(5) { animation: fadeUp 0.4s ease 0.4s forwards; }
+        .pipeline-step:nth-child(7) { animation: fadeUp 0.4s ease 0.5s forwards; }
+
+        .pipeline-step .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        .pipeline-step h4 {
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.25rem;
+        }
+
+        .pipeline-step .tool-label {
+            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+            color: var(--accent-2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0.25rem 0;
+        }
+
+        .pipeline-step a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            font-weight: 600;
+        }
+
+        .pipeline-step a:hover { text-decoration: underline; }
+
+        .pipeline-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0;
+            animation: fadeIn 0.3s ease 0.6s forwards;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .pipeline { flex-direction: column; }
+            .pipeline-arrow { transform: rotate(90deg); }
+        }
+
+        /* Conclusion */
+        .slide-conclusion { text-align: center; }
+
+        .conclusion-box { max-width: 800px; margin: 0 auto; }
+
+        .conclusion-box .overline {
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.2s forwards;
+        }
+
+        .conclusion-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.3s forwards;
+        }
+
+        .conclusion-box > p {
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
+            color: var(--muted);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeUp 0.5s ease 0.4s forwards;
+        }
+
+        .key-stats {
+            display: flex;
+            justify-content: center;
+            gap: clamp(2rem, 5vw, 4rem);
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+
+        .key-stat { text-align: center; opacity: 0; }
+
+        .key-stat:nth-child(1) { animation: popIn 0.4s ease 0.5s forwards; }
+        .key-stat:nth-child(2) { animation: popIn 0.4s ease 0.6s forwards; }
+        .key-stat:nth-child(3) { animation: popIn 0.4s ease 0.7s forwards; }
+
+        .key-stat .val {
+            font-family: 'STIX Two Text', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .key-stat .lbl {
+            font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        /* Tools grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .tool-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(15,118,110,0.15); }
+
+        .tool-card:nth-child(1) { animation: fadeUp 0.4s ease 0.3s forwards; }
+        .tool-card:nth-child(2) { animation: fadeUp 0.4s ease 0.4s forwards; }
+        .tool-card:nth-child(3) { animation: fadeUp 0.4s ease 0.5s forwards; }
+
+        .tool-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+        .tool-card h4 {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .tool-card a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-weight: 600;
+        }
+
+        .tool-card a:hover { text-decoration: underline; }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            z-index: 100;
+            transition: width 0.1s linear;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+
+        .nav-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: var(--card);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 50;
+        }
+
+        .slide-counter strong { color: var(--accent); }
+
+        /* TOC */
+        .toc-toggle {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .toc-toggle:hover { background: var(--accent); color: white; }
+
+        .toc-sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100%;
+            background: var(--card);
+            box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+            z-index: 55;
+            padding: 4rem 1.5rem 1.5rem;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+        }
+
+        .toc-sidebar.active { left: 0; }
+
+        .toc-sidebar h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .toc-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.5rem;
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .toc-item:hover, .toc-item.active { background: var(--accent-soft); color: var(--accent); }
+
+        .toc-item .num { font-weight: 700; margin-right: 0.5rem; }
+
+        /* Keyboard hints */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 50;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .keyboard-hint kbd {
+            background: var(--bg-deep);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: inherit;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 768px) { .keyboard-hint { display: none; } }
+
+        /* Mobile optimizations */
+        @media (max-width: 900px) {
+            html {
+                scroll-snap-type: none; /* Disable snap for free scrolling on mobile */
+            }
+
+            .slide {
+                min-height: auto;
+                padding: 2rem 1.25rem;
+                scroll-snap-align: none;
+            }
+
+            .slide-title { min-height: 100vh; }
+            .slide-section { min-height: 60vh; }
+            .slide-figure { min-height: 70vh; }
+            .slide-conclusion { min-height: 90vh; }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .two-cols {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .metrics-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .figure-container img {
+                max-height: 60vh;
+            }
+
+            .nav-container { display: none; }
+            .slide-counter { display: none; }
+            .toc-toggle { display: none; }
+            .keyboard-hint { display: none; }
+
+            /* Fullscreen prompt on mobile */
+            .mobile-fullscreen-prompt {
+                display: flex !important;
+            }
+        }
+
+        /* Mobile fullscreen prompt */
+        .mobile-fullscreen-prompt {
+            display: none;
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.4);
+            cursor: pointer;
+            animation: pulsePrompt 2s ease-in-out infinite;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .mobile-fullscreen-prompt i { font-size: 1rem; }
+
+        @keyframes pulsePrompt {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--muted);
+            font-size: 0.75rem;
+            z-index: 90;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            animation: bounceDown 1.5s ease-in-out infinite;
+        }
+
+        .scroll-indicator .arrow {
+            font-size: 1.25rem;
+            color: var(--accent);
+        }
+
+        @keyframes bounceDown {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(5px); }
+        }
+
+        @media (max-width: 900px) {
+            .scroll-indicator {
+                display: flex;
+            }
+            .scroll-indicator.hidden {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<button class="toc-toggle" id="tocToggle" aria-label="Table des matieres">&#9776;</button>
+
+<nav class="toc-sidebar" id="tocSidebar">
+    <h3>Navigation</h3>
+    <a href="#slide-1" class="toc-item"><span class="num">1</span> Titre</a>
+    <a href="#slide-2" class="toc-item"><span class="num">2</span> Methodologie</a>
+    <a href="#slide-3" class="toc-item"><span class="num">3</span> Dashboard</a>
+    <a href="#slide-5" class="toc-item"><span class="num">5</span> Analyse 1 : Evolution</a>
+    <a href="#slide-8" class="toc-item"><span class="num">8</span> Analyse 2 : Vision</a>
+    <a href="#slide-11" class="toc-item"><span class="num">11</span> Analyse 3 : Acteurs</a>
+    <a href="#slide-14" class="toc-item"><span class="num">14</span> Analyse 4 : Politiques</a>
+    <a href="#slide-17" class="toc-item"><span class="num">17</span> Analyse 5 : Rhetorique</a>
+    <a href="#slide-20" class="toc-item"><span class="num">20</span> Analyse 6 : Agentivite</a>
+    <a href="#slide-23" class="toc-item"><span class="num">23</span> Analyse 7 : Diplomatie</a>
+    <a href="#slide-26" class="toc-item"><span class="num">26</span> Conclusion</a>
+</nav>
+
+<div class="slide-counter" id="slideCounter"><strong>1</strong> / 27</div>
+
+<div class="keyboard-hint">
+    <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> Naviguer</span>
+    <span><kbd>Esc</kbd> Fermer</span>
+</div>
+
+<div class="nav-container">
+    <button class="nav-btn" id="prevBtn" aria-label="Slide precedente">&#8593;</button>
+    <button class="nav-btn" id="nextBtn" aria-label="Slide suivante">&#8595;</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Fermer">&times;</button>
+    <img src="" alt="Figure agrandie" id="lightboxImg">
+</div>
+
+<!-- Mobile fullscreen prompt -->
+<div class="mobile-fullscreen-prompt" id="mobileFullscreenPrompt" onclick="requestFullscreen()">
+    <span>&#9974;</span> Ouvrir en plein ecran
+</div>
+
+<!-- Scroll indicator for mobile -->
+<div class="scroll-indicator" id="scrollIndicator">
+    <span>Defiler</span>
+    <span class="arrow">&#8595;</span>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide slide-title" id="slide-1">
+    <div class="slide-inner">
+        <div class="overline">Analyse NLP du discours politique</div>
+        <h1>Macron et la diplomatie francaise</h1>
+        <p class="subtitle">Ce que revele l'analyse du discours aux ambassadeurs</p>
+        <p class="date-badge">8 janvier 2026</p>
+        <div class="author-line">
+            <span>Antoine Lemor</span>
+            <span>|</span>
+            <span class="project-badge">NLP-POL PROJECT</span>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="slide-2">
+    <div class="slide-inner">
+        <h2 style="font-family: 'STIX Two Text', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 600; text-align: center; margin-bottom: 0.5rem;">Methodologie</h2>
+        <p style="text-align: center; color: var(--muted); font-size: clamp(0.9rem, 2vw, 1.1rem); margin-bottom: 2rem;">Conference annuelle des ambassadeurs a l'Elysee - 8 janvier 2026</p>
+
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <div class="icon">&#128221;</div>
+                <h4>Transcription</h4>
+                <p class="tool-label">avec</p>
+                <a href="https://github.com/antoinelemor/Transcribe-tool" target="_blank">Transcribe-tool</a>
+            </div>
+            <div class="pipeline-arrow">&#8594;</div>
+            <div class="pipeline-step">
+                <div class="icon">&#9986;</div>
+                <h4>Tokenisation</h4>
+                <p class="tool-label">avec</p>
+                <a href="https://github.com/antoinelemor/Transcribe-tool" target="_blank">Transcribe-tool</a>
+            </div>
+            <div class="pipeline-arrow">&#8594;</div>
+            <div class="pipeline-step">
+                <div class="icon">&#129302;</div>
+                <h4>Annotation LLM</h4>
+                <p class="tool-label">avec</p>
+                <a href="https://github.com/antoinelemor/LLM_Tool" target="_blank">LLM_Tool</a>
+            </div>
+            <div class="pipeline-arrow">&#8594;</div>
+            <div class="pipeline-step">
+                <div class="icon">&#128202;</div>
+                <h4>Analyse</h4>
+                <p class="tool-label">avec</p>
+                <a href="https://github.com/antoinelemor/nlp-pol" target="_blank">nlp-pol</a>
+            </div>
+        </div>
+
+        <div class="metrics-row" style="max-width: 900px; margin: 0 auto;">
+            <div class="metric">
+                <div class="value accent">359</div>
+                <div class="label">Phrases analysees</div>
+            </div>
+            <div class="metric">
+                <div class="value accent">119</div>
+                <div class="label">Phrases politiques</div>
+            </div>
+            <div class="metric">
+                <div class="value accent">560</div>
+                <div class="label">Mentions d'acteurs</div>
+            </div>
+            <div class="metric">
+                <div class="value accent">264</div>
+                <div class="label">Cadres geopolitiques</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide slide-figure" id="slide-3">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig1_dashboard_fr.png" alt="Dashboard">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide slide-content" id="slide-4">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : une doctrine d'affirmation pragmatique</h2>
+            <div class="badge">Vue d'ensemble</div>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <h3>Vision equilibree</h3>
+                <p>Le GAI de +0.08 revele une vision ni alarmiste ni euphorique. Macron cadre les defis sans catastrophisme.</p>
+                <div class="stat">
+                    <span class="val warning">+0.08</span>
+                    <span class="lbl">Indice geopolitique</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>France comme acteur</h3>
+                <p>Avec 85% d'agentivite, la France est presentee comme proactive, pas reactive aux evenements.</p>
+                <div class="stat">
+                    <span class="val positive">85%</span>
+                    <span class="lbl">Agentivite</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Politiques programmatiques</h3>
+                <p>45% de concretude : les propositions restent au niveau strategique plutot qu'operationnel.</p>
+                <div class="stat">
+                    <span class="val warning">45%</span>
+                    <span class="lbl">Concretude</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Ton neutre</h3>
+                <p>Une tonalite proche de zero (-0.01) indique un registre pragmatique, ni alarmiste ni triomphaliste.</p>
+                <div class="stat">
+                    <span class="val warning">-0.01</span>
+                    <span class="lbl">Tonalite</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide slide-section" id="slide-5">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;1</div>
+            <h2>L'evolution du discours en un coup d'oeil</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide slide-figure" id="slide-6">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig4_emotional_timeline_fr.png" alt="Timeline emotionnelle">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide slide-content" id="slide-7">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : pragmatisme dominant, pics combatifs cibles</h2>
+            <div class="badge">Evolution du registre emotionnel</div>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <h3>Registre dominant</h3>
+                <p>Le ton pragmatique (30%) et confiant (21%) domine l'ensemble du discours.</p>
+                <div class="stat">
+                    <span class="val accent">51%</span>
+                    <span class="lbl">Pragmatique + Confiant</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Pics combatifs</h3>
+                <p>12% du discours adopte un ton combatif, concentre sur des sujets specifiques (defense, souverainete).</p>
+                <div class="stat">
+                    <span class="val negative">12%</span>
+                    <span class="lbl">Combatif</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Passages alarmistes</h3>
+                <p>7% seulement du discours est alarmiste - reserve aux menaces les plus graves.</p>
+                <div class="stat">
+                    <span class="val negative">7%</span>
+                    <span class="lbl">Alarmiste</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Tonalite globale</h3>
+                <p>Le score de -0.01 indique un equilibre entre registres positifs et negatifs.</p>
+                <div class="stat">
+                    <span class="val warning">-0.01</span>
+                    <span class="lbl">Indice tonalite</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide slide-section" id="slide-8">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;2</div>
+            <h2>Quelle vision du monde ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide slide-figure" id="slide-9">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig2_geopolitical_anxiety_fr.png" alt="Vision geopolitique">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide slide-content" id="slide-10">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : opportunites devant les menaces</h2>
+            <div class="badge">Cadrage geopolitique</div>
+        </div>
+        <div class="two-cols">
+            <div class="col-card">
+                <h3 class="negative">Cadres de menace (39%)</h3>
+                <ul>
+                    <li><strong>Politique de puissance</strong> - 41 occurrences (16%)</li>
+                    <li><strong>Desordre mondial</strong> - 17 occurrences (7%)</li>
+                    <li><strong>Declin multilateral</strong> - 12 occurrences (5%)</li>
+                    <li><strong>Fragmentation</strong> - 11 occurrences (4%)</li>
+                    <li><strong>Vassalisation</strong> - 7 occurrences (3%)</li>
+                </ul>
+            </div>
+            <div class="col-card">
+                <h3 class="positive">Cadres d'opportunite (61%)</h3>
+                <ul>
+                    <li><strong>Cooperation</strong> - 58 occurrences (22%)</li>
+                    <li><strong>Resilience</strong> - 30 occurrences (12%)</li>
+                    <li><strong>Progres</strong> - 15 occurrences (6%)</li>
+                    <li><strong>Opportunite de leadership</strong> - 14 occurrences (5%)</li>
+                    <li><strong>Renouveau multilateral</strong> - 10 occurrences (4%)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="insight-box">
+            <div class="label">Interpretation</div>
+            <div class="text">Le cadrage "cooperation" domine : Macron presente les defis comme des opportunites de partenariat plutot que comme des menaces existentielles.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide slide-section" id="slide-11">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;3</div>
+            <h2>Comment sont presentes les acteurs ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="slide slide-figure" id="slide-12">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig3_actor_sentiment_fr.png" alt="Sentiment acteurs">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13 -->
+<div class="slide slide-content" id="slide-13">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : allies valorises, grandes puissances nuancees</h2>
+            <div class="badge">560 mentions analysees</div>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Acteur</th>
+                        <th>Mentions</th>
+                        <th>Positif</th>
+                        <th>Negatif</th>
+                        <th>Sentiment net</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>France</strong></td><td>166</td><td>115</td><td>4</td><td class="positive"><strong>+0.67</strong></td></tr>
+                    <tr><td><strong>Europe/UE</strong></td><td>61</td><td>34</td><td>3</td><td class="positive"><strong>+0.51</strong></td></tr>
+                    <tr><td><strong>Etats-Unis</strong></td><td>17</td><td>4</td><td>5</td><td><strong>-0.06</strong></td></tr>
+                    <tr><td><strong>Chine</strong></td><td>12</td><td>0</td><td>5</td><td class="negative"><strong>-0.42</strong></td></tr>
+                    <tr><td><strong>Ukraine</strong></td><td>8</td><td>6</td><td>0</td><td class="positive"><strong>+0.75</strong></td></tr>
+                    <tr><td><strong>Inde</strong></td><td>8</td><td>6</td><td>0</td><td class="positive"><strong>+0.75</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="insight-box">
+            <div class="label">Interpretation</div>
+            <div class="text">Traitement legerement negatif des USA (-0.06), negatif de la Chine (-0.42). L'Ukraine et l'Inde emergent comme partenaires strategiques privilegies.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 14 -->
+<div class="slide slide-section" id="slide-14">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;4</div>
+            <h2>Quelles politiques proposees ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 15 -->
+<div class="slide slide-figure" id="slide-15">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig5_policy_matrix_fr.png" alt="Matrice politique">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 16 -->
+<div class="slide slide-content" id="slide-16">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : methode diplomatique avant tout</h2>
+            <div class="badge">119 phrases classifiees a contenu politique</div>
+        </div>
+        <div class="two-cols">
+            <div class="col-card">
+                <h3>Niveau de specificite</h3>
+                <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem;">% des phrases a contenu politique</p>
+                <ul>
+                    <li><strong>Programmatiques</strong> - 67 phrases (56%)</li>
+                    <li><strong>Aspirationnelles</strong> - 48 phrases (40%)</li>
+                    <li><strong>Concretes</strong> - 4 phrases (3%)</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--muted);">Tres peu de mesures concretes et operationnelles.</p>
+            </div>
+            <div class="col-card">
+                <h3>Domaines prioritaires</h3>
+                <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem;">% des phrases a contenu politique</p>
+                <ul>
+                    <li><strong>Methode diplomatique</strong> - 29 phrases (24%)</li>
+                    <li><strong>Economie europeenne</strong> - 9 phrases (8%)</li>
+                    <li><strong>Gouvernance mondiale</strong> - 8 phrases (7%)</li>
+                    <li><strong>Relations Afrique</strong> - 7 phrases (6%)</li>
+                    <li><strong>Politique commerciale</strong> - 7 phrases (6%)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="insight-box">
+            <div class="label">Interpretation</div>
+            <div class="text">L'accent sur la "methode diplomatique" (24% des phrases politiques) revele une priorite sur le comment plutot que le quoi : la maniere de negocier prime sur le contenu.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 17 -->
+<div class="slide slide-section" id="slide-17">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;5</div>
+            <h2>Quelle strategie rhetorique ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 18 -->
+<div class="slide slide-figure" id="slide-18">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig6_rhetorical_strategy_fr.png" alt="Strategie rhetorique">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 19 -->
+<div class="slide slide-content" id="slide-19">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : equilibre entre diagnostic et action</h2>
+            <div class="badge">537 actes de parole</div>
+        </div>
+        <div class="two-cols">
+            <div class="col-card">
+                <h3>Actes de parole</h3>
+                <ul>
+                    <li><strong>Constat (STATING)</strong> - 109 (20%)</li>
+                    <li><strong>Proposition (PROPOSING)</strong> - 76 (14%)</li>
+                    <li><strong>Exhortation (EXHORTING)</strong> - 71 (13%)</li>
+                    <li><strong>Cadrage (FRAMING)</strong> - 69 (13%)</li>
+                    <li><strong>Rassurer (REASSURING)</strong> - 67 (12%)</li>
+                </ul>
+            </div>
+            <div class="col-card">
+                <h3>Orientation action</h3>
+                <p style="margin-bottom: 1rem;">Ratio action / (action + diagnostic) :</p>
+                <div style="text-align: center;">
+                    <span style="font-family: 'STIX Two Text', serif; font-size: 3.5rem; font-weight: 600; color: var(--accent-2);">43%</span>
+                </div>
+                <p style="margin-top: 1rem; text-align: center; color: var(--muted); font-size: 0.85rem;">Equilibre entre analyse de situation et appels a l'action</p>
+            </div>
+        </div>
+        <div class="insight-box">
+            <div class="label">Interpretation</div>
+            <div class="text">Le discours combine diagnostic (constats, cadrage) et volontarisme (propositions, exhortations) dans un equilibre proche de 50/50.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 20 -->
+<div class="slide slide-section" id="slide-20">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;6</div>
+            <h2>Comment la France est-elle positionnee ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 21 -->
+<div class="slide slide-figure" id="slide-21">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig7_agency_profile_fr.png" alt="Profil agentivite">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 22 -->
+<div class="slide slide-content" id="slide-22">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : agent actif, pas victime</h2>
+            <div class="badge">304 positionnements</div>
+        </div>
+        <div class="metrics-row" style="margin-bottom: 1.5rem;">
+            <div class="metric"><div class="value positive">193</div><div class="label">Actif</div></div>
+            <div class="metric"><div class="value accent">78</div><div class="label">Cooperatif</div></div>
+            <div class="metric"><div class="value warning">33</div><div class="label">Reactif</div></div>
+        </div>
+        <div class="cards-grid">
+            <div class="card"><h3>Agent actif (46%)</h3><p>La France est presentee comme initiant des actions, pas reagissant aux evenements.</p></div>
+            <div class="card"><h3>Partenaire (23%)</h3><p>Emphase sur la cooperation et les alliances plutot que l'unilateralisme.</p></div>
+            <div class="card"><h3>Leader (8%)</h3><p>Positionnement de leadership sur des sujets cles (Europe, climat, defense).</p></div>
+            <div class="card"><h3>Victime (3% seulement)</h3><p>Quasi-absence du positionnement victimaire - pas de plainte ni de fatalisme.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 23 -->
+<div class="slide slide-section" id="slide-23">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="section-box">
+            <div class="num">Analyse n&#176;7</div>
+            <h2>Quel positionnement diplomatique ?</h2>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 24 -->
+<div class="slide slide-figure" id="slide-24">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="figure-container" onclick="openLightbox(this)">
+            <img src="/assets/img/nlp-pol-macron-figures/fig8_diplomatic_positioning_fr.png" alt="Positionnement diplomatique">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 25 -->
+<div class="slide slide-content" id="slide-25">
+    <div class="slide-inner">
+        <div class="content-header">
+            <h2>Constat : Europe en priorite, grandes puissances nuancees</h2>
+            <div class="badge">Groupes d'acteurs</div>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <h3 class="positive">Allies (France, Europe)</h3>
+                <p>Traitement systematiquement positif. Ancrage europeen affirme.</p>
+                <div class="stat"><span class="val positive">+0.59</span><span class="lbl">Sentiment moyen</span></div>
+            </div>
+            <div class="card">
+                <h3>Grandes puissances</h3>
+                <p>USA légèrement négatifs (-0.06), Chine négative (-0.42). Pas d'alignement automatique.</p>
+                <div class="stat"><span class="val negative">-0.24</span><span class="lbl">Sentiment moyen</span></div>
+            </div>
+            <div class="card">
+                <h3 class="positive">Partenaires emergents</h3>
+                <p>Ukraine et Inde comme nouveaux partenaires strategiques privilegies.</p>
+                <div class="stat"><span class="val positive">+0.75</span><span class="lbl">Sentiment moyen</span></div>
+            </div>
+            <div class="card">
+                <h3>Absence notable</h3>
+                <p>La Russie est peu mentionnee directement - cadrage par les consequences plutot que confrontation.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 26 -->
+<div class="slide slide-conclusion" id="slide-26">
+    <div class="slide-inner" style="align-items: center;">
+        <div class="conclusion-box">
+            <div class="overline">Conclusion</div>
+            <h2>Une doctrine d'affirmation pragmatique</h2>
+            <p>L'analyse quantitative revele une diplomatie qui conjugue realisme sur les menaces et volontarisme dans l'action. Macron positionne la France comme acteur proactif dans un monde en transformation, privilegiant les partenariats et la cooperation multilaterale.</p>
+            <div class="key-stats">
+                <div class="key-stat"><div class="val">+0.08</div><div class="lbl">Vision prudente</div></div>
+                <div class="key-stat"><div class="val">85%</div><div class="lbl">Agentivite</div></div>
+                <div class="key-stat"><div class="val">61%</div><div class="lbl">Cadres opportunite</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 27 -->
+<div class="slide slide-title" id="slide-27">
+    <div class="slide-inner">
+        <p style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 0.5rem;">Antoine Lemor</p>
+        <p style="font-size: clamp(1rem, 2.5vw, 1.5rem); margin-bottom: 3rem;"><a href="https://github.com/antoinelemor" style="color: var(--accent); text-decoration: none; font-weight: 600;">github.com/antoinelemor</a></p>
+        <div style="border-top: 2px solid var(--accent); padding-top: 2rem;">
+            <p style="font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--accent); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700;">Outils Open Source</p>
+            <div class="tools-grid">
+                <div class="tool-card"><div class="icon">&#128202;</div><h4>Analyse NLP</h4><a href="https://github.com/antoinelemor/nlp-pol" target="_blank">nlp-pol</a></div>
+                <div class="tool-card"><div class="icon">&#128221;</div><h4>Transcription</h4><a href="https://github.com/antoinelemor/Transcribe-tool" target="_blank">Transcribe-tool</a></div>
+                <div class="tool-card"><div class="icon">&#129302;</div><h4>Annotation LLM</h4><a href="https://github.com/antoinelemor/LLM_Tool" target="_blank">LLM_Tool</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const progressBar = document.getElementById('progress');
+    const slideCounter = document.getElementById('slideCounter');
+    const tocItems = document.querySelectorAll('.toc-item');
+
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+
+        let currentSlide = 1;
+        slides.forEach((slide, index) => {
+            const rect = slide.getBoundingClientRect();
+            if (rect.top <= window.innerHeight / 2) currentSlide = index + 1;
+        });
+
+        slideCounter.innerHTML = '<strong>' + currentSlide + '</strong> / ' + totalSlides;
+
+        tocItems.forEach(item => {
+            const slideId = item.getAttribute('href').replace('#', '');
+            const slideNum = parseInt(slideId.replace('slide-', ''));
+            item.classList.toggle('active', slideNum === currentSlide);
+        });
+    }
+
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function getCurrentSlideIndex() {
+        let current = 0;
+        slides.forEach((slide, index) => {
+            const rect = slide.getBoundingClientRect();
+            if (rect.top <= window.innerHeight / 2) current = index;
+        });
+        return current;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        const current = getCurrentSlideIndex();
+        if (current > 0) slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const current = getCurrentSlideIndex();
+        if (current < slides.length - 1) slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); prevBtn.click(); }
+        else if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextBtn.click(); }
+        else if (e.key === 'Escape') { closeLightbox(); tocSidebar.classList.remove('active'); }
+    });
+
+    const tocToggle = document.getElementById('tocToggle');
+    const tocSidebar = document.getElementById('tocSidebar');
+
+    tocToggle.addEventListener('click', () => tocSidebar.classList.toggle('active'));
+    tocItems.forEach(item => item.addEventListener('click', () => tocSidebar.classList.remove('active')));
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function openLightbox(container) {
+        const img = container.querySelector('img');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    lightbox.addEventListener('click', closeLightbox);
+    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'none';
+                entry.target.offsetHeight;
+                entry.target.style.animation = null;
+            }
+        });
+    }, { threshold: 0.3 });
+
+    slides.forEach(slide => observer.observe(slide));
+
+    // Mobile fullscreen request
+    function requestFullscreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+        document.getElementById('mobileFullscreenPrompt').style.display = 'none';
+    }
+
+    // Hide fullscreen prompt after scroll or interaction
+    let promptHidden = false;
+    function hideFullscreenPrompt() {
+        if (!promptHidden && window.scrollY > 100) {
+            document.getElementById('mobileFullscreenPrompt').style.display = 'none';
+            promptHidden = true;
+        }
+    }
+    window.addEventListener('scroll', hideFullscreenPrompt);
+
+    // Scroll indicator: hide when near bottom
+    function updateScrollIndicator() {
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollTop > docHeight - 200) {
+            scrollIndicator.classList.add('hidden');
+        } else {
+            scrollIndicator.classList.remove('hidden');
+        }
+    }
+    window.addEventListener('scroll', updateScrollIndicator);
+    updateScrollIndicator();
+
+    // Make requestFullscreen globally accessible
+    window.requestFullscreen = requestFullscreen;
+</script>
+
+</body>
+</html>
