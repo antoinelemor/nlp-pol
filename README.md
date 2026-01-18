@@ -29,13 +29,19 @@ The goal is to reveal rhetorical patterns that are difficult to perceive when wa
 
 See each analysis README for detailed calculations.
 
-## Analyses
+## Published Analyses
 
-| Date | Topic | Method | Slides |
-|------|-------|--------|--------|
-| 2026-01-14 | [Legault Resignation Speech](analyses/2026-01-14_legault_resignation/) | [README](analyses/2026-01-14_legault_resignation/README.md) | [FR](analyses/2026-01-14_legault_resignation/presentation/slides_fr.pdf) / [EN](analyses/2026-01-14_legault_resignation/presentation/slides_en.pdf) |
-| 2026-01-08 | [Macron Ambassadors Speech](analyses/2026-01-08_macron_diplomacy_speech/) | [README](analyses/2026-01-08_macron_diplomacy_speech/README.md) | [FR](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_fr.pdf) / [EN](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_en.pdf) |
-| 2026-01-03 | [Trump Venezuela Press Conference](analyses/2026-01-03_trump_venezuela_maduro/) | [README](analyses/2026-01-03_trump_venezuela_maduro/README.md) | [FR](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_fr.pdf) / [EN](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_en.pdf) |
+> **📖 Read the full analyses on the blog:**
+>
+> - **[Legault Resignation Speech](https://antoinelemor.github.io/blog/2026/nlp-pol-legault-resignation/)** — Quebec Premier's departure announcement
+> - **[Macron Ambassadors Speech](https://antoinelemor.github.io/blog/2026/nlp-pol-macron-diplomacy/)** — France's diplomatic positioning
+> - **[Trump Venezuela Press Conference](https://antoinelemor.github.io/blog/2026/nlp-pol-trump-venezuela/)** — US policy toward Venezuela/Maduro
+
+| Date | Topic | Blog | Method | Slides |
+|------|-------|------|--------|--------|
+| 2026-01-14 | Legault Resignation Speech | [**Read →**](https://antoinelemor.github.io/blog/2026/nlp-pol-legault-resignation/) | [README](analyses/2026-01-14_legault_resignation/README.md) | [FR](analyses/2026-01-14_legault_resignation/presentation/slides_fr.pdf) / [EN](analyses/2026-01-14_legault_resignation/presentation/slides_en.pdf) |
+| 2026-01-08 | Macron Ambassadors Speech | [**Read →**](https://antoinelemor.github.io/blog/2026/nlp-pol-macron-diplomacy/) | [README](analyses/2026-01-08_macron_diplomacy_speech/README.md) | [FR](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_fr.pdf) / [EN](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_en.pdf) |
+| 2026-01-03 | Trump Venezuela Press Conference | [**Read →**](https://antoinelemor.github.io/blog/2026/nlp-pol-trump-venezuela/) | [README](analyses/2026-01-03_trump_venezuela_maduro/README.md) | [FR](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_fr.pdf) / [EN](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_en.pdf) |
 
 ## Structure
 
