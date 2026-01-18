@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Domains and Speech Acts</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-stat {
+            text-align: right;
+        }
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Main content - two columns: narrow left stacked lists, wide right sankey */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 0.35fr 1fr;
+            gap: 30px;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Left column with stacked sections */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        /* Compact items */
+        .item-compact {
+            margin-bottom: 6px;
+        }
+        .item-header-compact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        .item-dot-small {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .item-name-compact {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--ink);
+            flex: 1;
+        }
+        .item-stat-compact {
+            font-family: 'STIX Two Text', serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .item-bar-track-compact {
+            height: 6px;
+            background: var(--bg-deep);
+            border-radius: 3px;
+        }
+        .item-bar {
+            height: 100%;
+            border-radius: inherit;
+        }
+
+        /* Sankey container */
+        .sankey-container {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: visible;
+        }
+        .sankey-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .sankey-svg {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 15px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Domains and Speech Acts</h1>
+                <p class="subtitle">Which communicative function for each policy area</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">15</div>
+                <div class="stat-label">domains addressed</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Stacked Policy Domains + Speech Acts -->
+            <div class="left-column">
+                <div class="section">
+                    <h2 class="section-title">Policy domains</h2>
+                    
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #059669;"></span>
+                <span class="item-name-compact">Party politics</span>
+                <span class="item-stat-compact">24</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 100.0%; background: #059669;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #DC2626;"></span>
+                <span class="item-name-compact">Healthcare</span>
+                <span class="item-stat-compact">15</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 62.5%; background: #DC2626;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #2563EB;"></span>
+                <span class="item-name-compact">Economy</span>
+                <span class="item-stat-compact">13</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 54.166666666666664%; background: #2563EB;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #003DA5;"></span>
+                <span class="item-name-compact">Culture &amp; Identity</span>
+                <span class="item-stat-compact">10</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 41.66666666666667%; background: #003DA5;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #F59E0B;"></span>
+                <span class="item-name-compact">Education</span>
+                <span class="item-stat-compact">9</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 37.5%; background: #F59E0B;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #EC4899;"></span>
+                <span class="item-name-compact">Seniors</span>
+                <span class="item-stat-compact">6</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 25.0%; background: #EC4899;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #0F766E;"></span>
+                <span class="item-name-compact">Language policy</span>
+                <span class="item-stat-compact">5</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 20.833333333333336%; background: #0F766E;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #6B7280;"></span>
+                <span class="item-name-compact">Intergovernmental</span>
+                <span class="item-stat-compact">5</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 20.833333333333336%; background: #6B7280;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #10B981;"></span>
+                <span class="item-name-compact">Energy</span>
+                <span class="item-stat-compact">5</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 20.833333333333336%; background: #10B981;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #EF4444;"></span>
+                <span class="item-name-compact">Cost of living</span>
+                <span class="item-stat-compact">3</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 12.5%; background: #EF4444;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #6366F1;"></span>
+                <span class="item-name-compact">Labor</span>
+                <span class="item-stat-compact">2</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 8.333333333333332%; background: #6366F1;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #8B5CF6;"></span>
+                <span class="item-name-compact">Secularism</span>
+                <span class="item-stat-compact">2</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 8.333333333333332%; background: #8B5CF6;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #0891B2;"></span>
+                <span class="item-name-compact">Taxation</span>
+                <span class="item-stat-compact">1</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 4.166666666666666%; background: #0891B2;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #A855F7;"></span>
+                <span class="item-name-compact">Housing</span>
+                <span class="item-stat-compact">1</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 4.166666666666666%; background: #A855F7;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #7C3AED;"></span>
+                <span class="item-name-compact">Immigration</span>
+                <span class="item-stat-compact">1</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 4.166666666666666%; background: #7C3AED;"></div>
+            </div>
+        </div>
+        
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Speech acts</h2>
+                    
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #F59E0B;"></span>
+                <span class="item-name-compact">Justification</span>
+                <span class="item-stat-compact">51</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 100.0%; background: #F59E0B;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #2563EB;"></span>
+                <span class="item-name-compact">Achievement claim</span>
+                <span class="item-stat-compact">35</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 68.62745098039215%; background: #2563EB;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #10B981;"></span>
+                <span class="item-name-compact">Praising</span>
+                <span class="item-stat-compact">22</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 43.13725490196079%; background: #10B981;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #EC4899;"></span>
+                <span class="item-name-compact">Emotional expression</span>
+                <span class="item-stat-compact">18</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 35.294117647058826%; background: #EC4899;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #059669;"></span>
+                <span class="item-name-compact">Thanking</span>
+                <span class="item-stat-compact">14</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 27.450980392156865%; background: #059669;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #6366F1;"></span>
+                <span class="item-name-compact">Diagnosis</span>
+                <span class="item-stat-compact">12</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 23.52941176470588%; background: #6366F1;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #8B5CF6;"></span>
+                <span class="item-name-compact">Acknowledgment</span>
+                <span class="item-stat-compact">10</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 19.607843137254903%; background: #8B5CF6;"></div>
+            </div>
+        </div>
+        
+        <div class="item-compact">
+            <div class="item-header-compact">
+                <span class="item-dot-small" style="background: #6B7280;"></span>
+                <span class="item-name-compact">Statement</span>
+                <span class="item-stat-compact">9</span>
+            </div>
+            <div class="item-bar-track-compact">
+                <div class="item-bar" style="width: 17.647058823529413%; background: #6B7280;"></div>
+            </div>
+        </div>
+        
+                </div>
+            </div>
+
+            <!-- Right: Sankey diagram -->
+            <div class="sankey-container">
+                <h3 class="sankey-title">Domain -&gt; Act</h3>
+                
+    <svg class="sankey-svg" viewBox="0 0 900 558">
+        
+            <path d="M 186 104.0 C 280 104.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#2563EB" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 342.0, 714 342.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 240.0 C 280 240.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#0F766E" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 240.0 C 280 240.0, 620 342.0, 714 342.0"
+                  fill="none" stroke="#0F766E" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 410.0, 714 410.0"
+                  fill="none" stroke="#059669" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#059669" stroke-width="12.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#059669" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 444.0, 714 444.0"
+                  fill="none" stroke="#059669" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 172.0, 714 172.0"
+                  fill="none" stroke="#059669" stroke-width="8.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#059669" stroke-width="5.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 138.0, 714 138.0"
+                  fill="none" stroke="#059669" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 104.0, 714 104.0"
+                  fill="none" stroke="#059669" stroke-width="6.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 36.0 C 280 36.0, 620 240.0, 714 240.0"
+                  fill="none" stroke="#059669" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 274.0, 714 274.0"
+                  fill="none" stroke="#DC2626" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#DC2626" stroke-width="9.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 138.0, 714 138.0"
+                  fill="none" stroke="#DC2626" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 240.0, 714 240.0"
+                  fill="none" stroke="#DC2626" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#DC2626" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 206.0 C 280 206.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#EC4899" stroke-width="4.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 206.0 C 280 206.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#EC4899" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#DC2626" stroke-width="8.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 70.0 C 280 70.0, 620 104.0, 714 104.0"
+                  fill="none" stroke="#DC2626" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 206.0 C 280 206.0, 620 104.0, 714 104.0"
+                  fill="none" stroke="#EC4899" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 104.0, 714 104.0"
+                  fill="none" stroke="#003DA5" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#2563EB" stroke-width="9.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 478.0, 714 478.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#6B7280" stroke-width="4.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 478.0, 714 478.0"
+                  fill="none" stroke="#6B7280" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#6B7280" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#2563EB" stroke-width="8.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 138.0, 714 138.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 444.0 C 280 444.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#0891B2" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 444.0 C 280 444.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#0891B2" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 342.0 C 280 342.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#EF4444" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 342.0 C 280 342.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#EF4444" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 478.0 C 280 478.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#A855F7" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 478.0 C 280 478.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#A855F7" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 342.0 C 280 342.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#EF4444" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 308.0, 714 308.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 240.0, 714 240.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 308.0 C 280 308.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#10B981" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 308.0 C 280 308.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#10B981" stroke-width="4.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 104.0 C 280 104.0, 620 376.0, 714 376.0"
+                  fill="none" stroke="#2563EB" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#6B7280" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 240.0, 714 240.0"
+                  fill="none" stroke="#6B7280" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 308.0 C 280 308.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#10B981" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 308.0 C 280 308.0, 620 240.0, 714 240.0"
+                  fill="none" stroke="#10B981" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 274.0 C 280 274.0, 620 410.0, 714 410.0"
+                  fill="none" stroke="#6B7280" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 172.0 C 280 172.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#F59E0B" stroke-width="6.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 172.0 C 280 172.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#F59E0B" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 376.0 C 280 376.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#6366F1" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 376.0 C 280 376.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#6366F1" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 172.0 C 280 172.0, 620 104.0, 714 104.0"
+                  fill="none" stroke="#F59E0B" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 172.0 C 280 172.0, 620 342.0, 714 342.0"
+                  fill="none" stroke="#F59E0B" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 206.0 C 280 206.0, 620 308.0, 714 308.0"
+                  fill="none" stroke="#EC4899" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#003DA5" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#003DA5" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 308.0, 714 308.0"
+                  fill="none" stroke="#003DA5" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 410.0 C 280 410.0, 620 308.0, 714 308.0"
+                  fill="none" stroke="#8B5CF6" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 410.0 C 280 410.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#8B5CF6" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 410.0 C 280 410.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#8B5CF6" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 240.0 C 280 240.0, 620 70.0, 714 70.0"
+                  fill="none" stroke="#0F766E" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 240.0 C 280 240.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#0F766E" stroke-width="3.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 512.0 C 280 512.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#7C3AED" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 512.0 C 280 512.0, 620 36.0, 714 36.0"
+                  fill="none" stroke="#7C3AED" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 240.0 C 280 240.0, 620 376.0, 714 376.0"
+                  fill="none" stroke="#0F766E" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 376.0, 714 376.0"
+                  fill="none" stroke="#003DA5" stroke-width="2.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 342.0, 714 342.0"
+                  fill="none" stroke="#003DA5" stroke-width="4.0"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+            <path d="M 186 138.0 C 280 138.0, 620 206.0, 714 206.0"
+                  fill="none" stroke="#003DA5" stroke-width="1.5"
+                  stroke-opacity="0.35" stroke-linecap="round"/>
+        
+        <circle cx="180" cy="36.0" r="6" fill="#059669"/>
+        <text x="168" y="40.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Party politics</text>
+        <circle cx="180" cy="70.0" r="6" fill="#DC2626"/>
+        <text x="168" y="74.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Healthcare</text>
+        <circle cx="180" cy="104.0" r="6" fill="#2563EB"/>
+        <text x="168" y="108.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Economy</text>
+        <circle cx="180" cy="138.0" r="6" fill="#003DA5"/>
+        <text x="168" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#1f1b16">
+            <tspan x="168" y="136.0">Culture</tspan>
+            <tspan x="168" y="148.0">&amp; Identity</tspan>
+        </text>
+        <circle cx="180" cy="172.0" r="6" fill="#F59E0B"/>
+        <text x="168" y="176.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Education</text>
+        <circle cx="180" cy="206.0" r="6" fill="#EC4899"/>
+        <text x="168" y="210.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Seniors</text>
+        <circle cx="180" cy="240.0" r="6" fill="#0F766E"/>
+        <text x="168" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#1f1b16">
+            <tspan x="168" y="238.0">Language</tspan>
+            <tspan x="168" y="250.0">policy</tspan>
+        </text>
+        <circle cx="180" cy="274.0" r="6" fill="#6B7280"/>
+        <text x="168" y="278.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Intergovernmental</text>
+        <circle cx="180" cy="308.0" r="6" fill="#10B981"/>
+        <text x="168" y="312.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Energy</text>
+        <circle cx="180" cy="342.0" r="6" fill="#EF4444"/>
+        <text x="168" y="346.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Cost of living</text>
+        <circle cx="180" cy="376.0" r="6" fill="#6366F1"/>
+        <text x="168" y="380.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Labor</text>
+        <circle cx="180" cy="410.0" r="6" fill="#8B5CF6"/>
+        <text x="168" y="414.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Secularism</text>
+        <circle cx="180" cy="444.0" r="6" fill="#0891B2"/>
+        <text x="168" y="448.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Taxation</text>
+        <circle cx="180" cy="478.0" r="6" fill="#A855F7"/>
+        <text x="168" y="482.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Housing</text>
+        <circle cx="180" cy="512.0" r="6" fill="#7C3AED"/>
+        <text x="168" y="516.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Immigration</text>
+        
+        <circle cx="720" cy="36.0" r="6" fill="#F59E0B"/>
+        <text x="732" y="40.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Justification</text>
+        <circle cx="720" cy="70.0" r="6" fill="#2563EB"/>
+        <text x="732" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#1f1b16">
+            <tspan x="732" y="68.0">Achievement</tspan>
+            <tspan x="732" y="80.0">claim</tspan>
+        </text>
+        <circle cx="720" cy="104.0" r="6" fill="#10B981"/>
+        <text x="732" y="108.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Praising</text>
+        <circle cx="720" cy="138.0" r="6" fill="#EC4899"/>
+        <text x="732" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#1f1b16">
+            <tspan x="732" y="136.0">Emotional</tspan>
+            <tspan x="732" y="148.0">expression</tspan>
+        </text>
+        <circle cx="720" cy="172.0" r="6" fill="#059669"/>
+        <text x="732" y="176.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Thanking</text>
+        <circle cx="720" cy="206.0" r="6" fill="#6366F1"/>
+        <text x="732" y="210.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Diagnosis</text>
+        <circle cx="720" cy="240.0" r="6" fill="#8B5CF6"/>
+        <text x="732" y="244.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Acknowledgment</text>
+        <circle cx="720" cy="274.0" r="6" fill="#6B7280"/>
+        <text x="732" y="278.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Statement</text>
+        <circle cx="720" cy="308.0" r="6" fill="#9CA3AF"/>
+        <text x="732" y="312.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Transition</text>
+        <circle cx="720" cy="342.0" r="6" fill="#DC2626"/>
+        <text x="732" y="346.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Exhortation</text>
+        <circle cx="720" cy="376.0" r="6" fill="#EF4444"/>
+        <text x="732" y="380.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Warning</text>
+        <circle cx="720" cy="410.0" r="6" fill="#14B8A6"/>
+        <text x="732" y="414.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Wish</text>
+        <circle cx="720" cy="444.0" r="6" fill="#7C3AED"/>
+        <text x="732" y="448.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600"
+              fill="#1f1b16">Announcement</text>
+        <circle cx="720" cy="478.0" r="6" fill="#0891B2"/>
+        <text x="732" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="10" font-weight="600" fill="#1f1b16">
+            <tspan x="732" y="476.0">Anticipating</tspan>
+            <tspan x="732" y="488.0">criticism</tspan>
+        </text>
+    </svg>
+    
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Cross-analysis of 122 sentences by policy domain (CAP) and speech act. Flows show which acts are used for each domain.</p>
+        </footer>
+    </div>
+</body>
+</html>

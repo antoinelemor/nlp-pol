@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rhetorical Strategy</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-stat {
+            text-align: right;
+        }
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Main content - two columns */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            min-height: 0;
+            overflow: hidden;
+            padding: 10px 20px;
+        }
+
+        /* Donut section */
+        .donut-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .donut-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .donut-svg {
+            width: 760px;
+            height: 520px;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 15px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Rhetorical Strategy</h1>
+                <p class="subtitle">How Legault constructs his resignation speech</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">72%</div>
+                <div class="stat-label">of speech on legacy</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Legacy Framing Donut -->
+            <div class="donut-section">
+                <h2 class="section-title">Adopted stances</h2>
+                <div class="donut-container">
+                    
+    <svg viewBox="0 0 760 520" class="donut-svg">
+        <path d="M 260.0 50.0
+                   A 210.0 210.0 0 0 1 397.52075412850985 418.70741061439423
+                   L 328.76037706425495 339.3537053071971
+                   A 105.0 105.0 0 0 0 260.0 155.0
+                   Z" fill="#F59E0B" stroke="white" stroke-width="2"/>
+<path d="M 397.52075412850985 418.70741061439423
+                   A 210.0 210.0 0 0 1 186.61252228418937 456.75944224995
+                   L 223.30626114209468 358.379721124975
+                   A 105.0 105.0 0 0 0 328.76037706425495 339.3537053071971
+                   Z" fill="#7C3AED" stroke="white" stroke-width="2"/>
+<path d="M 186.61252228418937 456.75944224995
+                   A 210.0 210.0 0 0 1 54.7991581460565 304.6387108061251
+                   L 157.39957907302824 282.31935540306256
+                   A 105.0 105.0 0 0 0 223.30626114209468 358.379721124975
+                   Z" fill="#003DA5" stroke="white" stroke-width="2"/>
+<path d="M 54.7991581460565 304.6387108061251
+                   A 210.0 210.0 0 0 1 111.50757595082499 111.50757595082504
+                   L 185.75378797541248 185.75378797541254
+                   A 105.0 105.0 0 0 0 157.39957907302824 282.31935540306256
+                   Z" fill="#10B981" stroke="white" stroke-width="2"/>
+<path d="M 111.50757595082499 111.50757595082504
+                   A 210.0 210.0 0 0 1 159.357712788788 75.68741219087636
+                   L 209.67885639439402 167.84370609543816
+                   A 105.0 105.0 0 0 0 185.75378797541248 185.75378797541254
+                   Z" fill="#2563EB" stroke="white" stroke-width="2"/>
+<path d="M 159.357712788788 75.68741219087636
+                   A 210.0 210.0 0 0 1 215.361289193875 54.79915814605647
+                   L 237.6806445969375 157.39957907302824
+                   A 105.0 105.0 0 0 0 209.67885639439402 167.84370609543816
+                   Z" fill="#0891B2" stroke="white" stroke-width="2"/>
+<path d="M 215.361289193875 54.79915814605647
+                   A 210.0 210.0 0 0 1 259.99999999999994 50.0
+                   L 260.0 155.0
+                   A 105.0 105.0 0 0 0 237.6806445969375 157.39957907302824
+                   Z" fill="#059669" stroke="white" stroke-width="2"/>
+
+        
+    <text x="260.0" y="248.0" text-anchor="middle" font-family="STIX Two Text" font-size="56" font-weight="700" fill="#1f1b16">88</text>
+    <text x="260.0" y="282.0" text-anchor="middle" font-family="IBM Plex Sans" font-size="16" fill="#6b625a">mentions</text>
+    
+        
+        <g transform="translate(540, 40)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#F59E0B"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Pragmatist</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">34 (38.6%)</text>
+        </g>
+        <g transform="translate(540, 78)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#7C3AED"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Personal sacrifice</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">15 (17.0%)</text>
+        </g>
+        <g transform="translate(540, 116)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#003DA5"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Defender</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">14 (15.9%)</text>
+        </g>
+        <g transform="translate(540, 154)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#10B981"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Builder</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">14 (15.9%)</text>
+        </g>
+        <g transform="translate(540, 192)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#2563EB"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Historic achievement</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">4 (4.5%)</text>
+        </g>
+        <g transform="translate(540, 230)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#0891B2"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Transformative</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">4 (4.5%)</text>
+        </g>
+        <g transform="translate(540, 268)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#059669"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Pioneering</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">3 (3.4%)</text>
+        </g>
+    </svg>
+    
+                </div>
+            </div>
+
+            <!-- Right: Speech Acts Donut -->
+            <div class="donut-section">
+                <h2 class="section-title">Speech acts</h2>
+                <div class="donut-container">
+                    
+    <svg viewBox="0 0 760 520" class="donut-svg">
+        <path d="M 260.0 50.0
+                   A 210.0 210.0 0 0 1 469.15897344457414 278.77561790226673
+                   L 364.5794867222871 269.38780895113337
+                   A 105.0 105.0 0 0 0 260.0 155.0
+                   Z" fill="#F59E0B" stroke="white" stroke-width="2"/>
+<path d="M 469.15897344457414 278.77561790226673
+                   A 210.0 210.0 0 0 1 330.39473465135063 457.8498959650117
+                   L 295.1973673256753 358.92494798250584
+                   A 105.0 105.0 0 0 0 364.5794867222871 269.38780895113337
+                   Z" fill="#2563EB" stroke="white" stroke-width="2"/>
+<path d="M 330.39473465135063 457.8498959650117
+                   A 210.0 210.0 0 0 1 183.2026283119891 455.45373800931384
+                   L 221.60131415599454 357.7268690046569
+                   A 105.0 105.0 0 0 0 295.1973673256753 358.92494798250584
+                   Z" fill="#10B981" stroke="white" stroke-width="2"/>
+<path d="M 183.2026283119891 455.45373800931384
+                   A 210.0 210.0 0 0 1 87.92362539881822 380.3732582599381
+                   L 173.9618126994091 320.18662912996905
+                   A 105.0 105.0 0 0 0 221.60131415599454 357.7268690046569
+                   Z" fill="#EC4899" stroke="white" stroke-width="2"/>
+<path d="M 87.92362539881822 380.3732582599381
+                   A 210.0 210.0 0 0 1 52.50585552186766 292.3447060164093
+                   L 156.25292776093383 276.17235300820465
+                   A 105.0 105.0 0 0 0 173.9618126994091 320.18662912996905
+                   Z" fill="#059669" stroke="white" stroke-width="2"/>
+<path d="M 52.50585552186766 292.3447060164093
+                   A 210.0 210.0 0 0 1 55.82228335820321 210.89338102717582
+                   L 157.9111416791016 235.4466905135879
+                   A 105.0 105.0 0 0 0 156.25292776093383 276.17235300820465
+                   Z" fill="#6366F1" stroke="white" stroke-width="2"/>
+<path d="M 55.82228335820321 210.89338102717582
+                   A 210.0 210.0 0 0 1 82.25290007308223 148.16991251201534
+                   L 171.12645003654112 204.08495625600767
+                   A 105.0 105.0 0 0 0 157.9111416791016 235.4466905135879
+                   Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+<path d="M 82.25290007308223 148.16991251201534
+                   A 210.0 210.0 0 0 1 122.12730465409751 101.5982327180156
+                   L 191.06365232704877 180.7991163590078
+                   A 105.0 105.0 0 0 0 171.12645003654112 204.08495625600767
+                   Z" fill="#6B7280" stroke="white" stroke-width="2"/>
+<path d="M 122.12730465409751 101.5982327180156
+                   A 210.0 210.0 0 0 1 167.5667309912077 71.43677245987689
+                   L 213.78336549560385 165.71838622993846
+                   A 105.0 105.0 0 0 0 191.06365232704877 180.7991163590078
+                   Z" fill="#9CA3AF" stroke="white" stroke-width="2"/>
+<path d="M 167.5667309912077 71.43677245987689
+                   A 210.0 210.0 0 0 1 205.92320353602042 57.08203607321178
+                   L 232.9616017680102 158.5410180366059
+                   A 105.0 105.0 0 0 0 213.78336549560385 165.71838622993846
+                   Z" fill="#DC2626" stroke="white" stroke-width="2"/>
+<path d="M 205.92320353602042 57.08203607321178
+                   A 210.0 210.0 0 0 1 225.96762202511738 52.77597328163242
+                   L 242.98381101255868 156.38798664081622
+                   A 105.0 105.0 0 0 0 232.9616017680102 158.5410180366059
+                   Z" fill="#EF4444" stroke="white" stroke-width="2"/>
+<path d="M 225.96762202511738 52.77597328163242
+                   A 210.0 210.0 0 0 1 239.52271109978426 51.0007640222168
+                   L 249.76135554989213 155.5003820111084
+                   A 105.0 105.0 0 0 0 242.98381101255868 156.38798664081622
+                   Z" fill="#14B8A6" stroke="white" stroke-width="2"/>
+<path d="M 239.52271109978426 51.0007640222168
+                   A 210.0 210.0 0 0 1 253.1645810710525 50.11127460469493
+                   L 256.5822905355262 155.05563730234746
+                   A 105.0 105.0 0 0 0 249.76135554989213 155.5003820111084
+                   Z" fill="#7C3AED" stroke="white" stroke-width="2"/>
+<path d="M 253.1645810710525 50.11127460469493
+                   A 210.0 210.0 0 0 1 260.00000000000017 50.0
+                   L 260.00000000000006 155.0
+                   A 105.0 105.0 0 0 0 256.5822905355262 155.05563730234746
+                   Z" fill="#0891B2" stroke="white" stroke-width="2"/>
+
+        
+    <text x="260.0" y="248.0" text-anchor="middle" font-family="STIX Two Text" font-size="56" font-weight="700" fill="#1f1b16">193</text>
+    <text x="260.0" y="282.0" text-anchor="middle" font-family="IBM Plex Sans" font-size="16" fill="#6b625a">acts</text>
+    
+        
+        <g transform="translate(540, 40)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#F59E0B"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Justification</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">51 (26.4%)</text>
+        </g>
+        <g transform="translate(540, 78)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#2563EB"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Achievement claim</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">35 (18.1%)</text>
+        </g>
+        <g transform="translate(540, 116)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#10B981"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Praising</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">22 (11.4%)</text>
+        </g>
+        <g transform="translate(540, 154)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#EC4899"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Emotional expression</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">18 (9.3%)</text>
+        </g>
+        <g transform="translate(540, 192)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#059669"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Thanking</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">14 (7.3%)</text>
+        </g>
+        <g transform="translate(540, 230)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#6366F1"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Diagnosis</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">12 (6.2%)</text>
+        </g>
+        <g transform="translate(540, 268)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#8B5CF6"/>
+            <text x="26" y="14" font-family="IBM Plex Sans" font-size="16" font-weight="600" fill="#1f1b16">Acknowledgment</text>
+            <text x="26" y="32" font-family="STIX Two Text" font-size="14" fill="#6b625a">10 (5.2%)</text>
+        </g>
+    </svg>
+    
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Classification of 88 stance mentions (legacy framing) and 193 speech acts identified in 122 sentences.</p>
+        </footer>
+    </div>
+</body>
+</html>

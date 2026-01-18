@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Identity Themes</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-stat {
+            text-align: right;
+        }
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 30px;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Section styling */
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-header {
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: var(--muted);
+        }
+
+        /* Item styling */
+        .item {
+            margin-bottom: 10px;
+        }
+        .item-small {
+            margin-bottom: 4px;
+        }
+        .item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .item-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .item-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ink);
+            flex: 1;
+        }
+        .item-stat {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .item-pct {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+        .item-bar-track {
+            height: 12px;
+            background: var(--bg-deep);
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+        .item-bar-track-small {
+            height: 10px;
+            background: var(--bg-deep);
+            border-radius: 5px;
+        }
+        .item-bar {
+            height: 100%;
+            border-radius: inherit;
+        }
+        .item-quote {
+            font-family: 'STIX Two Text', serif;
+            font-size: 13px;
+            color: var(--ink);
+            line-height: 1.4;
+            padding: 5px 10px 5px 12px;
+            border-left: 4px solid var(--line);
+            border-radius: 6px;
+            background: var(--card);
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+        .item-quote .quote-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .item-quote-small {
+            font-family: 'STIX Two Text', serif;
+            font-size: 11px;
+            color: var(--ink);
+            line-height: 1.3;
+            padding: 3px 6px 3px 8px;
+            border-left: 2px solid var(--line);
+            border-radius: 4px;
+            background: var(--card);
+            margin-top: 2px;
+            margin-bottom: 3px;
+        }
+        .item-quote-small .quote-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Right column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Sankey diagram */
+        .sankey-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 16px 20px;
+            flex: 1;
+        }
+        .sankey-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .sankey-svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 15px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Identity Themes</h1>
+                <p class="subtitle">References to Quebec identity in the speech</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">16%</div>
+                <div class="stat-label">of speech on identity</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Identity themes -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Theme distribution</h2>
+                    <p class="section-desc">Topics related to Quebec identity</p>
+                </div>
+                
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #003DA5;"></span>
+                <span class="item-name">National pride</span>
+                <span class="item-stat">9 <span class="item-pct">(33.3%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 100.0%; background: #003DA5;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #003DA5;">
+                <span class="quote-text">"Puis une de mes grandes fiertés, je ne sais pas si je serai invité, mais en tout cas, ça va être l&#x27;ouverture l&#x27;été prochain du premier musée de l&#x27;histoire nationale du Québec, qui est temps qu&#x27;on célèbre au Québec la grande aventure de notre nation francophone en Amérique."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #0F766E;"></span>
+                <span class="item-name">French language</span>
+                <span class="item-stat">5 <span class="item-pct">(18.5%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 55.55555555555556%; background: #0F766E;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #0F766E;">
+                <span class="quote-text">"On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #7C3AED;"></span>
+                <span class="item-name">Cultural distinctiveness</span>
+                <span class="item-stat">4 <span class="item-pct">(14.8%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 44.44444444444444%; background: #7C3AED;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #7C3AED;">
+                <span class="quote-text">"En culture, bien évidemment, on a essayé d&#x27;aider le plus possible nos artistes, incluant pendant la pandémie. parce que le cœur, l&#x27;âme d&#x27;une nation, c&#x27;est sa culture."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #DC2626;"></span>
+                <span class="item-name">Vulnerability</span>
+                <span class="item-stat">3 <span class="item-pct">(11.1%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 33.33333333333333%; background: #DC2626;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #DC2626;">
+                <span class="quote-text">"Le Québec forme une nation, mais qui est toute proportion petite en Amérique du Nord, qui sera toujours vulnérable en Amérique du Nord."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #2563EB;"></span>
+                <span class="item-name">Autonomy</span>
+                <span class="item-stat">2 <span class="item-pct">(7.4%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 22.22222222222222%; background: #2563EB;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #2563EB;">
+                <span class="quote-text">"Créer de la richesse, ce n&#x27;est pas une fin en soi, mais c&#x27;est un moyen qui est nécessaire pour être capable de se payer des programmes sociaux, puis aussi pour se permettre d&#x27;être plus autonome face au reste du Canada."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #6366F1;"></span>
+                <span class="item-name">Secularism</span>
+                <span class="item-stat">2 <span class="item-pct">(7.4%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 22.22222222222222%; background: #6366F1;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #6366F1;">
+                <span class="quote-text">"On a adopté la loi 21 sur la laïcité, qui vient interdire les signes religieux pour les employés qui sont en position d&#x27;autorité."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #8B5CF6;"></span>
+                <span class="item-name">Historical memory</span>
+                <span class="item-stat">1 <span class="item-pct">(3.7%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 11.11111111111111%; background: #8B5CF6;"></div>
+            </div>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #F59E0B;"></span>
+                <span class="item-name">Integration</span>
+                <span class="item-stat">1 <span class="item-pct">(3.7%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 11.11111111111111%; background: #F59E0B;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #F59E0B;">
+                <span class="quote-text">"Concernant l&#x27;immigration, l&#x27;explosion du nombre d&#x27;immigrants temporaires par le gouvernement fédéral malheureusement a accéléré le déclin du français, en particulier à Montréal et à Laval."</span>
+            </blockquote>
+            
+        </div>
+        
+            </div>
+
+            <!-- Right: Stance + Index -->
+            <div class="right-column">
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Identity stance</h2>
+                        <p class="section-desc">Type of positioning on these issues</p>
+                    </div>
+                    
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #2563EB;"></span>
+                <span class="item-name">Assertive</span>
+                <span class="item-stat">9 <span class="item-pct">(33.3%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 100.0%; background: #2563EB;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #2563EB;">
+                <span class="quote-text">"Créer de la richesse, ce n&#x27;est pas une fin en soi, mais c&#x27;est un moyen qui est nécessaire pour être capable de se payer des programmes sociaux, puis aussi pour se permettre d&#x27;être plus autonome face au reste du Canada."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #DC2626;"></span>
+                <span class="item-name">Concerned</span>
+                <span class="item-stat">8 <span class="item-pct">(29.6%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 88.88888888888889%; background: #DC2626;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #DC2626;">
+                <span class="quote-text">"On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #059669;"></span>
+                <span class="item-name">Celebratory</span>
+                <span class="item-stat">8 <span class="item-pct">(29.6%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 88.88888888888889%; background: #059669;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #059669;">
+                <span class="quote-text">"Je pense que notre nation, c&#x27;est une belle nation, une nation très solidaire."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #F59E0B;"></span>
+                <span class="item-name">Defensive</span>
+                <span class="item-stat">2 <span class="item-pct">(7.4%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 22.22222222222222%; background: #F59E0B;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #F59E0B;">
+                <span class="quote-text">"On n&#x27;a pas à être gêné de protéger notre langue, notre culture et nos valeurs."</span>
+            </blockquote>
+            
+        </div>
+        
+                </div>
+
+                <div class="sankey-card">
+                    <h3 class="sankey-title">Themes × Stances</h3>
+                    
+    <svg class="sankey-svg" viewBox="0 0 360 220">
+        
+            <path d="M 95 55.0 C 150 55.0, 210 99.0, 265 99.0"
+                  fill="none" stroke="#0F766E" stroke-width="6.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 99.0 C 150 99.0, 210 99.0, 265 99.0"
+                  fill="none" stroke="#DC2626" stroke-width="6.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 33.0 C 150 33.0, 210 77.0, 265 77.0"
+                  fill="none" stroke="#003DA5" stroke-width="4.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 33.0 C 150 33.0, 210 121.0, 265 121.0"
+                  fill="none" stroke="#003DA5" stroke-width="12.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 77.0 C 150 77.0, 210 121.0, 265 121.0"
+                  fill="none" stroke="#7C3AED" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 121.0 C 150 121.0, 210 77.0, 265 77.0"
+                  fill="none" stroke="#2563EB" stroke-width="4.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 77.0 C 150 77.0, 210 77.0, 265 77.0"
+                  fill="none" stroke="#7C3AED" stroke-width="4.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 165.0 C 150 165.0, 210 121.0, 265 121.0"
+                  fill="none" stroke="#8B5CF6" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 143.0 C 150 143.0, 210 77.0, 265 77.0"
+                  fill="none" stroke="#6366F1" stroke-width="4.0"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 55.0 C 150 55.0, 210 77.0, 265 77.0"
+                  fill="none" stroke="#0F766E" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 187.0 C 150 187.0, 210 99.0, 265 99.0"
+                  fill="none" stroke="#F59E0B" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 33.0 C 150 33.0, 210 99.0, 265 99.0"
+                  fill="none" stroke="#003DA5" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 55.0 C 150 55.0, 210 143.0, 265 143.0"
+                  fill="none" stroke="#0F766E" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+            <path d="M 95 77.0 C 150 77.0, 210 143.0, 265 143.0"
+                  fill="none" stroke="#7C3AED" stroke-width="2"
+                  stroke-opacity="0.5" stroke-linecap="round"/>
+        
+        <circle cx="90" cy="33.0" r="5" fill="#003DA5"/>
+        <circle cx="90" cy="55.0" r="5" fill="#0F766E"/>
+        <circle cx="90" cy="77.0" r="5" fill="#7C3AED"/>
+        <circle cx="90" cy="99.0" r="5" fill="#DC2626"/>
+        <circle cx="90" cy="121.0" r="5" fill="#2563EB"/>
+        <circle cx="90" cy="143.0" r="5" fill="#6366F1"/>
+        <circle cx="90" cy="165.0" r="5" fill="#8B5CF6"/>
+        <circle cx="90" cy="187.0" r="5" fill="#F59E0B"/>
+        
+        <circle cx="270" cy="77.0" r="5" fill="#2563EB"/>
+        <circle cx="270" cy="99.0" r="5" fill="#DC2626"/>
+        <circle cx="270" cy="121.0" r="5" fill="#059669"/>
+        <circle cx="270" cy="143.0" r="5" fill="#F59E0B"/>
+        
+        <text x="82" y="37.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">National pr…</text>
+        <text x="82" y="59.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">French lang…</text>
+        <text x="82" y="81.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Cultural di…</text>
+        <text x="82" y="103.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Vulnerabili…</text>
+        <text x="82" y="125.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Autonomy</text>
+        <text x="82" y="147.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Secularism</text>
+        <text x="82" y="169.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Historical …</text>
+        <text x="82" y="191.0" text-anchor="end"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#1f1b16">Integration</text>
+        
+        <text x="278" y="81.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#2563EB">Assertive</text>
+        <text x="278" y="103.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#DC2626">Concerned</text>
+        <text x="278" y="125.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#059669">Celebratory</text>
+        <text x="278" y="147.0" text-anchor="start"
+              font-family="IBM Plex Sans" font-size="11" font-weight="600"
+              fill="#F59E0B">Defensive</text>
+    </svg>
+    
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Identification of 27 identity references. Index = proportion of sentences containing an identity theme (19/122).</p>
+        </footer>
+    </div>
+</body>
+</html>

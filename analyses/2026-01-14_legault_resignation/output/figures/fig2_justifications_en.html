@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Justification Strategies</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-stat {
+            text-align: right;
+        }
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* Main content - two columns */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 30px;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Left column - targets + balance */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .targets-section {
+            flex: 1;
+        }
+
+        /* Section styling */
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-header {
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: var(--muted);
+        }
+
+        /* Item styling */
+        .item {
+            margin-bottom: 10px;
+        }
+        .item-small {
+            margin-bottom: 8px;
+        }
+        .item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .item-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .item-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--ink);
+            flex: 1;
+        }
+        .item-stat {
+            font-family: 'STIX Two Text', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .item-pct {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+        .item-bar-track {
+            height: 12px;
+            background: var(--bg-deep);
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+        .item-bar-track-small {
+            height: 10px;
+            background: var(--bg-deep);
+            border-radius: 5px;
+        }
+        .item-bar {
+            height: 100%;
+            border-radius: inherit;
+        }
+        .item-quote {
+            font-family: 'STIX Two Text', serif;
+            font-size: 15px;
+            color: var(--ink);
+            line-height: 1.45;
+            padding: 6px 12px 6px 14px;
+            border-left: 4px solid var(--line);
+            border-radius: 6px;
+            background: var(--card);
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+        .item-quote .quote-text {
+            /* Show full quotes without truncation */
+        }
+        .item-quote-small {
+            font-family: 'STIX Two Text', serif;
+            font-size: 14px;
+            color: var(--ink);
+            line-height: 1.4;
+            padding: 5px 10px 5px 12px;
+            border-left: 3px solid var(--line);
+            border-radius: 4px;
+            background: var(--card);
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+        .item-quote-small .quote-text {
+            /* Show full quotes without truncation */
+        }
+
+        /* Right column - categories + balance */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .categories-section {
+            flex: 1;
+        }
+
+        /* Balance visualization */
+        .balance-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 24px 28px;
+        }
+        .balance-question {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .balance-scale {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .balance-beam-container {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .balance-beam {
+            position: relative;
+            width: 280px;
+            height: 8px;
+            background: var(--ink);
+            border-radius: 4px;
+            transform: rotate(13.285714285714285deg);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+        .balance-pivot {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-bottom: 24px solid var(--ink);
+        }
+        .balance-plate {
+            position: absolute;
+            top: -8px;
+            width: 70px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .balance-plate-left {
+            left: -20px;
+            background: #DC2626;
+        }
+        .balance-plate-right {
+            right: -20px;
+            background: #059669;
+        }
+        .plate-count {
+            font-family: 'STIX Two Text', serif;
+            font-size: 22px;
+            line-height: 1;
+        }
+        .balance-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 320px;
+            margin-top: 16px;
+        }
+        .balance-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .balance-label-left {
+            color: #DC2626;
+        }
+        .balance-label-right {
+            color: #059669;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 15px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Justification Strategies</h1>
+                <p class="subtitle">How Legault justifies his decision and record</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">114</div>
+                <div class="stat-label">justifications</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Balance + Targets (objets justifiés) -->
+            <div class="left-column">
+                <div class="balance-card">
+                    <div class="balance-question">Does he focus on resignation reasons or his record?</div>
+                    <div class="balance-scale">
+                        <div class="balance-beam-container">
+                            <div class="balance-beam">
+                                <div class="balance-plate balance-plate-left">
+                                    <span class="plate-count">6</span>
+                                </div>
+                                <div class="balance-plate balance-plate-right">
+                                    <span class="plate-count">99</span>
+                                </div>
+                            </div>
+                            <div class="balance-pivot"></div>
+                        </div>
+                        <div class="balance-labels">
+                            <span class="balance-label balance-label-left">Resignation</span>
+                            <span class="balance-label balance-label-right">Record</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section targets-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Targets justified</h2>
+                        <p class="section-desc">What is being defended or explained</p>
+                    </div>
+                    
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #2563EB;"></span>
+                <span class="item-name">Overall mandate</span>
+                <span class="item-stat">60 <span class="item-pct">(52.6%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 100.0%; background: #2563EB;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #2563EB;">
+                <span class="quote-text">"On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #003DA5;"></span>
+                <span class="item-name">Identity policy</span>
+                <span class="item-stat">10 <span class="item-pct">(8.8%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 16.666666666666664%; background: #003DA5;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #003DA5;">
+                <span class="quote-text">"On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #059669;"></span>
+                <span class="item-name">Party creation</span>
+                <span class="item-stat">9 <span class="item-pct">(7.9%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 15.0%; background: #059669;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #059669;">
+                <span class="quote-text">"Je veux remercier ceux qui se sont embarqués avec moi dans cette grande aventure de créer un nouveau parti."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #6B7280;"></span>
+                <span class="item-name">Personal conduct</span>
+                <span class="item-stat">9 <span class="item-pct">(7.9%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 15.0%; background: #6B7280;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #6B7280;">
+                <span class="quote-text">"Ils ont eu parfois des remarques moins gentilles. travail ou plutôt dans leurs études."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item-small">
+            <div class="item-header">
+                <span class="item-dot" style="background: #F59E0B;"></span>
+                <span class="item-name">Economic policy</span>
+                <span class="item-stat">9 <span class="item-pct">(7.9%)</span></span>
+            </div>
+            <div class="item-bar-track-small">
+                <div class="item-bar" style="width: 15.0%; background: #F59E0B;"></div>
+            </div>
+            
+            <blockquote class="item-quote-small" style="border-left-color: #F59E0B;">
+                <span class="quote-text">"Bon. Ensuite, ce que j&#x27;ai essayé de faire, là je vois déjà des journalistes, il ne va pas encore nous parler de ça, mais j&#x27;ai essayé de réduire les quarts de richesse du Québec avec le reste du Canada."</span>
+            </blockquote>
+            
+        </div>
+        
+                </div>
+            </div>
+
+            <!-- Right: Justification types -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Justification types</h2>
+                    <p class="section-desc">Argumentative strategies used</p>
+                </div>
+                
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #0891B2;"></span>
+                <span class="item-name">Record defense</span>
+                <span class="item-stat">49 <span class="item-pct">(43.0%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 100.0%; background: #0891B2;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #0891B2;">
+                <span class="quote-text">"On a réussi, je vois Brigitte qui est là. qu&#x27;on a réussi, je pense entre autres aux sept premières années."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #F59E0B;"></span>
+                <span class="item-name">Circumstance claim</span>
+                <span class="item-stat">15 <span class="item-pct">(13.2%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 30.612244897959183%; background: #F59E0B;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #F59E0B;">
+                <span class="quote-text">"Évidemment aussi, j&#x27;ai été touché par la solidarité des Québécois pendant cette grande crise."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #059669;"></span>
+                <span class="item-name">Effort claim</span>
+                <span class="item-stat">14 <span class="item-pct">(12.3%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 28.57142857142857%; background: #059669;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #059669;">
+                <span class="quote-text">"Bon. Ensuite, ce que j&#x27;ai essayé de faire, là je vois déjà des journalistes, il ne va pas encore nous parler de ça, mais j&#x27;ai essayé de réduire les quarts de richesse du Québec avec le reste du Canada."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #8B5CF6;"></span>
+                <span class="item-name">Values appeal</span>
+                <span class="item-stat">12 <span class="item-pct">(10.5%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 24.489795918367346%; background: #8B5CF6;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #8B5CF6;">
+                <span class="quote-text">"On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #10B981;"></span>
+                <span class="item-name">Collective achievement</span>
+                <span class="item-stat">11 <span class="item-pct">(9.6%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 22.448979591836736%; background: #10B981;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #10B981;">
+                <span class="quote-text">"Je veux remercier ceux qui se sont embarqués avec moi dans cette grande aventure de créer un nouveau parti."</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="item">
+            <div class="item-header">
+                <span class="item-dot" style="background: #7C3AED;"></span>
+                <span class="item-name">Decision rationale</span>
+                <span class="item-stat">7 <span class="item-pct">(6.1%)</span></span>
+            </div>
+            <div class="item-bar-track">
+                <div class="item-bar" style="width: 14.285714285714285%; background: #7C3AED;"></div>
+            </div>
+            
+            <blockquote class="item-quote" style="border-left-color: #7C3AED;">
+                <span class="quote-text">"Et je souhaite vraiment que la prochaine élection porte sur les grands défis qu&#x27;on a au Québec et non sur une simple volonté de changement."</span>
+            </blockquote>
+            
+        </div>
+        
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Classification of 114 justification segments. Focus = (record − resignation) / total.</p>
+        </footer>
+    </div>
+</body>
+</html>

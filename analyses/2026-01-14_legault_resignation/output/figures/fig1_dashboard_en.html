@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resignation Speech</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --accent-soft: rgba(0, 61, 165, 0.12);
+            --accent-2: #b45309;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 56px 90px 48px;
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr auto auto;
+            gap: 26px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 18px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .title-block { max-width: 1200px; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 60px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            margin-top: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Thesis card */
+        .thesis-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .thesis-card {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 10px solid var(--accent);
+            border-radius: 20px;
+            padding: 32px 44px;
+            box-shadow: 0 16px 40px rgba(31, 27, 22, 0.08);
+        }
+        .thesis-label {
+            display: inline-block;
+            font-size: 16px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+        .thesis {
+            font-family: 'STIX Two Text', serif;
+            font-size: 42px;
+            font-weight: 500;
+            color: var(--ink);
+            text-align: left;
+            line-height: 1.25;
+            margin-top: 18px;
+        }
+
+        /* Metrics row */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 22px;
+        }
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 20px 22px 18px;
+            box-shadow: 0 10px 24px rgba(31, 27, 22, 0.06);
+            display: flex;
+            flex-direction: column;
+            min-height: 210px;
+        }
+        .metric-header {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .metric-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 76px;
+            font-weight: 600;
+            line-height: 1;
+            margin-top: 8px;
+        }
+        .metric-label {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+        .metric-interp {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        .metric-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: auto;
+            line-height: 1.3;
+        }
+
+        /* Footer */
+        .methodology {
+            padding-top: 8px;
+        }
+        .methodology-text {
+            font-size: 14px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title-block">
+                <h1 class="main-title">Resignation Speech</h1>
+                <p class="subtitle">Analysis of 122 sentences · François Legault · January 14, 2026</p>
+            </div>
+        </header>
+
+        <section class="thesis-section">
+            <div class="thesis-card">
+                <div class="thesis-label">Key finding</div>
+                <div class="thesis">A legacy speech more than a resignation, centered on party politics: pride in achievements, defense of CAQ record, gratitude to teams</div>
+            </div>
+        </section>
+
+        <section class="metrics-row">
+            
+    
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Tone</div>
+                <div class="metric-interp">positive</div>
+            </div>
+            <div class="metric-value" style="color: #0891B2;">+0.33</div>
+            <div class="metric-desc">Emotional register</div>
+        </div>
+        
+    
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Theme</div>
+                <div class="metric-interp">party politics</div>
+            </div>
+            <div class="metric-value" style="color: #B45309;">24</div>
+            <div class="metric-desc">24 mentions · top domain</div>
+        </div>
+        
+    
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Legacy</div>
+                <div class="metric-interp">very present</div>
+            </div>
+            <div class="metric-value" style="color: #003DA5;">72%</div>
+            <div class="metric-desc">88/122 sentences</div>
+        </div>
+        
+    
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Actors</div>
+                <div class="metric-interp">positive</div>
+            </div>
+            <div class="metric-value" style="color: #059669;">+0.94</div>
+            <div class="metric-desc">149 positive · 5 negative</div>
+        </div>
+        
+    
+        <div class="metric">
+            <div class="metric-header">
+                <div class="metric-label">Nationalism</div>
+                <div class="metric-interp">present</div>
+            </div>
+            <div class="metric-value" style="color: #DC2626;">16%</div>
+            <div class="metric-desc">Quebec identity · 19/122 sentences</div>
+        </div>
+        
+    
+        </section>
+
+        <footer class="methodology">
+            <p class="methodology-text">Analysis based on 105 justifications, 154 actor mentions and 122 emotional registers annotated.</p>
+        </footer>
+    </div>
+</body>
+</html>

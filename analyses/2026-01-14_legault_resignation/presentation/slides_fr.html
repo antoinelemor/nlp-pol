@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>NLP-POL #3 - Legault démissionne</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --accent-soft: rgba(0, 61, 165, 0.12);
+            --accent-2: #b45309;
+            --positive: #059669;
+            --negative: #dc2626;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            background: #333;
+            line-height: 1.4;
+        }
+
+        /* Fixed 16:9 slide container */
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            padding: 48px 64px;
+            display: flex;
+            flex-direction: column;
+            background:
+                radial-gradient(ellipse at 10% 0%, rgba(0, 61, 165, 0.08), transparent 50%),
+                radial-gradient(ellipse at 90% 10%, rgba(180, 83, 9, 0.08), transparent 50%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            overflow: hidden;
+            page-break-after: always;
+            page-break-inside: avoid;
+            margin: 0 auto 20px auto;
+        }
+
+        @media print {
+            body { background: white; }
+            .slide { margin: 0; }
+            .nav-info { display: none; }
+        }
+
+        /* Title slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-title .overline {
+            font-size: 16px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .slide-title h1 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 72px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 28px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 28px;
+            color: var(--muted);
+            max-width: 800px;
+        }
+
+        /* Section header */
+        .slide-section {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-box {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 56px 80px;
+            text-align: center;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.1);
+        }
+
+        .section-box .num {
+            font-size: 16px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .section-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 600;
+        }
+
+        /* Figure slide - FULL PAGE DIRECT */
+        .slide-figure {
+            padding: 24px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-figure img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+        }
+
+        /* Finding slide */
+        .slide-finding {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .finding-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            max-width: 1500px;
+        }
+
+        .finding-header {
+            text-align: center;
+        }
+
+        .finding-kicker {
+            font-size: 28px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .finding-metric {
+            font-family: 'STIX Two Text', serif;
+            font-size: 180px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .finding-metric-label {
+            font-size: 32px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .finding-quote-card {
+            background: var(--card);
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            border-left: 12px solid var(--accent);
+            padding: 50px 70px;
+            max-width: 1400px;
+            box-shadow: 0 20px 50px rgba(31, 27, 22, 0.1);
+        }
+
+        .finding-quote {
+            font-family: 'STIX Two Text', serif;
+            font-size: 36px;
+            line-height: 1.5;
+            color: var(--ink);
+            text-align: center;
+        }
+
+        .finding-quote::before { content: '« '; color: var(--accent); }
+        .finding-quote::after { content: ' »'; color: var(--accent); }
+
+        .finding-interpretation {
+            text-align: center;
+            max-width: 1200px;
+        }
+
+        .finding-interpretation p {
+            font-size: 32px;
+            color: var(--ink);
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .finding-interpretation p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Methodology slide */
+        .slide-methodology {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pipeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .pipeline-step {
+            background: var(--card);
+            border: 3px solid var(--accent);
+            border-radius: 12px;
+            padding: 24px 28px;
+            text-align: center;
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0,61,165,0.12);
+        }
+
+        .pipeline-step h4 {
+            font-size: 17px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .pipeline-step p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .pipeline-step a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .pipeline-arrow {
+            font-size: 32px;
+            color: var(--accent);
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+        }
+
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+
+        .metric .value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 44px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .metric .label {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+        }
+
+        /* Conclusion */
+        .slide-conclusion {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .conclusion-box {
+            max-width: 1000px;
+        }
+
+        .conclusion-box h2 {
+            font-family: 'STIX Two Text', serif;
+            font-size: 52px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .conclusion-box p {
+            font-size: 22px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .key-stats {
+            display: flex;
+            justify-content: center;
+            gap: 64px;
+            margin-top: 48px;
+            padding-top: 36px;
+            border-top: 1px solid var(--line);
+        }
+
+        .key-stat {
+            text-align: center;
+        }
+
+        .key-stat .val {
+            font-family: 'STIX Two Text', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .key-stat .lbl {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 6px;
+        }
+
+        .positive { color: var(--positive); }
+        .negative { color: var(--negative); }
+        .warning { color: var(--accent-2); }
+        .accent { color: var(--accent); }
+
+        .nav-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        @media print {
+            .nav-info { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-title">
+    <div class="overline" style="font-size: 20px;">Analyse NLP du discours politique</div>
+    <h1 style="font-size: 84px;">Legault démissionne</h1>
+    <p class="subtitle" style="font-size: 36px;">Ce que révèle l'analyse du discours de démission</p>
+    <p style="font-size: 28px; color: var(--accent); margin-top: 20px; font-weight: 600;">14 janvier 2026</p>
+    <div style="margin-top: 48px; display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <span style="font-size: 22px; color: var(--muted);">Antoine Lemor</span>
+        <span style="font-size: 22px; color: var(--muted);">|</span>
+        <a href="https://github.com/antoinelemor/nlp-pol" style="font-size: 26px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 8px 20px; border-radius: 8px; letter-spacing: 0.05em; text-decoration: none;">NLP-POL PROJECT ↗</a>
+    </div>
+</div>
+
+<!-- SLIDE 2: About NLP-POL -->
+<div class="slide slide-section" style="justify-content: center; align-items: center;">
+    <div class="section-box" style="background: var(--card); border-radius: 24px; padding: 56px 80px; text-align: center; max-width: 1400px; box-shadow: 0 20px 50px rgba(31,27,22,0.1);">
+        <p style="font-size: 16px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700; margin-bottom: 20px;">À propos du projet</p>
+        <h2 style="font-family: 'STIX Two Text', serif; font-size: 56px; font-weight: 600; margin-bottom: 32px; line-height: 1.2;">Qu'est-ce que <span style="color: var(--accent);">NLP-POL</span> ?</h2>
+
+        <p style="font-size: 28px; color: var(--ink); line-height: 1.7; max-width: 1100px; margin: 0 auto 48px;">
+            <strong>NLP-POL</strong> est un projet d'analyses récurrentes en science politique, appliquant des méthodes de <em>traitement automatique du langage naturel</em> (NLP) à l'actualité politique.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 48px;">
+            <div style="background: var(--bg); border-radius: 16px; padding: 36px; border-left: 6px solid var(--accent);">
+                <div style="font-size: 56px; color: var(--accent); margin: -8px 0 8px 0; line-height: 1;">&#9733;</div>
+                <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 14px; color: var(--accent);">Objectif</h4>
+                <p style="font-size: 21px; color: var(--ink); line-height: 1.6;"><strong>Démontrer les possibilités</strong> offertes par les méthodes NLP et d'annotation IA. <strong>Démocratiser</strong> ces approches.</p>
+            </div>
+            <div style="background: var(--bg); border-radius: 16px; padding: 36px; border-left: 6px solid var(--accent-2);">
+                <div style="font-size: 64px; color: var(--accent-2); margin: -8px 0 8px 0; line-height: 1;">&#9881;</div>
+                <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 14px; color: var(--accent-2);">Outils</h4>
+                <p style="font-size: 21px; color: var(--ink); line-height: 1.6;"><a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: underline; font-weight: 600;">Transcribe-tool ↗</a>, <a href="https://github.com/antoinelemor/LLM_Tool" style="color: var(--accent); text-decoration: underline; font-weight: 600;">LLM_Tool ↗</a>, <a href="https://github.com/antoinelemor/nlp-pol" style="color: var(--accent); text-decoration: underline; font-weight: 600;">nlp-pol ↗</a></p>
+            </div>
+            <div style="background: var(--bg); border-radius: 16px; padding: 36px; border-left: 6px solid var(--positive);">
+                <div style="font-size: 64px; color: var(--positive); margin: -8px 0 8px 0; line-height: 1;">&#8635;</div>
+                <h4 style="font-size: 28px; font-weight: 700; margin-bottom: 14px; color: var(--positive);">Fréquence</h4>
+                <p style="font-size: 21px; color: var(--ink); line-height: 1.6;">Publications <strong>régulières</strong> sur l'actualité politique, partagées sur LinkedIn et <a href="https://antoinelemor.github.io/blog/" style="color: var(--accent); text-decoration: underline; font-weight: 700; font-size: 24px;">mon blog ↗</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: Methodology -->
+<div class="slide slide-methodology">
+    <h2 style="font-family: 'STIX Two Text', serif; font-size: 52px; font-weight: 600; text-align: center; margin-bottom: 8px;">Méthodologie</h2>
+    <p style="text-align: center; color: var(--muted); font-size: 20px; margin-bottom: 36px;">Discours de démission de François Legault — 14 janvier 2026</p>
+
+    <div class="pipeline" style="margin-bottom: 36px; gap: 20px;">
+        <div class="pipeline-step">
+            <div style="font-size: 36px; margin-bottom: 8px;">📝</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Transcription</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">AVEC</p>
+            <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 18px; font-weight: 700;">Transcribe-tool ↗</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step">
+            <div style="font-size: 36px; margin-bottom: 8px;">✂️</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Tokenisation</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">AVEC</p>
+            <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 18px; font-weight: 700;">Transcribe-tool ↗</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step">
+            <div style="font-size: 36px; margin-bottom: 8px;">🤖</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Annotation LLM</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">AVEC</p>
+            <a href="https://github.com/antoinelemor/LLM_Tool" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 18px; font-weight: 700;">LLM_Tool ↗</a>
+        </div>
+        <div class="pipeline-arrow" style="font-size: 32px;">→</div>
+        <div class="pipeline-step">
+            <div style="font-size: 36px; margin-bottom: 8px;">📊</div>
+            <h4 style="font-size: 17px; margin-bottom: 6px;">Analyse</h4>
+            <p style="font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">AVEC</p>
+            <a href="https://github.com/antoinelemor/nlp-pol" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 18px; font-weight: 700;">nlp-pol ↗</a>
+        </div>
+    </div>
+
+    <div class="metrics-row" style="max-width: 1400px; margin: 0 auto; gap: 20px;">
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">122</div>
+            <div class="label" style="font-size: 13px;">Phrases analysées</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">114</div>
+            <div class="label" style="font-size: 13px;">Justifications</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">154</div>
+            <div class="label" style="font-size: 13px;">Mentions d'acteurs</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">193</div>
+            <div class="label" style="font-size: 13px;">Actes de discours</div>
+        </div>
+        <div class="metric" style="padding: 20px;">
+            <div class="value accent" style="font-size: 44px;">27</div>
+            <div class="label" style="font-size: 13px;">Références identitaires</div>
+        </div>
+    </div>
+
+    <div style="max-width: 1200px; margin: 36px auto 0; text-align: center;">
+        <p style="font-size: 18px; color: var(--muted); line-height: 1.6;">
+            Annotation sur <strong>10 dimensions</strong> : actes de discours, justifications (cibles et types), registre émotionnel, acteurs (valence et rôle), thèmes identitaires (posture), domaines politiques, cadrage de l'héritage, et temporalité.
+        </p>
+    </div>
+</div>
+
+<!-- SLIDE 4: Dashboard Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig1_dashboard_fr.png" alt="Dashboard">
+</div>
+
+<!-- SLIDE 5: Dashboard Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Constat principal</p>
+            <p class="finding-metric" style="color: var(--accent);">72%</p>
+            <p class="finding-metric-label">du discours consacré à l'héritage</p>
+        </div>
+        <div class="finding-quote-card">
+            <p class="finding-quote">C'est quand même pas rien ce qu'on a réussi, je pense entre autres aux sept premières années.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>88 phrases sur 122 portent sur son bilan et ses réalisations.</p>
+            <p>C'est un discours de bilan, pas de démission.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: Section - Justifications -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°1</div>
+        <h2>Comment Legault justifie-t-il son départ ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 7: Justifications Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker" style="color: var(--muted);">Équilibre des justifications</p>
+            <p class="finding-metric"><span style="color: var(--negative);">6</span> <span style="font-size: 80px; color: var(--muted);">vs</span> <span style="color: var(--positive);">99</span></p>
+            <p class="finding-metric-label">démission vs bilan</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: var(--positive);">
+            <p class="finding-quote">On a beaucoup travaillé, on a fait beaucoup de belles choses ensemble.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>Seulement 6 justifications expliquent la démission. 99 défendent le bilan.</p>
+            <p>François Legault s'explique moins qu'il se défend.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: Justifications Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig2_justifications_fr.png" alt="Stratégies de justification">
+</div>
+
+<!-- SLIDE 9: Section - Policy Domains -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°2</div>
+        <h2>De quels sujets parle-t-il ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 10: Policy Domains Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Thème dominant</p>
+            <p class="finding-metric" style="color: var(--accent-2);">24</p>
+            <p class="finding-metric-label">mentions de politique partisane</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: var(--accent-2);">
+            <p class="finding-quote">Quand j'allais me coucher, Isabelle continuait avec les députés, les ministres, le personnel.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>La politique partisane (23.5%) devance la santé (14.7%) et l'économie (12.7%).</p>
+            <p>Le parti avant les politiques publiques.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: Policy Domains Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig3_policy_domains_fr.png" alt="Domaines politiques">
+</div>
+
+<!-- SLIDE 12: Section - Emotions -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°3</div>
+        <h2>Quel registre émotionnel ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 13: Emotions Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Registre émotionnel</p>
+            <p class="finding-metric" style="color: #0891B2;">+0.33</p>
+            <p class="finding-metric-label">tonalité positive</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: #0891B2;">
+            <p class="finding-quote">Je remercie sincèrement les Québécoises et les Québécois de m'avoir confié deux mandats majoritaires.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>Le discours est dominé par la fierté et la gratitude.</p>
+            <p>Peu de tristesse et de regret exprimés.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 14: Emotions Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig4_emotions_fr.png" alt="Évolution émotionnelle">
+</div>
+
+<!-- SLIDE 15: Section - Actors -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°4</div>
+        <h2>Comment sont présentés les acteurs ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 16: Actors Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Indice de sentiment</p>
+            <p class="finding-metric" style="color: var(--positive);">+0.93</p>
+            <p class="finding-metric-label">149 positifs · 5 négatifs</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: var(--positive);">
+            <p class="finding-quote">Martin, c'est un homme d'une intelligence exceptionnelle. Je ne connais personne qui n'aime pas Martin Koskinen.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>Presque aucune critique.</p>
+            <p>Un discours de remerciements moins qu'une analyse ou contrition politique.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 17: Actors Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig5_actors_fr.png" alt="Tonalité envers les acteurs">
+</div>
+
+<!-- SLIDE 18: Section - Identity -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°5</div>
+        <h2>Quelle place pour l'identité québécoise ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 19: Identity Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Nationalisme québécois</p>
+            <p class="finding-metric" style="color: var(--negative);">16%</p>
+            <p class="finding-metric-label">19/122 phrases sur l'identité</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: var(--negative);">
+            <p class="finding-quote">Le Québec est une nation qui sera toujours vulnérable en Amérique du Nord.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>Le nationalisme est présent mais secondaire.</p>
+            <p>Fierté nationale (33%) et langue française (18%) dominent.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 20: Identity Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig6_identity_fr.png" alt="Thèmes identitaires">
+</div>
+
+<!-- SLIDE 21: Section - Rhetoric -->
+<div class="slide slide-section">
+    <div class="section-box">
+        <div class="num">Analyse n°6</div>
+        <h2>Quelle stratégie rhétorique ?</h2>
+    </div>
+</div>
+
+<!-- SLIDE 22: Rhetoric Finding -->
+<div class="slide slide-finding">
+    <div class="finding-inner">
+        <div class="finding-header">
+            <p class="finding-kicker">Acte de discours dominant</p>
+            <p class="finding-metric" style="color: #F59E0B;">51</p>
+            <p class="finding-metric-label">justifications (26.4%)</p>
+        </div>
+        <div class="finding-quote-card" style="border-left-color: #F59E0B;">
+            <p class="finding-quote">J'ai essayé de réduire l'écart de richesse entre le Québec et le reste du Canada.</p>
+        </div>
+        <div class="finding-interpretation">
+            <p>Justifier (51), revendiquer (35), faire l'éloge (22).</p>
+            <p>Défendre son bilan est la fonction principale du discours.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 23: Rhetoric Figure -->
+<div class="slide slide-figure">
+    <img src="../output/figures/fig7_rhetoric_fr.png" alt="Stratégie rhétorique">
+</div>
+
+<!-- SLIDE 24: Conclusion -->
+<div class="slide slide-conclusion">
+    <div class="conclusion-box" style="max-width: 1400px;">
+        <div class="overline" style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px;">Conclusion</div>
+        <h2>Un exercice de communication politique</h2>
+        <p style="font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1.6; max-width: 1100px; margin: 0 auto;">L'analyse quantitative montre un discours de bilan plutôt que de démission. François Legault défend son héritage et ses partenaires politiques, et surtout protège l'image et l'héritage de la CAQ. Une explication de départ liée au parti dont le thème est dominant, peu d'autocritique ni d'analyse des échecs.</p>
+
+        <div class="key-stats" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--line);">
+            <div class="key-stat">
+                <div class="val" style="color: #0891B2;">+0.33</div>
+                <div class="lbl">Tonalité</div>
+            </div>
+            <div class="key-stat">
+                <div class="val" style="color: #B45309;">24</div>
+                <div class="lbl">Politique partisane</div>
+            </div>
+            <div class="key-stat">
+                <div class="val" style="color: var(--accent);">72%</div>
+                <div class="lbl">Héritage</div>
+            </div>
+            <div class="key-stat">
+                <div class="val" style="color: var(--positive);">+0.94</div>
+                <div class="lbl">Acteurs</div>
+            </div>
+            <div class="key-stat">
+                <div class="val" style="color: var(--negative);">16%</div>
+                <div class="lbl">Nationalisme</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 25: Final -->
+<div class="slide slide-title">
+    <div style="max-width: 1400px;">
+        <p style="font-size: 48px; font-weight: 700; margin-bottom: 12px;">Antoine Lemor</p>
+        <p style="font-size: 36px; margin-bottom: 56px;"><a href="https://github.com/antoinelemor" style="color: var(--accent); text-decoration: underline; text-underline-offset: 4px; font-weight: 600;">github.com/antoinelemor ↗</a></p>
+
+        <div style="border-top: 3px solid var(--accent); padding-top: 48px;">
+            <p style="font-size: 28px; color: var(--accent); margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700;">Outils Open Source</p>
+
+            <div style="display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;">
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">📊</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">Analyse NLP</p>
+                    <a href="https://github.com/antoinelemor/nlp-pol" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 20px; font-weight: 600;">nlp-pol ↗</a>
+                </div>
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">Transcription</p>
+                    <a href="https://github.com/antoinelemor/Transcribe-tool" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 20px; font-weight: 600;">Transcribe-tool ↗</a>
+                </div>
+                <div style="background: var(--card); border: 2px solid var(--accent); border-radius: 16px; padding: 32px 40px; text-align: center; min-width: 320px;">
+                    <div style="font-size: 44px; margin-bottom: 12px;">🤖</div>
+                    <p style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--ink);">Annotation LLM</p>
+                    <a href="https://github.com/antoinelemor/LLM_Tool" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 20px; font-weight: 600;">LLM_Tool ↗</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-info">
+    Scroll pour naviguer | 25 slides
+</div>
+
+</body>
+</html>

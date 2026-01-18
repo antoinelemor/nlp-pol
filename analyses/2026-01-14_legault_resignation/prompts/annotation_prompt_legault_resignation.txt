@@ -1,0 +1,437 @@
+# Annotation Prompt — Political Resignation Speech Analysis (Legault Resignation, January 2026)
+
+## Context
+You are annotating sentences from the resignation speech of François Legault, Premier of Québec, delivered on January 14, 2026. After seven years in power (2018-2026) and facing historically low poll numbers (11% support, 75% unfavorable), Legault announced his resignation "for the good of his party and especially for the good of Québec." This speech combines the announcement of his departure, expressions of gratitude, and a defense of his government's record. Your annotations will be used for computational analysis of political justification strategies, emotional framing, and policy legacy claims.
+
+Annotate each sentence according to the dimensions below. Be precise and consistent. When multiple values apply within a dimension, include all relevant values.
+
+**IMPORTANT**: You will receive each sentence with its preceding and following sentences as context. Only annotate the TARGET sentence (marked as such), using the context to inform your interpretation.
+
+---
+
+## 1. SPEECH ACT (speech_act)
+What is the primary communicative function of this sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `ANNOUNCING` | Making an official declaration or news | "J'annonce aujourd'hui que je vais quitter mon poste de premier ministre." |
+| `THANKING` | Expressions of gratitude | "Je veux remercier tous ceux qui se sont embarqués avec moi." |
+| `PRAISING` | Valorizing a person, group, or achievement | "Martin, c'est un homme d'une intelligence exceptionnelle." |
+| `JUSTIFYING` | Explaining or defending a decision or action | "Pour le bien de mon parti et surtout pour le bien du Québec." |
+| `CLAIMING_ACHIEVEMENT` | Asserting accomplishment, taking credit | "On a réussi à battre l'Ontario et le reste du Canada." |
+| `DIAGNOSING` | Analyzing a situation, identifying problems or causes | "Le Québec fait face actuellement à des grands défis." |
+| `ACKNOWLEDGING` | Admitting difficulty, limitation, or failure | "Je n'ai pas toujours réussi." |
+| `EXHORTING` | Call to action, mobilization, rallying | "Soyons fiers d'être Québécois." |
+| `EXPRESSING_EMOTION` | Direct expression of personal feelings | "C'est vraiment une belle famille et c'est ça qui va me manquer le plus." |
+| `STATING` | Factual description without evaluation | "La politique, c'est un sport extrême." |
+| `WARNING` | Alerting to risks or dangers | "Les Québécois doivent être beaucoup plus vigilants." |
+| `WISHING` | Expressing hopes or desires for the future | "Je souhaite vraiment que la prochaine élection porte sur les grands défis." |
+| `TRANSITIONAL` | Discourse markers, transitions between topics | "Revenons sur le premier mandat." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 2. JUSTIFICATION TYPE (justification_type)
+Is this sentence part of a justification? If so, what type?
+
+### 2a. present (boolean)
+`true` if the sentence contains or contributes to a justification, `false` otherwise.
+
+### 2b. justification_category (if present = true)
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `DECISION_RATIONALE` | Explaining WHY he is resigning | "Je vois bien que beaucoup de Québécois souhaitent du changement." |
+| `POLICY_DEFENSE` | Defending a specific policy or legislative action | "On a adopté la loi 21 sur la laïcité." |
+| `RECORD_DEFENSE` | Defending overall government performance | "Les budgets ont augmenté de 57% en santé." |
+| `EFFORT_CLAIM` | Emphasizing personal effort and dedication | "Je me suis levé chaque jour en me disant: je veux ce qu'il y a de mieux." |
+| `EXTERNAL_ATTRIBUTION` | Attributing problems to external factors | "L'explosion du nombre d'immigrants temporaires par le gouvernement fédéral." |
+| `CIRCUMSTANCE_CLAIM` | Citing difficult circumstances faced | "On était dans le brouillard comme partout dans le monde." |
+| `VALUES_APPEAL` | Justifying through values and principles | "On n'a pas à être gêné de protéger notre langue." |
+| `COLLECTIVE_ACHIEVEMENT` | Crediting team/collective success | "C'est beaucoup grâce à Martin qui a embauché du bon monde." |
+
+### 2c. target (if present = true)
+What is being justified?
+
+| Value | Definition |
+|-------|------------|
+| `RESIGNATION` | The decision to resign |
+| `OVERALL_MANDATE` | The general record in power |
+| `SPECIFIC_POLICY` | A particular policy or law |
+| `PARTY_CREATION` | The founding of the CAQ |
+| `PANDEMIC_RESPONSE` | COVID-19 management |
+| `ECONOMIC_POLICY` | Economic decisions |
+| `IDENTITY_POLICY` | Language, secularism, immigration laws |
+| `PERSONAL_CONDUCT` | Personal behavior or approach |
+
+**Multiple values allowed for target:** Yes (max 2)
+
+---
+
+## 3. POLICY DOMAIN (policy_domain)
+What policy area does this sentence address? Uses adapted Comparative Agendas Project (CAP) categories.
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `MACROECONOMICS` | Economic growth, GDP, wealth creation, investment | "La croissance économique par habitant." |
+| `TAXATION` | Taxes, tax cuts, fiscal policy | "Grâce à nos baisses d'impôts." |
+| `HEALTHCARE` | Health system, hospitals, CHSLD, nurses, doctors | "On a revu les salaires des infirmières." |
+| `EDUCATION` | Schools, teachers, curriculum | "On a augmenté le salaire des enseignants." |
+| `LABOR` | Employment, wages, workers | "Des emplois d'avenir." |
+| `IMMIGRATION` | Immigration policy, temporary workers | "L'explosion du nombre d'immigrants temporaires." |
+| `CULTURE_IDENTITY` | Cultural policy, language, national identity | "Le déclin du français, l'avenir de notre nation." |
+| `SECULARISM` | Religious neutrality, laïcité, religious symbols | "La loi 21 sur la laïcité." |
+| `LANGUAGE_POLICY` | French language protection, Bill 96 | "La première loi importante pour renforcer la charte de la langue française." |
+| `ENERGY` | Hydro-Québec, electricity, energy projects | "Relancer les grands travaux chez Hydro-Québec." |
+| `HOUSING` | Housing, cost of living (housing-related) | "Je pense entre autres au logement." |
+| `SENIORS` | Elderly care, CHSLD, maisons des aînés | "On a remplacé les vieux CHSLD par des belles maisons des aînés." |
+| `INTERGOVERNMENTAL` | Federal-provincial relations, Newfoundland, transfers | "Une entente avec Terre-Neuve." |
+| `COST_OF_LIVING` | Inflation, affordability, purchasing power | "Une forte augmentation du coût de la vie." |
+| `PARTY_POLITICS` | Party organization, CAQ, elections | "Créer un nouveau parti, la CAQ." |
+| `NONE` | No policy domain addressed | "Merci Isabelle." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 4. EMOTIONAL REGISTER (emotional_register)
+What emotional tonality dominates this sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `PROUD` | Pride, satisfaction with accomplishments | "Je suis fier du rattrapage qu'on a fait." |
+| `GRATEFUL` | Thankfulness, appreciation | "Je veux remercier tous ceux qui..." |
+| `NOSTALGIC` | Wistfulness, fond memories, sadness about endings | "C'est ça qui va me manquer le plus." |
+| `AFFECTIONATE` | Warmth, love, tenderness toward people | "On les aime tellement, ces deux petits gars." |
+| `DETERMINED` | Resolution, resolve, fighting spirit | "J'ai essayé très fort avec toute l'énergie que j'avais." |
+| `DEFENSIVE` | Justifying, protecting record against criticism | "Les faits sont têtus." |
+| `RESIGNED` | Acceptance, acknowledgment of circumstances | "Je vois bien qu'actuellement, beaucoup souhaitent du changement." |
+| `HOPEFUL` | Optimism about the future | "Je suis confiant qu'on va trouver une entente." |
+| `CONCERNED` | Worry, preoccupation about future | "Les Québécois doivent être plus vigilants." |
+| `COMBATIVE` | Assertive, pushing back | "Je vais le répéter." |
+| `SOLEMN` | Gravity, formality, ceremonial weight | "Être premier ministre a été le plus grand honneur de ma vie." |
+| `HUMOROUS` | Light-heartedness, self-deprecating humor | "Je donne toujours trop de chiffres, mais bon." |
+| `NEUTRAL` | No salient emotional marker | "Bonjour tout le monde." |
+
+**Single value only.**
+
+---
+
+## 5. ACTORS MENTIONED (actors)
+List all persons, groups, or organizations mentioned (explicitly or implicitly) with their role and valence.
+
+### 5a. Actor types
+- `INDIVIDUAL`: Named person (Martin Koskinen, Isabelle, Donald Trump)
+- `FAMILY_MEMBER`: Family relations (mes deux garçons, Isabelle as spouse)
+- `STAFF`: Political staff, employees, collaborators
+- `POLITICAL_GROUP`: Party, caucus, government (la CAQ, les députés)
+- `INSTITUTION`: Organizations (Hydro-Québec, CHSLD, gouvernement fédéral)
+- `ELECTORATE`: Citizens, voters (les Québécois, les citoyens)
+- `PROFESSION`: Professional groups (les enseignants, les infirmières, les médecins)
+- `GEOGRAPHIC`: Regions, provinces, countries (Ontario, Terre-Neuve, Canada)
+- `IMPLICIT`: Unnamed reference ("ceux qui", "beaucoup de gens")
+
+### 5b. Valence
+- `POSITIVE`: Presented favorably, praised, thanked
+- `NEGATIVE`: Presented unfavorably, criticized, blamed
+- `NEUTRAL`: Mentioned without evaluative stance
+- `MIXED`: Both positive and negative elements
+
+### 5c. Role in discourse
+- `THANKED`: Object of gratitude
+- `PRAISED`: Object of praise or admiration
+- `CREDITED`: Given credit for achievements
+- `BLAMED`: Held responsible for problems
+- `SUPPORTED`: Beneficiary of policies
+- `REFERENCED`: Mentioned for comparison or context
+- `OPPOSITION`: Political adversary or critic
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "Martin, c'est un homme d'une intelligence exceptionnelle." | `{"actor": "Martin Koskinen", "actor_type": "INDIVIDUAL", "valence": "POSITIVE", "role": "PRAISED"}` |
+| "L'explosion du nombre d'immigrants temporaires par le gouvernement fédéral." | `{"actor": "Federal government", "actor_type": "INSTITUTION", "valence": "NEGATIVE", "role": "BLAMED"}` |
+| "Les enseignants, ce sont les personnes les plus importantes dans notre société." | `{"actor": "Teachers", "actor_type": "PROFESSION", "valence": "POSITIVE", "role": "PRAISED"}` |
+| "L'incertitude qui est amenée par Donald Trump." | `{"actor": "Donald Trump", "actor_type": "INDIVIDUAL", "valence": "NEGATIVE", "role": "BLAMED"}` |
+
+**Return empty list if no actors mentioned.**
+
+---
+
+## 6. TEMPORALITY (temporality)
+What temporal orientation characterizes the sentence?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `PAST_ACHIEVEMENT` | Reference to what has been accomplished | "On a réussi à convaincre les médecins de famille." |
+| `PAST_CHALLENGE` | Reference to past difficulties faced | "On était dans le brouillard pendant la pandémie." |
+| `PAST_ORIGIN` | Reference to founding/beginning moments | "En créant la CAQ." |
+| `PRESENT_ANNOUNCEMENT` | Current moment of speech/decision | "J'annonce aujourd'hui que je vais quitter." |
+| `PRESENT_SITUATION` | Description of current state | "Le Québec fait face actuellement à des grands défis." |
+| `FUTURE_TRANSITION` | Near future regarding succession | "Je vais rester le temps que mon parti désigne un remplaçant." |
+| `FUTURE_HOPE` | Hopes/wishes for the future | "Je souhaite que la prochaine élection porte sur les grands défis." |
+| `FUTURE_WARNING` | Concerns about future risks | "Les prochaines générations vont profiter de ces grands travaux." |
+| `ATEMPORAL` | General statement without temporal anchoring | "La politique, c'est un sport extrême." |
+
+**Multiple values allowed:** Yes (max 2)
+
+---
+
+## 7. IDENTITY THEMES (identity_themes)
+Does this sentence touch on themes related to Québec identity and nationalism?
+
+### 7a. present (boolean)
+`true` if identity/nationalist themes are present, `false` otherwise.
+
+### 7b. theme (if present = true)
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `FRENCH_LANGUAGE` | French language protection, decline, promotion | "Arrêter le déclin du français." |
+| `NATIONAL_PRIDE` | Pride in Québec nation, identity | "Soyons fiers d'être Québécois." |
+| `CULTURAL_DISTINCTIVENESS` | Québec's unique culture, values | "Le cœur, l'âme d'une nation, c'est sa culture." |
+| `SECULARISM` | Laïcité, religious neutrality | "La loi sur la laïcité." |
+| `HISTORICAL_MEMORY` | Québec history, heritage, national museum | "Le premier musée de l'histoire nationale du Québec." |
+| `VULNERABILITY` | Nation as small, fragile, threatened | "Une nation toute proportion petite en Amérique du Nord, vulnérable." |
+| `AUTONOMY` | Independence from federal government, self-determination | "Se permettre d'être plus autonome face au reste du Canada." |
+| `INTEGRATION` | Integration of immigrants, newcomers | "Immigration et déclin du français." |
+
+### 7c. stance
+- `DEFENSIVE`: Protecting against threats to identity
+- `CELEBRATORY`: Celebrating identity, calling for pride
+- `CONCERNED`: Expressing worry about identity preservation
+- `ASSERTIVE`: Actively promoting identity agenda
+
+**Multiple values allowed for theme:** Yes (max 2)
+
+---
+
+## 8. RHETORICAL DEVICES (rhetorical_devices)
+What notable rhetorical strategies are employed?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `ENUMERATION` | Listing items for emphasis | "Brigitte, Stéphane, Claude, Lynn, Nicole..." |
+| `STATISTICS` | Using numbers, percentages | "57% en santé, 58% en éducation, 61% en culture." |
+| `CONTRAST` | Comparing favorably with others | "Battre l'Ontario et le reste du Canada." |
+| `METAPHOR` | Figurative language | "La politique, c'est un sport extrême." |
+| `FAMILY_IMAGERY` | Presenting party/team as family | "La CAQ, une belle famille." |
+| `PERSONAL_NARRATIVE` | Personal anecdotes, biographical elements | "J'ai créé Air Transat, puis la CAQ." |
+| `DIRECT_ADDRESS` | Speaking directly to individuals/audience | "Merci Martin." |
+| `SELF_DEPRECATION` | Humble or self-critical remarks | "Je donne toujours trop de chiffres." |
+| `APPEAL_TO_VALUES` | Invoking shared values, principles | "Soyons fiers de notre nation." |
+| `MINIMIZATION` | Downplaying difficulties or criticism | "Évidemment, il y a eu quelques échecs." |
+| `REPETITION` | Repeating key phrases or structures | "Je suis fier... Je suis fier aussi..." |
+| `ANTICIPATION_CRITICISM` | Preemptively addressing expected criticism | "Je vois déjà des journalistes, il ne va pas encore nous parler de ça." |
+| `COLLECTIVE_WE` | Using "nous/on" to include audience | "On a réussi." |
+| `QUALIFIER` | Adding nuance, conditions | "Je n'ai pas toujours réussi, mais..." |
+| `NONE` | No notable rhetorical device | Simple declarative statements |
+
+**Multiple values allowed:** Yes (max 3)
+
+---
+
+## 9. LEGACY FRAMING (legacy_framing)
+How does this sentence position Legault's political legacy?
+
+| Value | Definition | Example |
+|-------|------------|---------|
+| `HISTORIC_ACHIEVEMENT` | Presenting accomplishments as historic, unprecedented | "C'est du jamais vu, tout ça en seulement sept ans." |
+| `PERSONAL_SACRIFICE` | Emphasizing personal costs, dedication | "Sept jours sur sept, de sauver le maximum de vie." |
+| `PIONEERING` | First to do something, breaking new ground | "Former deux gouvernements majoritaires sept ans après la création du parti." |
+| `TRANSFORMATIVE` | Changed things fundamentally | "Ça va être une révolution du côté de la prise en charge." |
+| `DEFENDER` | Protected Québec/values against threats | "On n'a pas à être gêné de protéger notre langue." |
+| `BUILDER` | Created, constructed, built institutions | "En créant Air Transat, puis ensuite en créant la CAQ." |
+| `PRAGMATIST` | Focused on results, getting things done | "Créer de la richesse, c'est un moyen nécessaire." |
+| `NONE` | No legacy framing | Neutral statements |
+
+**Single value only.**
+
+---
+
+## 10. IMPLICIT REFERENCES (implicit_references)
+Does the sentence contain implicit references to events, persons, or contexts not explicitly named?
+
+### When present = true, identify:
+- **reference_target**: What/who is being implicitly referenced
+- **reference_type**: `EVENT` | `PERSON` | `POLICY` | `CRITICISM` | `CONTEXT`
+- **confidence**: `HIGH` | `MEDIUM` | `LOW`
+
+### Examples
+| Sentence | Annotation |
+|----------|------------|
+| "On a beaucoup parlé de quelques échecs." | `{"present": true, "targets": [{"reference_target": "Failed economic projects (possibly Northvolt or similar)", "reference_type": "CRITICISM", "confidence": "MEDIUM"}]}` |
+| "Des remarques moins gentilles au travail ou dans leurs études." | `{"present": true, "targets": [{"reference_target": "Public criticism affecting Legault's sons", "reference_type": "EVENT", "confidence": "HIGH"}]}` |
+| "Le seul discours que ce n'est pas lui qui a écrit." | `{"present": true, "targets": [{"reference_target": "Stéphane typically writes Legault's speeches", "reference_type": "CONTEXT", "confidence": "HIGH"}]}` |
+
+---
+
+## Annotation Guidelines
+
+1. **Be exhaustive for actors**: Capture all persons, organizations, and groups mentioned, including implicit references ("ceux qui ont pris le risque").
+
+2. **Justification is central**: This is a resignation speech. Pay close attention to how Legault justifies both his departure AND his record. Most sentences likely serve a justificatory function.
+
+3. **Distinguish defensive vs. proud tones**: The emotional register should capture whether Legault is defending against perceived criticism (DEFENSIVE) or celebrating achievements (PROUD).
+
+4. **Policy specificity**: Use CAP-based categories precisely. "Maisons des aînés" is SENIORS, not just HEALTHCARE.
+
+5. **Identity themes are key**: Québec nationalism and language/identity are recurring themes. Annotate these carefully.
+
+6. **Legacy framing matters**: Legault is constructing his historical legacy. Note how he frames achievements as historic, pioneering, transformative, etc.
+
+7. **Actors include implicit references**: "Le gouvernement fédéral" may be implicit criticism of Trudeau. "Ceux qui se sont embarqués" refers to early CAQ supporters.
+
+8. **Empty values**: Use empty lists `[]` for actors and rhetorical_devices when none apply. Use `null` for optional fields when not applicable.
+
+9. **Temporal complexity**: Many sentences look backward (achievements) while speaking in the present (resignation). Both temporalities may apply.
+
+10. **Context window**: Use the preceding and following sentences to resolve ambiguities, but only annotate the TARGET sentence.
+
+---
+
+## Complete Annotation Examples
+
+### Example 1: Resignation Announcement
+**Context (preceding):** "Je vois bien qu'actuellement, beaucoup de Québécois souhaitent d'abord du changement, puis entre autres, un changement de premier ministre."
+**TARGET:** "Surtout pour le bien du Québec, j'annonce aujourd'hui que je vais quitter mon poste de premier ministre du Québec."
+**Context (following):** "Je vais rester en place le temps que mon parti désigne un remplaçant ou une remplaçante."
+
+```json
+{
+  "speech_act": ["ANNOUNCING", "JUSTIFYING"],
+  "justification_type": {
+    "present": true,
+    "justification_category": "DECISION_RATIONALE",
+    "target": ["RESIGNATION"]
+  },
+  "policy_domain": ["PARTY_POLITICS"],
+  "emotional_register": "SOLEMN",
+  "actors": [
+    {"actor": "Québec", "actor_type": "GEOGRAPHIC", "valence": "POSITIVE", "role": "REFERENCED"},
+    {"actor": "François Legault", "actor_type": "INDIVIDUAL", "valence": "NEUTRAL", "role": "REFERENCED"}
+  ],
+  "temporality": ["PRESENT_ANNOUNCEMENT"],
+  "identity_themes": {
+    "present": false,
+    "theme": [],
+    "stance": null
+  },
+  "rhetorical_devices": ["NONE"],
+  "legacy_framing": "NONE",
+  "implicit_references": {
+    "present": true,
+    "targets": [
+      {"reference_target": "Low poll numbers and public desire for change", "reference_type": "CONTEXT", "confidence": "HIGH"}
+    ]
+  }
+}
+```
+
+### Example 2: Policy Achievement Claim
+**Context (preceding):** "Je suis fier aussi du rattrapage qu'on a fait en santé, en éducation, en culture."
+**TARGET:** "Depuis sept ans, les budgets ont augmenté de 57% en santé, de 58% en éducation et de 61% en culture."
+**Context (following):** "C'est du jamais vu, là, tout ça en seulement sept ans."
+
+```json
+{
+  "speech_act": ["CLAIMING_ACHIEVEMENT"],
+  "justification_type": {
+    "present": true,
+    "justification_category": "RECORD_DEFENSE",
+    "target": ["OVERALL_MANDATE"]
+  },
+  "policy_domain": ["HEALTHCARE", "EDUCATION", "CULTURE_IDENTITY"],
+  "emotional_register": "PROUD",
+  "actors": [],
+  "temporality": ["PAST_ACHIEVEMENT"],
+  "identity_themes": {
+    "present": false,
+    "theme": [],
+    "stance": null
+  },
+  "rhetorical_devices": ["STATISTICS", "ENUMERATION"],
+  "legacy_framing": "HISTORIC_ACHIEVEMENT",
+  "implicit_references": {
+    "present": false,
+    "targets": []
+  }
+}
+```
+
+### Example 3: Identity and National Pride
+**Context (preceding):** "On n'a pas à être gêné de protéger notre langue, notre culture et nos valeurs."
+**TARGET:** "Soyons fiers d'être Québécois."
+**Context (following):** "Soyons fiers de notre nation."
+
+```json
+{
+  "speech_act": ["EXHORTING"],
+  "justification_type": {
+    "present": true,
+    "justification_category": "VALUES_APPEAL",
+    "target": ["IDENTITY_POLICY"]
+  },
+  "policy_domain": ["CULTURE_IDENTITY"],
+  "emotional_register": "PROUD",
+  "actors": [
+    {"actor": "Québécois", "actor_type": "ELECTORATE", "valence": "POSITIVE", "role": "REFERENCED"}
+  ],
+  "temporality": ["ATEMPORAL"],
+  "identity_themes": {
+    "present": true,
+    "theme": ["NATIONAL_PRIDE"],
+    "stance": "CELEBRATORY"
+  },
+  "rhetorical_devices": ["APPEAL_TO_VALUES", "COLLECTIVE_WE"],
+  "legacy_framing": "DEFENDER",
+  "implicit_references": {
+    "present": false,
+    "targets": []
+  }
+}
+```
+
+---
+
+**Expected JSON Keys:**
+
+```json
+{
+  "speech_act": ["<ANNOUNCING|THANKING|PRAISING|JUSTIFYING|CLAIMING_ACHIEVEMENT|DIAGNOSING|ACKNOWLEDGING|EXHORTING|EXPRESSING_EMOTION|STATING|WARNING|WISHING|TRANSITIONAL>"],
+  "justification_type": {
+    "present": "<boolean>",
+    "justification_category": "<DECISION_RATIONALE|POLICY_DEFENSE|RECORD_DEFENSE|EFFORT_CLAIM|EXTERNAL_ATTRIBUTION|CIRCUMSTANCE_CLAIM|VALUES_APPEAL|COLLECTIVE_ACHIEVEMENT|null>",
+    "target": ["<RESIGNATION|OVERALL_MANDATE|SPECIFIC_POLICY|PARTY_CREATION|PANDEMIC_RESPONSE|ECONOMIC_POLICY|IDENTITY_POLICY|PERSONAL_CONDUCT>"]
+  },
+  "policy_domain": ["<MACROECONOMICS|TAXATION|HEALTHCARE|EDUCATION|LABOR|IMMIGRATION|CULTURE_IDENTITY|SECULARISM|LANGUAGE_POLICY|ENERGY|HOUSING|SENIORS|INTERGOVERNMENTAL|COST_OF_LIVING|PARTY_POLITICS|NONE>"],
+  "emotional_register": "<PROUD|GRATEFUL|NOSTALGIC|AFFECTIONATE|DETERMINED|DEFENSIVE|RESIGNED|HOPEFUL|CONCERNED|COMBATIVE|SOLEMN|HUMOROUS|NEUTRAL>",
+  "actors": [
+    {
+      "actor": "<string>",
+      "actor_type": "<INDIVIDUAL|FAMILY_MEMBER|STAFF|POLITICAL_GROUP|INSTITUTION|ELECTORATE|PROFESSION|GEOGRAPHIC|IMPLICIT>",
+      "valence": "<POSITIVE|NEGATIVE|NEUTRAL|MIXED>",
+      "role": "<THANKED|PRAISED|CREDITED|BLAMED|SUPPORTED|REFERENCED|OPPOSITION>"
+    }
+  ],
+  "temporality": ["<PAST_ACHIEVEMENT|PAST_CHALLENGE|PAST_ORIGIN|PRESENT_ANNOUNCEMENT|PRESENT_SITUATION|FUTURE_TRANSITION|FUTURE_HOPE|FUTURE_WARNING|ATEMPORAL>"],
+  "identity_themes": {
+    "present": "<boolean>",
+    "theme": ["<FRENCH_LANGUAGE|NATIONAL_PRIDE|CULTURAL_DISTINCTIVENESS|SECULARISM|HISTORICAL_MEMORY|VULNERABILITY|AUTONOMY|INTEGRATION>"],
+    "stance": "<DEFENSIVE|CELEBRATORY|CONCERNED|ASSERTIVE|null>"
+  },
+  "rhetorical_devices": ["<ENUMERATION|STATISTICS|CONTRAST|METAPHOR|FAMILY_IMAGERY|PERSONAL_NARRATIVE|DIRECT_ADDRESS|SELF_DEPRECATION|APPEAL_TO_VALUES|MINIMIZATION|REPETITION|ANTICIPATION_CRITICISM|COLLECTIVE_WE|QUALIFIER|NONE>"],
+  "legacy_framing": "<HISTORIC_ACHIEVEMENT|PERSONAL_SACRIFICE|PIONEERING|TRANSFORMATIVE|DEFENDER|BUILDER|PRAGMATIST|NONE>",
+  "implicit_references": {
+    "present": "<boolean>",
+    "targets": [
+      {
+        "reference_target": "<string>",
+        "reference_type": "<EVENT|PERSON|POLICY|CRITICISM|CONTEXT>",
+        "confidence": "<HIGH|MEDIUM|LOW>"
+      }
+    ]
+  }
+}
+```

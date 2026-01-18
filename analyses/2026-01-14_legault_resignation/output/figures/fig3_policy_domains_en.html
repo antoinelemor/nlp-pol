@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Policy Domains Addressed</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+        }
+        .header-left { flex: 1; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-stat {
+            text-align: right;
+        }
+        .stat-number {
+            font-family: 'STIX Two Text', serif;
+            font-size: 66px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* Main content - two columns */
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.6fr 0.8fr;
+            gap: 40px;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .section-header {
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.35;
+        }
+
+        /* Sunburst chart */
+        .sunburst-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 8px 4px;
+            overflow: visible;
+        }
+        .sunburst-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0;
+            text-align: center;
+        }
+        .sunburst-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+        .sunburst-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Domain items */
+        .domain-item {
+            margin-bottom: 8px;
+        }
+        .domain-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        .domain-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .domain-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--ink);
+            flex: 1;
+        }
+        .domain-stat {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .domain-pct {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+        .domain-bar-track {
+            height: 10px;
+            background: var(--bg-deep);
+            border-radius: 5px;
+            margin-bottom: 3px;
+        }
+        .domain-bar {
+            height: 100%;
+            border-radius: 5px;
+        }
+        .domain-quote {
+            font-family: 'STIX Two Text', serif;
+            font-size: 13px;
+            color: var(--ink);
+            line-height: 1.4;
+            padding: 4px 10px 4px 12px;
+            border-left: 3px solid var(--line);
+            border-radius: 4px;
+            background: var(--card);
+            margin-top: 2px;
+            margin-bottom: 6px;
+        }
+        .domain-quote .quote-text {
+            font-size: 13px;
+            color: var(--ink);
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            text-align: left;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="main-title">Policy Domains Addressed</h1>
+                <p class="subtitle">Thematic distribution of the resignation speech</p>
+            </div>
+            <div class="header-stat">
+                <div class="stat-number">102</div>
+                <div class="stat-label">sentences classified</div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left: Domain bars with quotes -->
+            <div class="left-column">
+                <div class="section-header">
+                    <h2 class="section-title">Distribution by domain</h2>
+                    <p class="section-desc">Each sentence is classified by its main policy domain (CAP categories).</p>
+                </div>
+                
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #059669;"></span>
+                <span class="domain-name">Party politics</span>
+                <span class="domain-stat">24 <span class="domain-pct">(23.5%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 100.0%; background: #059669;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #059669;">
+                <span class="quote-text">« Parce que, vous savez, et les journalistes le savent, quand j&#x27;allais me coucher pour être en forme le lendemain matin, Isabelle continuait le travail, parfois avec vous, parfois avec les députés, les ministres, les employés. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #DC2626;"></span>
+                <span class="domain-name">Healthcare</span>
+                <span class="domain-stat">15 <span class="domain-pct">(14.7%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 62.5%; background: #DC2626;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #DC2626;">
+                <span class="quote-text">« D&#x27;avoir été capable en quelques mois d&#x27;embaucher et de former 10 000 préposés pour venir appuyer ce qui se faisait entre autres dans nos CHSLD, on ne pourra plus jamais dire que ça ne va pas. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #2563EB;"></span>
+                <span class="domain-name">Economy</span>
+                <span class="domain-stat">13 <span class="domain-pct">(12.7%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 54.166666666666664%; background: #2563EB;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #2563EB;">
+                <span class="quote-text">« On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #003DA5;"></span>
+                <span class="domain-name">Culture &amp; Identity</span>
+                <span class="domain-stat">10 <span class="domain-pct">(9.8%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 41.66666666666667%; background: #003DA5;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #003DA5;">
+                <span class="quote-text">« Puis une de mes grandes fiertés, je ne sais pas si je serai invité, mais en tout cas, ça va être l&#x27;ouverture l&#x27;été prochain du premier musée de l&#x27;histoire nationale du Québec, qui est temps qu&#x27;on célèbre au Québec la grande aventure de notre nation francophone en Amérique. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #F59E0B;"></span>
+                <span class="domain-name">Education</span>
+                <span class="domain-stat">9 <span class="domain-pct">(8.8%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 37.5%; background: #F59E0B;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #F59E0B;">
+                <span class="quote-text">« Je ne le dirai jamais assez, les enseignants, ce sont les personnes les plus importantes dans notre société, après les parents, et on doit les valoriser davantage. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #EC4899;"></span>
+                <span class="domain-name">Seniors</span>
+                <span class="domain-stat">6 <span class="domain-pct">(5.9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 25.0%; background: #EC4899;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #EC4899;">
+                <span class="quote-text">« En santé, on a revu les salaires et les primes des infirmières, puis on a commencé aussi à remplacer les vieux CHSLD par des belles maisons des aînés où il y a plus d&#x27;espace, plus de lumière. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #0F766E;"></span>
+                <span class="domain-name">Language policy</span>
+                <span class="domain-stat">5 <span class="domain-pct">(4.9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 20.833333333333336%; background: #0F766E;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #0F766E;">
+                <span class="quote-text">« Concernant l&#x27;immigration, l&#x27;explosion du nombre d&#x27;immigrants temporaires par le gouvernement fédéral malheureusement a accéléré le déclin du français, en particulier à Montréal et à Laval. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #6B7280;"></span>
+                <span class="domain-name">Intergovernmental</span>
+                <span class="domain-stat">5 <span class="domain-pct">(4.9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 20.833333333333336%; background: #6B7280;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #6B7280;">
+                <span class="quote-text">« Évidemment, j&#x27;ai conclu une entente que je jugeais gagnant-gagnant, avec Martin d&#x27;ailleurs, avec Terre-Neuve, pour rehausser et renouveler Churchill Falls, mais aussi préparer le développement d&#x27;un nouveau projet, Gull Island. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #10B981;"></span>
+                <span class="domain-name">Energy</span>
+                <span class="domain-stat">5 <span class="domain-pct">(4.9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 20.833333333333336%; background: #10B981;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #10B981;">
+                <span class="quote-text">« Ce que ça a fait aussi, c&#x27;est qu&#x27;en attirant tous ces investissements, on a pu utiliser les surplus d&#x27;électricité qu&#x27;il y avait chez Hydro-Québec. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #EF4444;"></span>
+                <span class="domain-name">Cost of living</span>
+                <span class="domain-stat">3 <span class="domain-pct">(2.9%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 12.5%; background: #EF4444;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #EF4444;">
+                <span class="quote-text">« Évidemment, les Québécois n&#x27;ont pas toujours ressenti cette croissance du revenu disponible parce que, comme partout dans le monde, on a vécu une période où il y a eu une forte augmentation du coût de la vie. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #6366F1;"></span>
+                <span class="domain-name">Labor</span>
+                <span class="domain-stat">2 <span class="domain-pct">(2.0%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 8.333333333333332%; background: #6366F1;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #6366F1;">
+                <span class="quote-text">« En éducation, bien évidemment, je suis très fier, puis on a commencé à le faire très tôt, d&#x27;avoir augmenté le salaire des enseignants. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #8B5CF6;"></span>
+                <span class="domain-name">Secularism</span>
+                <span class="domain-stat">2 <span class="domain-pct">(2.0%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 8.333333333333332%; background: #8B5CF6;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #8B5CF6;">
+                <span class="quote-text">« On a adopté la loi 21 sur la laïcité, qui vient interdire les signes religieux pour les employés qui sont en position d&#x27;autorité. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #0891B2;"></span>
+                <span class="domain-name">Taxation</span>
+                <span class="domain-stat">1 <span class="domain-pct">(1.0%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 4.166666666666666%; background: #0891B2;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #0891B2;">
+                <span class="quote-text">« On a réussi aussi, grâce à nos baisses d&#x27;impôts, à battre la croissance du revenu disponible après impôts et après inflation. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #A855F7;"></span>
+                <span class="domain-name">Housing</span>
+                <span class="domain-stat">1 <span class="domain-pct">(1.0%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 4.166666666666666%; background: #A855F7;"></div>
+            </div>
+            
+            <blockquote class="domain-quote" style="border-left-color: #A855F7;">
+                <span class="quote-text">« Je pense entre autres au logement, je pense entre autres à l&#x27;épicerie, mais il reste que quand même, les faits sont têtus. »</span>
+            </blockquote>
+            
+        </div>
+        
+        <div class="domain-item">
+            <div class="domain-header">
+                <span class="domain-dot" style="background: #7C3AED;"></span>
+                <span class="domain-name">Immigration</span>
+                <span class="domain-stat">1 <span class="domain-pct">(1.0%)</span></span>
+            </div>
+            <div class="domain-bar-track">
+                <div class="domain-bar" style="width: 4.166666666666666%; background: #7C3AED;"></div>
+            </div>
+            
+        </div>
+        
+            </div>
+
+            <!-- Right: Sunburst chart -->
+            <div class="right-column">
+                <div class="sunburst-container">
+                    <h3 class="sunburst-title">Overview</h3>
+                    <div class="sunburst-content">
+                        
+        <svg class="sunburst-svg" viewBox="0 0 400 400">
+            
+            <line x1="200.0" y1="140.0" x2="200.0" y2="25.0"
+                  stroke="#059669" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="224.404198584548" y1="145.18727254144395" x2="253.6632749726178" y2="79.47031100336665"
+                  stroke="#DC2626" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="244.58868952864367" y1="159.85216361846852" x2="290.77434985246214" y2="118.26640827433606"
+                  stroke="#2563EB" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="257.0633909777092" y1="181.45898033750316" x2="302.6736332698215" y2="166.63931426684078"
+                  stroke="#003DA5" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="259.6713137220964" y1="206.27170779605922" x2="302.49923534391314" y2="210.7731037461386"
+                  stroke="#F59E0B" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="251.96152422706632" y1="230.0" x2="276.9657045022894" y2="244.43617021276594"
+                  stroke="#EC4899" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="235.2671151375484" y1="248.54101966249686" x2="249.36145512337004" y2="267.9402143999557"
+                  stroke="#0F766E" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="212.47470144906558" y1="258.68885604402834" x2="217.46015837569567" y2="282.14358681056024"
+                  stroke="#6B7280" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="187.52529855093445" y1="258.68885604402834" x2="182.53984162430433" y2="282.14358681056024"
+                  stroke="#10B981" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="164.7328848624516" y1="248.54101966249686" x2="156.39133670757758" y2="260.02217573160516"
+                  stroke="#EF4444" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="148.03847577293368" y1="230.0" x2="139.56248245929874" y2="234.89361702127658"
+                  stroke="#6366F1" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="140.3286862779036" y1="206.27170779605922" x2="130.59506772749072" y2="207.29475233016817"
+                  stroke="#8B5CF6" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="142.93660902229078" y1="181.45898033750316" x2="138.2825026659528" y2="179.9467695139662"
+                  stroke="#0891B2" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="155.41131047135633" y1="159.85216361846852" x2="151.77464430412653" y2="156.57769469373366"
+                  stroke="#A855F7" stroke-width="22"
+                  stroke-linecap="round"/>
+            <line x1="175.595801415452" y1="145.18727254144395" x2="173.60538805571935" y2="140.71673094021418"
+                  stroke="#7C3AED" stroke-width="22"
+                  stroke-linecap="round"/>
+            
+            <g transform="translate(200.0,10.0)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Party politics</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#059669">23.5%</text>
+            </g>
+            <g transform="translate(259.7643246187548,65.76712913872763)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Healthcare</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#DC2626">14.7%</text>
+            </g>
+            <g transform="translate(301.92152223462307,108.22944917895317)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Economy</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#2563EB">12.7%</text>
+            </g>
+            <g transform="translate(316.93948101424877,162.00405935121657)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Culture &amp; Identity</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#003DA5">9.8%</text>
+            </g>
+            <g transform="translate(317.4170637744372,212.3410306951534)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Education</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#F59E0B">8.8%</text>
+            </g>
+            <g transform="translate(289.95608555905596,251.93617021276594)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Seniors</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#EC4899">5.9%</text>
+            </g>
+            <g transform="translate(258.17823390775715,280.0754693155799)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Language policy</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#0F766E">4.9%</text>
+            </g>
+            <g transform="translate(220.57883373796207,296.81580082156734)">
+                <text x="8" y="-3" text-anchor="start"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Intergovernmental</text>
+                <text x="8" y="11" text-anchor="start"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#6B7280">4.9%</text>
+            </g>
+            <g transform="translate(179.42116626203796,296.81580082156734)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Energy</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#10B981">4.9%</text>
+            </g>
+            <g transform="translate(147.5745579231905,272.1574306472294)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Cost of living</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#EF4444">2.9%</text>
+            </g>
+            <g transform="translate(126.57210140253217,242.39361702127658)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Labor</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#6366F1">2.0%</text>
+            </g>
+            <g transform="translate(115.67723929696662,208.86267927918297)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Secularism</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#8B5CF6">2.0%</text>
+            </g>
+            <g transform="translate(124.01665492152549,175.31151459834197)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Taxation</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#0891B2">1.0%</text>
+            </g>
+            <g transform="translate(140.62747192196562,146.5407355983508)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Housing</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#A855F7">1.0%</text>
+            </g>
+            <g transform="translate(167.50433840958235,127.01354907557517)">
+                <text x="-8" y="-3" text-anchor="end"
+                      font-family="IBM Plex Sans" font-size="11" font-weight="600"
+                      fill="#1f1b16">Immigration</text>
+                <text x="-8" y="11" text-anchor="end"
+                      font-family="STIX Two Text" font-size="13" font-weight="700"
+                      fill="#7C3AED">1.0%</text>
+            </g>
+            <circle cx="200.0" cy="200.0" r="55" fill="white"/>
+            <text x="200.0" y="196.0" text-anchor="middle"
+                  font-family="STIX Two Text" font-size="30" font-weight="700"
+                  fill="#1f1b16">102</text>
+            <text x="200.0" y="214.0" text-anchor="middle"
+                  font-family="IBM Plex Sans" font-size="10" font-weight="400"
+                  fill="#6b625a">sentences</text>
+        </svg>
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Methodology: Classification of 102 sentences using Comparative Agendas Project (CAP) categories adapted for Quebec context.</p>
+        </footer>
+    </div>
+</body>
+</html>

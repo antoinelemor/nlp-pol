@@ -1,5 +1,6 @@
-# Claude memory file (local only)
+# Claude memory files (local only)
 CLAUDE.md
+CLAUDE_WEBSITE.md
 .claude/
 
 # Python

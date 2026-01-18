@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tonalité envers les acteurs</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf8f2;
+            --bg-deep: #f1ede6;
+            --card: #ffffff;
+            --ink: #1f1b16;
+            --muted: #6b625a;
+            --line: #e7e1d8;
+            --accent: #003DA5;
+            --shadow-soft: 0 10px 24px rgba(31, 27, 22, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1920px;
+            height: 1080px;
+            background:
+                radial-gradient(900px 500px at 12% 0%, rgba(0, 61, 165, 0.12), transparent 70%),
+                radial-gradient(800px 600px at 90% 12%, rgba(180, 83, 9, 0.12), transparent 72%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+            overflow: hidden;
+        }
+        .container {
+            padding: 52px 90px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 24px;
+        }
+        .title-block { max-width: 1100px; }
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 62px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 21px;
+            color: var(--muted);
+            margin-top: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Main content - two rows */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .top-section {
+            display: grid;
+            grid-template-columns: 1.3fr 0.5fr;
+            gap: 20px;
+            flex: 0 0 auto;
+        }
+
+        /* Actor panel */
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            padding: 12px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Right column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Header row */
+        .header-row {
+            display: flex;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 8px;
+        }
+        .header-row .actor-name { width: 180px; }
+        .header-row .sentiment-bars {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+        .header-neg { color: #DC2626; font-weight: 700; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .header-pos { color: #059669; font-weight: 700; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; }
+        .header-net { width: 80px; text-align: center; font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; margin-left: 20px; }
+
+        .actor-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .actor-name {
+            width: 180px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .sentiment-bars {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            height: 20px;
+        }
+        .neg-bar-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            height: 100%;
+        }
+        .neg-bar {
+            background: #DC2626;
+            height: 100%;
+            border-radius: 4px 0 0 4px;
+        }
+        .center-line {
+            width: 3px;
+            height: 100%;
+            background: var(--ink);
+        }
+        .pos-bar-container {
+            flex: 1;
+            height: 100%;
+        }
+        .pos-bar {
+            background: #059669;
+            height: 100%;
+            border-radius: 0 4px 4px 0;
+        }
+        .net-indicator {
+            width: 80px;
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            margin-left: 20px;
+        }
+        .count {
+            width: 60px;
+            text-align: right;
+            font-size: 14px;
+            color: var(--muted);
+            margin-left: 12px;
+        }
+
+        /* Constructed categories */
+        .constructed-section {
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            padding: 16px 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .constructed-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .constructed-desc {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .constructed-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .constructed-item:last-child {
+            border-bottom: none;
+        }
+        .constructed-name {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .constructed-score {
+            font-family: 'STIX Two Text', serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        .constructed-count {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* Excerpts section - full width at bottom */
+        .excerpts-section {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+        .excerpts-title {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .excerpts-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto;
+            gap: 10px 14px;
+            align-items: start;
+        }
+        .excerpt-card {
+            background: var(--card);
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--accent);
+            padding: 10px 12px;
+            box-shadow: var(--shadow-soft);
+            height: fit-content;
+        }
+        .excerpt-actor {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .excerpt-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--ink);
+        }
+
+        /* Index card */
+        .index-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            border-left: 10px solid #059669;
+            box-shadow: var(--shadow-soft);
+            padding: 20px 24px;
+        }
+        .index-kicker {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .index-value {
+            font-family: 'STIX Two Text', serif;
+            font-size: 64px;
+            font-weight: 700;
+            color: #059669;
+            line-height: 1;
+            margin-top: 12px;
+        }
+        .index-label {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .index-interp {
+            font-size: 17px;
+            color: #059669;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        .index-meta {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        /* Footer */
+        .methodology {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        .methodology-text {
+            font-size: 16px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title-block">
+                <h1 class="main-title">Tonalité envers les acteurs</h1>
+                <p class="subtitle">Comment Legault parle-t-il des personnes et groupes qu&#x27;il mentionne ?</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="top-section">
+                <div class="panel actor-panel">
+                    <div class="header-row">
+                        <div class="actor-name"></div>
+                        <div class="sentiment-bars">
+                            <span class="header-neg">NÉGATIF</span>
+                            <span class="header-pos">POSITIF</span>
+                        </div>
+                        <div class="header-net">Score net</div>
+                        <div class="count"></div>
+                    </div>
+                    
+        <div class="actor-row">
+            <div class="actor-name">Québec</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 38.88888888888889%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.78</div>
+            <div class="count">n=18</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Martin Koskinen</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 45.83333333333333%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.92</div>
+            <div class="count">n=12</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">CAQ</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 35.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.70</div>
+            <div class="count">n=10</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Québécois</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 31.25%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.62</div>
+            <div class="count">n=8</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Isabelle</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 50.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+1.00</div>
+            <div class="count">n=6</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Hydro-Québec</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 37.5%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+0.75</div>
+            <div class="count">n=4</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Canada</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 0.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #b45309;">+0.00</div>
+            <div class="count">n=3</div>
+        </div>
+        
+        <div class="actor-row">
+            <div class="actor-name">Brigitte</div>
+            <div class="sentiment-bars">
+                <div class="neg-bar-container">
+                    <div class="neg-bar" style="width: 0.0%;"></div>
+                </div>
+                <div class="center-line"></div>
+                <div class="pos-bar-container">
+                    <div class="pos-bar" style="width: 50.0%;"></div>
+                </div>
+            </div>
+            <div class="net-indicator" style="background: #059669;">+1.00</div>
+            <div class="count">n=2</div>
+        </div>
+        
+                </div>
+
+                <div class="right-column">
+                    <div class="constructed-section">
+                        <h3 class="constructed-title">Catégories construites</h3>
+                        <p class="constructed-desc">Ces catégories regroupent des références implicites ou collectives</p>
+                        
+        <div class="constructed-item">
+            <span class="constructed-name">Auditoire</span>
+            <span class="constructed-score" style="color: #059669;">+0.43</span>
+            <span class="constructed-count">n=7</span>
+        </div>
+        
+        <div class="constructed-item">
+            <span class="constructed-name">Nous (collectif)</span>
+            <span class="constructed-score" style="color: #059669;">+0.33</span>
+            <span class="constructed-count">n=3</span>
+        </div>
+        
+                    </div>
+
+                    <div class="index-card">
+                        <div class="index-kicker">Indice</div>
+                        <div class="index-value">+0.93</div>
+                        <div class="index-label">Indice de sentiment</div>
+                        <div class="index-interp">très positif</div>
+                        <div class="index-meta">Positifs: 146 · Négatifs: 5 · Total: 213</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="excerpts-section">
+                <h3 class="excerpts-title">Extraits représentatifs</h3>
+                <div class="excerpts-row">
+                    
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Québec</span>
+                <p class="excerpt-text">« Je laisse dès maintenant la parole au premier ministre du Québec, M. François Legault. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Martin Koskinen</span>
+                <p class="excerpt-text">« Puis Martin, c&#x27;est un homme d&#x27;une intelligence exceptionnelle. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">CAQ</span>
+                <p class="excerpt-text">« Je vais rester en place le temps que mon parti désigne un remplaçant ou une remplaçante. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Québécois</span>
+                <p class="excerpt-text">« Je vois bien qu&#x27;actuellement, beaucoup de Québécois souhaitent d&#x27;abord du changement, puis entre autres, un changement de premier ministre. pour le bien de mon parti et sur... »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Isabelle</span>
+                <p class="excerpt-text">« Évidemment, c&#x27;est beaucoup grâce à Martin qui a embauché, pas juste du monde compétent, mais du bon monde, comme on dit. et aussi beaucoup grâce à Isabelle. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Hydro-Québec</span>
+                <p class="excerpt-text">« Ce que ça a fait aussi, c&#x27;est qu&#x27;en attirant tous ces investissements, on a pu utiliser les surplus d&#x27;électricité qu&#x27;il y avait chez Hydro-Québec. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #b45309;">
+                <span class="excerpt-actor">Canada</span>
+                <p class="excerpt-text">« Créer de la richesse, ce n&#x27;est pas une fin en soi, mais c&#x27;est un moyen qui est nécessaire pour être capable de se payer des programmes sociaux, puis aussi pour se permettre d&#x27;être plus autonome face au reste du Canada. »</p>
+            </div>
+            
+            <div class="excerpt-card" style="border-left-color: #059669;">
+                <span class="excerpt-actor">Brigitte</span>
+                <p class="excerpt-text">« Je veux aussi remercier beaucoup de personnes, puis je vais sûrement en oublier, mais je veux remercier Brigitte, bien sûr, au parti, Stéphane, c&#x27;est le seul discours, ce n&#x27;est pas lui qui a écrit, Claude, l&#x27;adjointe de Martin, Lynn, Nicole, de mon du bureau de comté, Pascal, Charles, Mario, Yves, Dominique, David. »</p>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+
+        <footer class="methodology">
+            <p class="methodology-text">Méthodologie : Chaque mention d&#x27;acteur est annotée avec une valence (positif, négatif, neutre). Score net = (positif − négatif) / total. François Legault exclu de l&#x27;analyse.</p>
+        </footer>
+    </div>
+</body>
+</html>

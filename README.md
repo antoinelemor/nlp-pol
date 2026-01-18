@@ -25,7 +25,7 @@ The goal is to reveal rhetorical patterns that are difficult to perceive when wa
    - Response type (direct, partial, deflection, etc.)
    - Entities mentioned with sentiment valence
 4. **Analysis**: Python scripts compute metrics and generate figures
-5. **Presentation**: Beamer slides with key findings
+5. **Presentation**: HTML slides with key findings (exported to PDF)
 
 See each analysis README for detailed calculations.
 
@@ -33,6 +33,7 @@ See each analysis README for detailed calculations.
 
 | Date | Topic | Method | Slides |
 |------|-------|--------|--------|
+| 2026-01-14 | [Legault Resignation Speech](analyses/2026-01-14_legault_resignation/) | [README](analyses/2026-01-14_legault_resignation/README.md) | [FR](analyses/2026-01-14_legault_resignation/presentation/slides_fr.pdf) / [EN](analyses/2026-01-14_legault_resignation/presentation/slides_en.pdf) |
 | 2026-01-08 | [Macron Ambassadors Speech](analyses/2026-01-08_macron_diplomacy_speech/) | [README](analyses/2026-01-08_macron_diplomacy_speech/README.md) | [FR](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_fr.pdf) / [EN](analyses/2026-01-08_macron_diplomacy_speech/presentation/slides_en.pdf) |
 | 2026-01-03 | [Trump Venezuela Press Conference](analyses/2026-01-03_trump_venezuela_maduro/) | [README](analyses/2026-01-03_trump_venezuela_maduro/README.md) | [FR](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_fr.pdf) / [EN](analyses/2026-01-03_trump_venezuela_maduro/presentation/slides_en.pdf) |
 
@@ -46,7 +47,7 @@ analyses/
     ├── prompts/            # LLM annotation prompts
     ├── code/               # Python scripts
     ├── output/figures/     # Generated plots (EN/FR)
-    └── presentation/       # Beamer slides (EN/FR)
+    └── presentation/       # HTML slides + PDF (EN/FR)
 ```
 
 ## Tools

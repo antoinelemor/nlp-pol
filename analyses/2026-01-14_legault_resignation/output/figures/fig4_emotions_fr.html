@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>L&#x27;évolution du discours : les moments clés</title>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(135deg, #fbf8f2 0%, #f1ede6 100%);
+            font-family: 'IBM Plex Sans', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-section {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .main-title {
+            font-family: 'STIX Two Text', serif;
+            font-size: 44px;
+            font-weight: 600;
+            color: #1f1b16;
+            letter-spacing: 0.5px;
+            margin: 0 0 8px 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        .bottom-section .legend {
+            position: static;
+            margin: 0;
+        }
+
+        .infographic-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+        }
+
+        .timeline-container {
+            position: absolute;
+            top: 400px;
+            left: 20px;
+            width: 1880px;
+            height: 340px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 0;
+            overflow: visible;
+            z-index: 10;
+        }
+
+        .timeline-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .connectors-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        .markers-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .bubble {
+            z-index: 30;
+            position: absolute;
+            width: 450px;
+            max-height: 260px;
+            overflow: hidden;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .bubble.positive {
+            background: #D1FAE5;
+            border-color: #059669;
+        }
+
+        .bubble.negative {
+            background: #FEE2E2;
+            border-color: #DC2626;
+        }
+
+        .bubble-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            color: white;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tone-label {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .act-badge {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            color: #475569;
+            padding: 3px 10px;
+            background: rgba(0,0,0,0.06);
+            border-radius: 12px;
+        }
+
+        .theme-badge {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            color: #003DA5;
+            padding: 3px 10px;
+            background: rgba(0, 61, 165, 0.12);
+            border-radius: 12px;
+        }
+
+        .position {
+            margin-left: auto;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .bubble-text {
+            font-family: 'STIX Two Text', serif;
+            font-size: 15px;
+            line-height: 1.45;
+            color: #1e293b;
+            text-align: justify;
+            hyphens: auto;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .zone-label {
+            position: absolute;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .zone-label.positive {
+            color: #059669;
+            top: 425px;
+            right: 50px;
+        }
+
+        .zone-label.negative {
+            color: #DC2626;
+            top: 695px;
+            right: 50px;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            color: #64748b;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="infographic-container">
+        <!-- Connectors SVG layer -->
+        <svg class="connectors-layer" viewBox="0 0 1920 1080">
+
+    <defs>
+        <linearGradient id="grad_neg_0" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 75.3 616.2 C 75.3 745.6, 245.0 795.6, 245.0 875.0" fill="none" stroke="url(#grad_neg_0)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_neg_1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1158.3 588.5 C 1158.3 731.7, 721.7 781.7, 721.7 875.0" fill="none" stroke="url(#grad_neg_1)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_neg_2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1326.1 606.9 C 1326.1 741.0, 1198.3 791.0, 1198.3 875.0" fill="none" stroke="url(#grad_neg_2)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_neg_3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#DC2626;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1722.7 643.8 C 1722.7 759.4, 1675.0 809.4, 1675.0 875.0" fill="none" stroke="url(#grad_neg_3)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_pos_0" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 258.3 459.2 C 258.3 364.6, 245.0 314.6, 245.0 270.0" fill="none" stroke="url(#grad_pos_0)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_pos_1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 365.1 459.2 C 365.1 364.6, 721.7 314.6, 721.7 270.0" fill="none" stroke="url(#grad_pos_1)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_pos_2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 685.4 450.0 C 685.4 360.0, 1198.3 310.0, 1198.3 270.0" fill="none" stroke="url(#grad_pos_2)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+
+    <defs>
+        <linearGradient id="grad_pos_3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.3"/>
+        </linearGradient>
+    </defs>
+    <path d="M 1814.2 477.7 C 1814.2 373.8, 1675.0 323.8, 1675.0 270.0" fill="none" stroke="url(#grad_pos_3)" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        
+</svg>
+
+        <!-- Timeline graph -->
+        <div class="timeline-container">
+            <svg viewBox="0 0 1880 340" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Background zones -->
+    <rect x="40" y="40" width="1800" height="130.0"
+          fill="#D1FAE5" opacity="0.5"/>
+    <rect x="40" y="170.0" width="1800" height="130.0"
+          fill="#FEE2E2" opacity="0.5"/>
+    
+
+    <!-- Zero line -->
+    <line x1="40" y1="170.0" x2="1840" y2="170.0"
+          stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="5,5"/>
+    
+
+    <!-- Positive fill -->
+    <path d="M 40 170.0 L 40.0 170.0 L 55.3 170.0 L 70.5 170.0 L 85.8 170.0 L 101.0 151.5 L 116.3 170.0 L 131.5 151.5 L 146.8 123.8 L 162.0 123.8 L 177.3 114.6 L 192.5 86.9 L 207.8 68.5 L 223.1 77.7 L 238.3 59.2 L 253.6 96.2 L 268.8 123.8 L 284.1 114.6 L 299.3 105.4 L 314.6 105.4 L 329.8 77.7 L 345.1 59.2 L 360.3 68.5 L 375.6 77.7 L 390.8 68.5 L 406.1 86.9 L 421.4 105.4 L 436.6 123.8 L 451.9 123.8 L 467.1 133.1 L 482.4 114.6 L 497.6 114.6 L 512.9 133.1 L 528.1 133.1 L 543.4 133.1 L 558.6 133.1 L 573.9 151.5 L 589.2 114.6 L 604.4 114.6 L 619.7 114.6 L 634.9 105.4 L 650.2 59.2 L 665.4 50.0 L 680.7 68.5 L 695.9 68.5 L 711.2 114.6 L 726.4 123.8 L 741.7 133.1 L 756.9 151.5 L 772.2 151.5 L 787.5 133.1 L 802.7 151.5 L 818.0 151.5 L 833.2 142.3 L 848.5 170.0 L 863.7 151.5 L 879.0 123.8 L 894.2 151.5 L 909.5 151.5 L 924.7 114.6 L 940.0 123.8 L 955.3 133.1 L 970.5 96.2 L 985.8 96.2 L 1001.0 133.1 L 1016.3 160.8 L 1031.5 151.5 L 1046.8 151.5 L 1062.0 114.6 L 1077.3 77.7 L 1092.5 77.7 L 1107.8 114.6 L 1123.1 151.5 L 1138.3 170.0 L 1153.6 170.0 L 1168.8 142.3 L 1184.1 142.3 L 1199.3 142.3 L 1214.6 142.3 L 1229.8 142.3 L 1245.1 170.0 L 1260.3 170.0 L 1275.6 160.8 L 1290.8 160.8 L 1306.1 170.0 L 1321.4 170.0 L 1336.6 133.1 L 1351.9 123.8 L 1367.1 105.4 L 1382.4 59.2 L 1397.6 50.0 L 1412.9 50.0 L 1428.1 77.7 L 1443.4 59.2 L 1458.6 59.2 L 1473.9 59.2 L 1489.2 59.2 L 1504.4 68.5 L 1519.7 68.5 L 1534.9 96.2 L 1550.2 96.2 L 1565.4 96.2 L 1580.7 96.2 L 1595.9 96.2 L 1611.2 68.5 L 1626.4 68.5 L 1641.7 105.4 L 1656.9 105.4 L 1672.2 151.5 L 1687.5 170.0 L 1702.7 170.0 L 1718.0 170.0 L 1733.2 170.0 L 1748.5 160.8 L 1763.7 123.8 L 1779.0 105.4 L 1794.2 77.7 L 1809.5 105.4 L 1824.7 123.8 L 1840.0 139.2 L 1840 170.0 Z" fill="#059669" opacity="0.15"/>
+    
+
+    <!-- Negative fill -->
+    <path d="M 40 170.0 L 40.0 200.8 L 55.3 216.2 L 70.5 206.9 L 85.8 188.5 L 101.0 170.0 L 116.3 170.0 L 131.5 170.0 L 146.8 170.0 L 162.0 170.0 L 177.3 170.0 L 192.5 170.0 L 207.8 170.0 L 223.1 170.0 L 238.3 170.0 L 253.6 170.0 L 268.8 170.0 L 284.1 170.0 L 299.3 170.0 L 314.6 170.0 L 329.8 170.0 L 345.1 170.0 L 360.3 170.0 L 375.6 170.0 L 390.8 170.0 L 406.1 170.0 L 421.4 170.0 L 436.6 170.0 L 451.9 170.0 L 467.1 170.0 L 482.4 170.0 L 497.6 170.0 L 512.9 170.0 L 528.1 170.0 L 543.4 170.0 L 558.6 170.0 L 573.9 170.0 L 589.2 170.0 L 604.4 170.0 L 619.7 170.0 L 634.9 170.0 L 650.2 170.0 L 665.4 170.0 L 680.7 170.0 L 695.9 170.0 L 711.2 170.0 L 726.4 170.0 L 741.7 170.0 L 756.9 170.0 L 772.2 170.0 L 787.5 170.0 L 802.7 170.0 L 818.0 170.0 L 833.2 170.0 L 848.5 179.2 L 863.7 170.0 L 879.0 170.0 L 894.2 170.0 L 909.5 170.0 L 924.7 170.0 L 940.0 170.0 L 955.3 170.0 L 970.5 170.0 L 985.8 170.0 L 1001.0 170.0 L 1016.3 170.0 L 1031.5 170.0 L 1046.8 170.0 L 1062.0 170.0 L 1077.3 170.0 L 1092.5 170.0 L 1107.8 170.0 L 1123.1 170.0 L 1138.3 188.5 L 1153.6 179.2 L 1168.8 170.0 L 1184.1 170.0 L 1199.3 170.0 L 1214.6 170.0 L 1229.8 170.0 L 1245.1 188.5 L 1260.3 188.5 L 1275.6 170.0 L 1290.8 170.0 L 1306.1 206.9 L 1321.4 170.0 L 1336.6 170.0 L 1351.9 170.0 L 1367.1 170.0 L 1382.4 170.0 L 1397.6 170.0 L 1412.9 170.0 L 1428.1 170.0 L 1443.4 170.0 L 1458.6 170.0 L 1473.9 170.0 L 1489.2 170.0 L 1504.4 170.0 L 1519.7 170.0 L 1534.9 170.0 L 1550.2 170.0 L 1565.4 170.0 L 1580.7 170.0 L 1595.9 170.0 L 1611.2 170.0 L 1626.4 170.0 L 1641.7 170.0 L 1656.9 170.0 L 1672.2 170.0 L 1687.5 197.7 L 1702.7 243.8 L 1718.0 243.8 L 1733.2 206.9 L 1748.5 170.0 L 1763.7 170.0 L 1779.0 170.0 L 1794.2 170.0 L 1809.5 170.0 L 1824.7 170.0 L 1840.0 170.0 L 1840 170.0 Z" fill="#DC2626" opacity="0.15"/>
+    
+
+    <!-- Main curve -->
+    <path d="M 40.0 200.8 L 55.3 216.2 L 70.5 206.9 L 85.8 188.5 L 101.0 151.5 L 116.3 170.0 L 131.5 151.5 L 146.8 123.8 L 162.0 123.8 L 177.3 114.6 L 192.5 86.9 L 207.8 68.5 L 223.1 77.7 L 238.3 59.2 L 253.6 96.2 L 268.8 123.8 L 284.1 114.6 L 299.3 105.4 L 314.6 105.4 L 329.8 77.7 L 345.1 59.2 L 360.3 68.5 L 375.6 77.7 L 390.8 68.5 L 406.1 86.9 L 421.4 105.4 L 436.6 123.8 L 451.9 123.8 L 467.1 133.1 L 482.4 114.6 L 497.6 114.6 L 512.9 133.1 L 528.1 133.1 L 543.4 133.1 L 558.6 133.1 L 573.9 151.5 L 589.2 114.6 L 604.4 114.6 L 619.7 114.6 L 634.9 105.4 L 650.2 59.2 L 665.4 50.0 L 680.7 68.5 L 695.9 68.5 L 711.2 114.6 L 726.4 123.8 L 741.7 133.1 L 756.9 151.5 L 772.2 151.5 L 787.5 133.1 L 802.7 151.5 L 818.0 151.5 L 833.2 142.3 L 848.5 179.2 L 863.7 151.5 L 879.0 123.8 L 894.2 151.5 L 909.5 151.5 L 924.7 114.6 L 940.0 123.8 L 955.3 133.1 L 970.5 96.2 L 985.8 96.2 L 1001.0 133.1 L 1016.3 160.8 L 1031.5 151.5 L 1046.8 151.5 L 1062.0 114.6 L 1077.3 77.7 L 1092.5 77.7 L 1107.8 114.6 L 1123.1 151.5 L 1138.3 188.5 L 1153.6 179.2 L 1168.8 142.3 L 1184.1 142.3 L 1199.3 142.3 L 1214.6 142.3 L 1229.8 142.3 L 1245.1 188.5 L 1260.3 188.5 L 1275.6 160.8 L 1290.8 160.8 L 1306.1 206.9 L 1321.4 170.0 L 1336.6 133.1 L 1351.9 123.8 L 1367.1 105.4 L 1382.4 59.2 L 1397.6 50.0 L 1412.9 50.0 L 1428.1 77.7 L 1443.4 59.2 L 1458.6 59.2 L 1473.9 59.2 L 1489.2 59.2 L 1504.4 68.5 L 1519.7 68.5 L 1534.9 96.2 L 1550.2 96.2 L 1565.4 96.2 L 1580.7 96.2 L 1595.9 96.2 L 1611.2 68.5 L 1626.4 68.5 L 1641.7 105.4 L 1656.9 105.4 L 1672.2 151.5 L 1687.5 197.7 L 1702.7 243.8 L 1718.0 243.8 L 1733.2 206.9 L 1748.5 160.8 L 1763.7 123.8 L 1779.0 105.4 L 1794.2 77.7 L 1809.5 105.4 L 1824.7 123.8 L 1840.0 139.2" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+    
+</svg>
+        </div>
+
+        <!-- Peak markers layer (on top of connectors) -->
+        <svg class="markers-layer" viewBox="0 0 1880 340" style="position: absolute; top: 400px; left: 20px; width: 1880px; height: 340px;">
+            
+<!-- Negative peak markers -->
+
+    <circle cx="55.3" cy="216.2" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="55.3" y="222.2" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">1</text>
+        
+
+    <circle cx="1138.3" cy="188.5" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="1138.3" y="194.5" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">2</text>
+        
+
+    <circle cx="1306.1" cy="206.9" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="1306.1" y="212.9" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">3</text>
+        
+
+    <circle cx="1702.7" cy="243.8" r="16" fill="#DC2626" stroke="white" stroke-width="3"/>
+    <text x="1702.7" y="249.8" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">4</text>
+        
+<!-- Positive peak markers -->
+
+    <circle cx="238.3" cy="59.2" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="238.3" y="65.2" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">1</text>
+        
+
+    <circle cx="345.1" cy="59.2" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="345.1" y="65.2" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">2</text>
+        
+
+    <circle cx="665.4" cy="50.0" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="665.4" y="56.0" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">3</text>
+        
+
+    <circle cx="1794.2" cy="77.7" r="16" fill="#059669" stroke="white" stroke-width="3"/>
+    <text x="1794.2" y="83.7" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Inter, sans-serif">4</text>
+        
+
+        </svg>
+
+        <!-- Zone labels -->
+        <div class="zone-label positive">ZONE POSITIVE</div>
+        <div class="zone-label negative">ZONE NÉGATIVE</div>
+
+        <!-- Positive bubbles (top) -->
+        
+        <div class="bubble positive" style="left: 20px; top: 80px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">1</span>
+                <span class="tone-label" style="color: #059669;">Ton: Affectueux</span>
+                <span class="act-badge">Acte: Éloge</span>
+                
+                <span class="position">Phrase 14</span>
+            </div>
+            <div class="bubble-text">« C&#x27;est quelqu&#x27;un qui a un jugement impeccable. C&#x27;est un être humain aussi. Je ne connais pas personne qui n&#x27;aime pas Martin Koskinen. »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 497px; top: 80px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">2</span>
+                <span class="tone-label" style="color: #059669;">Ton: Déterminé</span>
+                <span class="act-badge">Acte: Expression émotionnelle</span>
+                
+                <span class="position">Phrase 21</span>
+            </div>
+            <div class="bubble-text">« Je l&#x27;ai fait en créant Air Transat, puis ensuite en créant la CAQ. Il n&#x27;y a rien de plus emballant, malgré toutes les difficultés que ça peut amener, Il n&#x27;y a rien de plus emballant que... créé dans la vie. Je veux aussi remercier beaucoup de personnes, puis je vais sûrement en oublier, mais je veux remercier Brigitte, bien sûr, au parti, Stéphane, c&#x27;est le seul discours, ce n&#x27;est pas lui qui a... »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 973px; top: 80px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">3</span>
+                <span class="tone-label" style="color: #059669;">Ton: Fier</span>
+                <span class="act-badge">Acte: Constat</span>
+                
+                <span class="position">Phrase 42</span>
+            </div>
+            <div class="bubble-text">« Je veux aussi remercier tous les citoyens de la circonscription de l&#x27;Assomption qui m&#x27;ont fait confiance pendant toutes ces années. Et c&#x27;est quand même pas rien ce On a réussi, je vois Brigitte qui est là. qu&#x27;on a réussi, je pense entre autres aux sept premières années. »</div>
+        </div>
+        
+        <div class="bubble positive" style="left: 1450px; top: 80px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #059669;">4</span>
+                <span class="tone-label" style="color: #059669;">Ton: Reconnaissant</span>
+                <span class="act-badge">Acte: Remerciement</span>
+                <span class="theme-badge">Thème: Politique partisane</span>
+                <span class="position">Phrase 116</span>
+            </div>
+            <div class="bubble-text">« Soyons fiers de notre nation. Je remercie sincèrement les Québécois de m&#x27;avoir confié deux mandats majoritaires. J&#x27;aime profondément les Québécois et le Québec et être le premier ministre du Québec, ça a été pour moi le plus grand honneur de ma vie. »</div>
+        </div>
+        
+
+        <!-- Negative bubbles (bottom) -->
+        
+        <div class="bubble negative" style="left: 20px; top: 800px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">1</span>
+                <span class="tone-label" style="color: #DC2626;">Ton: Préoccupé</span>
+                <span class="act-badge">Acte: Diagnostic</span>
+                <span class="theme-badge">Thème: Économie</span>
+                <span class="position">Phrase 2</span>
+            </div>
+            <div class="bubble-text">« Le Québec fait face actuellement à des grands défis. On doit entre autres redessiner notre économie pour laisser aux prochaines générations des emplois d&#x27;avenir. on doit aussi arrêter le déclin du français. en particulier à Montréal, il en va de l&#x27;avenir de notre nation. Et je souhaite vraiment que la prochaine élection porte sur les grands défis qu&#x27;on a au Québec et non sur une simple volonté ... »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 497px; top: 800px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">2</span>
+                <span class="tone-label" style="color: #DC2626;">Ton: Défensif</span>
+                <span class="act-badge">Acte: Diagnostic</span>
+                <span class="theme-badge">Thème: Logement</span>
+                <span class="position">Phrase 73</span>
+            </div>
+            <div class="bubble-text">« Évidemment, les Québécois n&#x27;ont pas toujours ressenti cette croissance du revenu disponible parce que, comme partout dans le monde, on a vécu une période où il y a eu une forte augmentation du coût de la vie. Je pense entre autres au logement, je pense entre autres à l&#x27;épicerie, mais il reste que quand même, les faits sont têtus. Le revenu disponible après impôt et après inflation est très impo... »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 973px; top: 800px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">3</span>
+                <span class="tone-label" style="color: #DC2626;">Ton: Optimiste</span>
+                <span class="act-badge">Acte: Justification</span>
+                <span class="theme-badge">Thème: Énergie</span>
+                <span class="position">Phrase 84</span>
+            </div>
+            <div class="bubble-text">« Donc, c&#x27;est important de venir compenser. C&#x27;est important aussi, à moyen et à long terme, les prochaines générations vont profiter Merci. de ses grands travaux chez Hydro-Québec. Évidemment, j&#x27;ai conclu une entente que je jugeais gagnant-gagnant, avec Martin d&#x27;ailleurs, avec Terre-Neuve, pour rehausser et renouveler Churchill Falls, mais aussi préparer le développement d&#x27;un nouveau projet, Gull... »</div>
+        </div>
+        
+        <div class="bubble negative" style="left: 1450px; top: 800px;">
+            <div class="bubble-header">
+                <span class="badge" style="background: #DC2626;">4</span>
+                <span class="tone-label" style="color: #DC2626;">Ton: Préoccupé</span>
+                <span class="act-badge">Acte: Diagnostic</span>
+                <span class="theme-badge">Thème: Immigration</span>
+                <span class="position">Phrase 110</span>
+            </div>
+            <div class="bubble-text">« On a aussi adopté la loi 96, la première loi importante pour... renforcer la charte de la langue française. Concernant l&#x27;immigration, l&#x27;explosion du nombre d&#x27;immigrants temporaires par le gouvernement fédéral malheureusement a accéléré le déclin du français, en particulier à Montréal et à Laval. Les Québécois doivent être beaucoup plus vigilants pour l&#x27;avenir de leur vie. nations pour l&#x27;avenir ... »</div>
+        </div>
+        
+
+        <!-- Bottom section: title + legend -->
+        <div class="bottom-section">
+            <h1 class="main-title">L&#x27;évolution du discours : les moments clés</h1>
+            <p class="legend">Les citations sont extraites des pics émotionnels identifiés sur la courbe (moyenne glissante sur 5 phrases).</p>
+        </div>
+    </div>
+</body>
+</html>
